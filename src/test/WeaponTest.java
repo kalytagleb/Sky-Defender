@@ -1,8 +1,8 @@
 package test;
 
-import objects.weapon.Flame;
-import objects.weapon.Laser;
-import objects.weapon.Rocket;
+import model.weapon.Flame;
+import model.weapon.Laser;
+import model.weapon.Rocket;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;

@@ -1,6 +1,6 @@
 package logic_units;
 
-import objects.GameObject;
+import model.GameObject;
 
 import java.awt.geom.Area;
 /**

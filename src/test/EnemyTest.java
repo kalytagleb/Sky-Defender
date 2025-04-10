@@ -1,8 +1,8 @@
 package test;
 
-import objects.enemies.BasicEnemy;
-import objects.enemies.FastEnemy;
-import objects.enemies.TankEnemy;
+import model.enemies.BasicEnemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

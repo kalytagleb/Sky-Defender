@@ -1,6 +1,6 @@
 package main;
 
-import component.PanelGame;
+import controller.PanelGame;
 
 import javax.swing.*;
         import java.awt.*;

@@ -1,8 +1,8 @@
 package test;
 
 import logic_units.Collision;
-import objects.Player;
-import objects.enemies.BasicEnemy;
+import model.Player;
+import model.enemies.BasicEnemy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
