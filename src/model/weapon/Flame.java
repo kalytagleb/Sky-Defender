@@ -1,8 +1,8 @@
 package model.weapon;
 
-import model.weapon.strategy.check.TimedAttempt;
-import model.weapon.strategy.damage.PenetratingDamage;
-import model.weapon.strategy.draw.FlameDrawStrategy;
+import strategy.check.TimedAttempt;
+import strategy.damage.PenetratingDamage;
+import strategy.draw.FlameDrawStrategy;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

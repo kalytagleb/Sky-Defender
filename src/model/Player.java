@@ -1,8 +1,8 @@
 package model;
 
-import controller.Key;
-import service.game_loop.Drawable;
-import service.game_loop.Updatable;
+import input.Key;
+import model.weapon.Drawable;
+import model.weapon.Updatable;
 
 import javax.swing.*;
 import java.awt.*;

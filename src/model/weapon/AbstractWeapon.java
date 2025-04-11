@@ -1,13 +1,10 @@
 package model.weapon;
 
-import model.enemies.AbstractEnemy;
-import model.enemies.BasicEnemy;
 import model.GameObject;
-import model.weapon.strategy.check.CheckStrategy;
-import model.weapon.strategy.damage.DamageStrategy;
-import model.weapon.strategy.draw.DrawStrategy;
-import service.game_loop.Drawable;
-import service.game_loop.Updatable;
+import model.enemies.AbstractEnemy;
+import strategy.check.CheckStrategy;
+import strategy.damage.DamageStrategy;
+import strategy.draw.DrawStrategy;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

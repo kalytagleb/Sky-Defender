@@ -1,8 +1,8 @@
 package model.weapon;
 
-import model.weapon.strategy.check.OutOfBoundsAttempt;
-import model.weapon.strategy.damage.SimpleDamage;
-import model.weapon.strategy.draw.CircleDrawStrategy;
+import strategy.check.OutOfBoundsAttempt;
+import strategy.damage.SimpleDamage;
+import strategy.draw.CircleDrawStrategy;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

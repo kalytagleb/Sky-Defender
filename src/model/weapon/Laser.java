@@ -1,8 +1,8 @@
 package model.weapon;
 
-import model.weapon.strategy.check.TimedAttempt;
-import model.weapon.strategy.damage.SimpleDamage;
-import model.weapon.strategy.draw.LaserDrawStrategy;
+import strategy.check.TimedAttempt;
+import strategy.damage.SimpleDamage;
+import strategy.draw.LaserDrawStrategy;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
