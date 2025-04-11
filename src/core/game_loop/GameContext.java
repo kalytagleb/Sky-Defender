@@ -4,6 +4,7 @@ import input.Key;
 import model.Player;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
+import service.game_state.GameStateManager;
 import service.waves.WaveManager;
 
 import java.util.List;
@@ -14,17 +15,22 @@ public class GameContext {
     private final List<AbstractWeapon> weapons;
     private final Key key;
     private final WaveManager waveManager;
+    private final GameStateManager gameStateManager;
 
     private int score = 0;
 
-    public GameContext(Player player, List<AbstractEnemy> enemies,
+    public GameContext(Player player,
+                       List<AbstractEnemy> enemies,
                        List<AbstractWeapon> weapons,
-                       Key key, WaveManager waveManager) {
+                       Key key,
+                       WaveManager waveManager,
+                       GameStateManager gameStateManager) {
         this.player = player;
         this.enemies = enemies;
         this.weapons = weapons;
         this.key = key;
         this.waveManager = waveManager;
+        this.gameStateManager = gameStateManager;
     }
 
     public Player getPlayer() {
@@ -47,11 +53,15 @@ public class GameContext {
         return waveManager;
     }
 
+    public GameStateManager getGameStateManager() {
+        return gameStateManager;
+    }
+
     public int getScore() {
         return score;
     }
 
-    public void increaseScore() {
-        score++;
+    public void setScore(int score) {
+        this.score = score;
     }
 }

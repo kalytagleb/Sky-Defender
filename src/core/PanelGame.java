@@ -1,6 +1,8 @@
 package core;
 
 import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import core.game_loop.GameRestarter;
 import input.Key;
 import logic_units.Collision;
 import model.enemies.AbstractEnemy;
@@ -12,6 +14,8 @@ import factory.RocketFactory;
 import model.weapon.AbstractWeapon;
 import model.weapon.Weapon;
 import core.game_loop.GameLoop;
+import service.game_state.GameState;
+import service.game_state.GameStateManager;
 import service.waves.WaveManager;
 
 import javax.swing.*;
@@ -68,9 +72,13 @@ public class PanelGame extends JComponent {
 
     /** Keyboard input handler */
     private final Key key = new Key();
+    private final GameStateManager gameStateManager = new GameStateManager();
 
     private GameLoop gameLoop;
-    private GameContext gameContext;
+    private GameContext context;
+    private GameRenderer renderer;
+
+    private final GameRestarter restarter = new GameRestarter();
 
     /**
      * Initializes the game, rendering engine, user input and starts the game loop.
@@ -97,41 +105,10 @@ public class PanelGame extends JComponent {
         List<AbstractWeapon> weapons = new CopyOnWriteArrayList<>();
         WaveManager waveManager = new WaveManager(enemies, width, height);
 
-        gameContext = new GameContext(player, enemies, weapons, key, waveManager);
-
-        gameLoop = new GameLoop(this, gameContext);
+        context = new GameContext(player, enemies, weapons, key, waveManager, gameStateManager);
+        renderer = new GameRenderer();
+        gameLoop = new GameLoop(this, context, renderer);
         gameLoop.start();
-    }
-
-    /**
-     * Resets game state after Game Over or restart.
-     * Clears enemies and weapons, resets score and player position.
-     */
-    private void restart() {
-        enemies.clear();
-        weapons.clear();
-        score = 0;
-        gameOver = false;
-
-        player.changeLocation(width / 2.0, height / 2.0);
-        player.setAngle(0);
-        player.setHp(100);
-    }
-
-    /**
-     * Creates and initializes the player object and background wave spawning thread.
-     */
-    private void initObjects() {
-        player = new Player();
-        player.changeLocation(150, 150);
-        new Thread(() -> {
-            while (start) {
-                if (enemies.isEmpty()) {
-                    spawnEnemyWave();
-                }
-                sleep(1000);
-            }
-        }).start();
     }
 
     /**
@@ -143,22 +120,29 @@ public class PanelGame extends JComponent {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ESCAPE -> System.exit(0);
+                    case KeyEvent.VK_ENTER -> {
+                        if (gameStateManager.is(GameState.MAIN_MENU)) {
+                            gameStateManager.setState(GameState.PLAYING);
+                            restarter.restart(context, width, height);
+                        }
+                    }
+                    case KeyEvent.VK_R -> {
+                        if (gameStateManager.is(GameState.GAME_OVER)) {
+                            gameStateManager.setState(GameState.PLAYING);
+                            restarter.restart(context, width, height);
+                        }
+                    }
+                    case KeyEvent.VK_M -> gameStateManager.setState(GameState.MANUAL);
+                }
+
+                switch (e.getKeyCode()) {
                     case KeyEvent.VK_A -> key.setKey_left(true);
                     case KeyEvent.VK_D -> key.setKey_right(true);
                     case KeyEvent.VK_SPACE -> key.setKey_space(true);
-                    case KeyEvent.VK_J -> {
-                        key.setKey_j(true);
-                        weaponFactory = new RocketFactory();
-                    }
-                    case KeyEvent.VK_K -> {
-                        key.setKey_k(true);
-                        weaponFactory = new FlameFactory();
-                    }
-                    case KeyEvent.VK_L -> {
-                        key.setKey_l(true);
-                        weaponFactory = new LaserFactory();
-                    }
-                    case KeyEvent.VK_ESCAPE -> System.exit(0);
+                    case KeyEvent.VK_J -> key.setKey_j(true);
+                    case KeyEvent.VK_K -> key.setKey_k(true);
+                    case KeyEvent.VK_L -> key.setKey_l(true);
                 }
             }
 
@@ -182,195 +166,21 @@ public class PanelGame extends JComponent {
      */
     @Override
     protected void processMouseEvent(MouseEvent e) {
-        if (e.getID() == MouseEvent.MOUSE_CLICKED) {
-            Point p = e.getPoint();
+        if (e.getID() != MouseEvent.MOUSE_CLICKED) return;
 
-            if (inMainMenu && manualButton.contains(p)) {
-                showingManual = true;
-            }
+        Point p = e.getPoint();
 
-            if (showingManual && manualBackButton.contains(p)) {
-                showingManual = false;
-            }
+        if (gameStateManager.is(GameState.MAIN_MENU) &&
+                renderer.getManualButtonBounds().contains(p)) {
+            gameStateManager.setState(GameState.MANUAL);
         }
+
+        if (gameStateManager.is(GameState.MANUAL) &&
+            renderer.getManualBackButtonBounds().contains(p)) {
+            gameStateManager.setState(GameState.MAIN_MENU);
+        }
+
         super.processMouseEvent(e);
-    }
-
-    /**
-     * Creates and runs a thread for managing weapon movement and collisions.
-     */
-    private void initWeaponThread() {
-        new Thread(() -> {
-            while (start) {
-                weapons.removeIf(w -> !w.check(width, height));
-                for (Weapon w : weapons) {
-                    ((GameObject) w).update();
-                }
-                checkWeaponHits();
-                sleep(10);
-            }
-        }).start();
-    }
-
-    /**
-     * Core drawing logic for the game.
-     * Renders player, enemies, projectiles, HUD, and handles screen transitions.
-     */
-    private void drawGame() {
-        if (showingManual) {
-            drawManual();
-            return;
-        }
-
-        if (inMainMenu) {
-            drawMainMenu();
-            return;
-        }
-
-        if (gameOver) {
-            drawGameOver();
-            return;
-        }
-
-        player.draw(g2);
-        for (Weapon weapon : weapons) {
-            ((GameObject) weapon).draw(g2);
-        }
-        for (AbstractEnemy enemy : enemies) {
-            enemy.draw(g2);
-            if (Collision.intersects(player, enemy)) {
-                player.takeDamage(50);
-                enemies.remove(enemy);
-                break;
-            }
-            if (player.isDead()) {
-                gameOver = true;
-            }
-        }
-    }
-
-    /**
-     * Renders the Game Over screen with score and restart/exit hints.
-     */
-    private void drawGameOver() {
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, width, height);
-
-        g2.setColor(Color.RED);
-        g2.setFont(new Font("Arial", Font.BOLD, 80));
-        String message = "Game Over";
-        FontMetrics fm = g2.getFontMetrics();
-        int x = (width - fm.stringWidth(message)) / 2;
-        int y = (height - fm.getHeight()) / 2 + fm.getAscent();
-        g2.drawString(message, x, y);
-
-        String scoreMsg = "Score: " + score;
-        g2.setColor(new Color(255, 215, 0));
-        g2.setFont(new Font("Arial", Font.BOLD, 36));
-        FontMetrics scoreFM = g2.getFontMetrics();
-        int scoreX = (width - scoreFM.stringWidth(scoreMsg)) / 2;
-        int scoreY = y + 100;
-        g2.drawString(scoreMsg, scoreX, scoreY);
-
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.setFont(new Font("Arial", Font.PLAIN, 20));
-        String hint = "Please ESC to exit" + " | Press R to restart";
-        int hintX = (width - g2.getFontMetrics().stringWidth(hint)) / 2;
-        int hintY = height - 50;
-        g2.drawString(hint, hintX, hintY);
-    }
-
-    /**
-     * Renders the main menu screen with game title and start/manual options.
-     */
-    private void drawMainMenu() {
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, width, height);
-
-        g2.setColor(Color.CYAN);
-        g2.setFont(new Font("Arial", Font.BOLD, 64));
-        String title = "Sky Defender";
-        FontMetrics titleFM = g2.getFontMetrics();
-        int titleX = (width - titleFM.stringWidth(title)) / 2;
-        int titleY = height / 2 - 100;
-        g2.drawString(title, titleX, titleY);
-
-        g2.setColor(new Color(255, 215, 0));
-        g2.setFont(new Font("Arial", Font.BOLD, 32));
-        String startMsg = "Press ENTER to start";
-        FontMetrics msgFM = g2.getFontMetrics();
-        int msgX = (width - msgFM.stringWidth(startMsg)) / 2;
-        int msgY = titleY + 100;
-        g2.drawString(startMsg, msgX, msgY);
-
-        g2.setFont(new Font("Arial", Font.PLAIN, 20));
-        String escHint = "Press ESC to quit";
-        int escX = (width - g2.getFontMetrics().stringWidth(escHint)) / 2;
-        int escY = height - 50;
-        g2.drawString(escHint, escX, escY);
-
-        String buttonText = "HOW TO PLAY";
-        g2.setFont(new Font("Arial", Font.BOLD, 28));
-        FontMetrics fmBtn = g2.getFontMetrics();
-        int btnWidth = fmBtn.stringWidth(buttonText) + 40;
-        int btnHeight = 40;
-        int btnX = (width - btnWidth) / 2;
-        int btnY = height / 2 + 50;
-
-        manualButton.setBounds(btnX, btnY, btnWidth, btnHeight);
-
-        g2.setColor(new Color(70, 70, 70));
-        g2.fillRoundRect(btnX, btnY, btnWidth, btnHeight, 15, 15);
-
-        g2.setColor(Color.WHITE);
-        g2.drawRoundRect(btnX, btnY, btnWidth, btnHeight, 15, 15);
-        g2.drawString(buttonText, btnX + 20, btnY + 28);
-    }
-
-    /**
-     * Renders the How To Play manual screen with control instructions.
-     */
-    private void drawManual() {
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, width, height);
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 48));
-        String title = "HOW TO PLAY";
-        FontMetrics titleFM = g2.getFontMetrics();
-        int titleX = (width - titleFM.stringWidth(title)) / 2;
-        g2.drawString(title, titleX, 100);
-
-        g2.setFont(new Font("Arial", Font.PLAIN, 20));
-        String[] lines = {
-                "- A / D: Rotate plane",
-                "- SPACE: Accelerate",
-                "- J: Rocket  |  K: Flame  |  L: Laser",
-                "- Destroy enemies to gain score",
-                "- Survive waves that increase in difficulty"
-        };
-        int y = 160;
-        for (String line : lines) {
-            g2.drawString(line, 60, y);
-            y += 30;
-        }
-
-        String backText = "BACK";
-        g2.setFont(new Font("Arial", Font.BOLD, 24));
-        FontMetrics fmBack = g2.getFontMetrics();
-        int backWidth = fmBack.stringWidth(backText) + 40;
-        int backHeight = 40;
-        int backX = (width - backWidth) / 2;
-        int backY = height - 80;
-
-        manualBackButton.setBounds(backX, backY, backWidth, backHeight);
-
-        g2.setColor(new Color(60, 60, 60));
-        g2.fillRoundRect(backX, backY, backWidth, backHeight, 10, 10);
-
-        g2.setColor(Color.WHITE);
-        g2.drawRoundRect(backX, backY, backWidth, backHeight, 10, 10);
-        g2.drawString(backText, backX + 20, backY + 28);
     }
 
     public Graphics2D getG2() {
@@ -391,13 +201,5 @@ public class PanelGame extends JComponent {
 
     public BufferedImage getImage() {
         return image;
-    }
-
-    public int getScore() {
-        return gameContext.getScore();
-    }
-
-    public WaveManager getWaveManager() {
-        return waveManager;
     }
 }

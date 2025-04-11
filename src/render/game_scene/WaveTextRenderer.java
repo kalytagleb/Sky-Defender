@@ -1,4 +1,4 @@
-package render;
+package render.game_scene;
 
 import service.waves.WaveManager;
 

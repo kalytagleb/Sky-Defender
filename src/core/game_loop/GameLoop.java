@@ -1,31 +1,37 @@
 package core.game_loop;
 
 import core.PanelGame;
+import service.game_state.GameState;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class GameLoop {
     private final PanelGame panel;
     private final GameContext context;
-    private final GameUpdater updater;
     private final GameRenderer renderer;
+    private final GameUpdater updater;
 
-    private final int TARGET_TIME = 1000000000 / 60;
+    private final int FPS = 60;
+    private final int TARGET_TIME = 1000000000 / FPS;
     private Thread thread;
 
-    public GameLoop(PanelGame panel, GameContext context) {
+    public GameLoop(PanelGame panel, GameContext context, GameRenderer renderer) {
         this.panel = panel;
         this.context = context;
+        this.renderer = renderer;
         this.updater = new GameUpdater();
-        this.renderer = new GameRenderer();
     }
 
     public void start() {
         thread = new Thread(() -> {
-            while (panel.isStart()) {
+            while (context.getGameStateManager().getState() != null) {
                 long startTime = System.nanoTime();
 
-                update();
+                if (context.getGameStateManager().is(GameState.PLAYING)) {
+                    updater.update(context, panel.getWidthValue(), panel.getHeightValue());
+                }
+
                 draw();
                 render();
 
@@ -36,10 +42,6 @@ public class GameLoop {
             }
         });
         thread.start();
-    }
-
-    private void update() {
-        updater.update(context, panel.getWidthValue(), panel.getHeightValue());
     }
 
     private void draw() {
