@@ -4,7 +4,7 @@ import input.Key;
 import model.Player;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
-import service.WaveManager;
+import service.waves.WaveManager;
 
 import java.util.List;
 

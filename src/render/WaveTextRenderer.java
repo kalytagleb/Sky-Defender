@@ -1,6 +1,6 @@
 package render;
 
-import service.WaveManager;
+import service.waves.WaveManager;
 
 import java.awt.*;
 

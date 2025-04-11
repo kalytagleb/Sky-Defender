@@ -4,20 +4,15 @@ import core.game_loop.GameContext;
 import input.Key;
 import logic_units.Collision;
 import model.enemies.AbstractEnemy;
-import model.enemies.BasicEnemy;
 import model.GameObject;
 import model.Player;
-import model.enemies.FastEnemy;
-import model.enemies.TankEnemy;
 import factory.FlameFactory;
 import factory.LaserFactory;
 import factory.RocketFactory;
-import factory.WeaponFactory;
 import model.weapon.AbstractWeapon;
-import model.weapon.Laser;
 import model.weapon.Weapon;
 import core.game_loop.GameLoop;
-import service.WaveManager;
+import service.waves.WaveManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,9 +20,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -220,64 +213,10 @@ public class PanelGame extends JComponent {
     }
 
     /**
-     * Checks collisions between weapons and enemies.
-     * Applies damage and removes defeated enemies and used weapons.
-     */
-    private void checkWeaponHits() {
-        List<Weapon> toRemoveWeapons = new ArrayList<>();
-        List<AbstractEnemy> toRemoveEnemies = new ArrayList<>();
-
-        for (Weapon weapon : weapons) {
-            for (AbstractEnemy enemy : enemies) {
-                if (Collision.intersects((GameObject) weapon, enemy)) {
-                    if (enemy instanceof BasicEnemy basicEnemy) {
-                        ((AbstractWeapon) weapon).hit(basicEnemy);
-                    }
-                    if (enemy.isDead()) {
-                        toRemoveEnemies.add(enemy);
-                        score++;
-                    }
-                    if (!(weapon instanceof Laser)) {
-                        toRemoveWeapons.add(weapon);
-                    }
-                    break;
-                }
-            }
-        }
-
-        weapons.removeAll(toRemoveWeapons);
-        enemies.removeAll(toRemoveEnemies);
-    }
-
-    /**
-     * Fills background with a solid color to clear the screen.
-     */
-    private void drawBackground() {
-        g2.setColor(new Color(30, 30, 30));
-        g2.fillRect(0, 0, width, height);
-    }
-
-    /**
      * Core drawing logic for the game.
      * Renders player, enemies, projectiles, HUD, and handles screen transitions.
      */
     private void drawGame() {
-        if (waveShowText) {
-            long elapsed = System.currentTimeMillis() - waveStartTime;
-            if (elapsed < 2000) {
-                String waveMsg = "WAVE " + (waveNumber - 1);
-                g2.setColor(Color.YELLOW);
-                g2.setFont(new Font("Arial", Font.BOLD, 48));
-                FontMetrics fm = g2.getFontMetrics();
-                int x = (width - fm.stringWidth(waveMsg)) / 2;
-                int y = height / 2;
-                g2.drawString(waveMsg, x, y);
-            } else {
-                waveShowText = false;
-                waveInProgress = false;
-            }
-        }
-
         if (showingManual) {
             drawManual();
             return;
@@ -308,47 +247,6 @@ public class PanelGame extends JComponent {
                 gameOver = true;
             }
         }
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 24));
-        g2.drawString("Score: " + score, 20, 30);
-
-        int maxHP = 100;
-        int hpBarWidth = 200;
-        int hpBarHeight = 16;
-        int padding = 20;
-
-        int hp = player.getHp();
-        int currentWidth = (int)(hpBarWidth * (hp / (float)maxHP));
-
-        int barY = 30 - hpBarHeight / 2;
-        int barX = width - hpBarWidth - padding;
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 16));
-        FontMetrics fm = g2.getFontMetrics();
-        int hpLabelWidth = fm.stringWidth("HP:");
-        g2.drawString("HP:", barX - hpLabelWidth - 10, barY + hpBarHeight - 2);
-
-        g2.setColor(new Color(60, 60, 60));
-        g2.fillRoundRect(barX, barY, hpBarWidth, hpBarHeight, 10, 10);
-
-        Color barColor;
-        float hpPercent = hp / (float) maxHP;
-
-        if (hpPercent >= 0.7f) {
-            barColor = new Color(0, 200, 0);
-        } else if (hpPercent >= 0.3f) {
-            barColor = new Color(255, 200, 0);
-        } else {
-            barColor = new Color(200, 0, 0);
-        }
-        g2.setColor(barColor);
-
-        g2.fillRoundRect(barX, barY, currentWidth, hpBarHeight, 10, 10);
-
-        g2.setColor(Color.WHITE);
-        g2.drawRoundRect(barX, barY, hpBarWidth, hpBarHeight, 10, 10);
     }
 
     /**

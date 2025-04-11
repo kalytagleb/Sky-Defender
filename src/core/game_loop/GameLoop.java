@@ -1,16 +1,8 @@
 package core.game_loop;
 
-import input.Key;
 import core.PanelGame;
-import model.GameObject;
-import model.Player;
-import model.enemies.AbstractEnemy;
-import model.weapon.AbstractWeapon;
-import factory.WeaponFactory;
-import service.WaveManager;
 
 import java.awt.*;
-import java.util.List;
 
 public class GameLoop {
     private final PanelGame panel;

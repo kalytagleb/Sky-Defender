@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class CollisionService {
+
+    /**
+     * Checks collisions between weapons and enemies.
+     * Applies damage and removes defeated enemies and used weapons.
+     */
     public void check(
             List<AbstractWeapon> weapons,
             List<AbstractEnemy> enemies,
