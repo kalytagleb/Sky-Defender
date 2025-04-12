@@ -3,6 +3,7 @@ package core;
 import core.game_loop.GameContext;
 import core.game_loop.GameRenderer;
 import core.game_loop.GameRestarter;
+import data.SaveManager;
 import input.Key;
 import model.enemies.AbstractEnemy;
 import model.Player;
@@ -77,6 +78,8 @@ public class PanelGame extends JComponent {
 
     private final GameRestarter restarter = new GameRestarter();
 
+    private final SaveManager saveManager = new SaveManager();
+
     /**
      * Initializes the game, rendering engine, user input and starts the game loop.
      */
@@ -147,6 +150,8 @@ public class PanelGame extends JComponent {
                             gameStateManager.setState(GameState.PLAYING);
                         }
                     }
+                    case KeyEvent.VK_S -> saveManager.save(context, renderer, width);
+                    case KeyEvent.VK_X -> saveManager.load(context, renderer, width);
                 }
 
                 switch (e.getKeyCode()) {

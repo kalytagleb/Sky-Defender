@@ -7,6 +7,7 @@ import render.game_scene.WaveTextRenderer;
 import render.screen.GameOverRenderer;
 import render.screen.MainMenuRenderer;
 import render.screen.ManualRenderer;
+import render.screen.NotificationRenderer;
 import service.game_state.GameState;
 import service.game_state.GameStateManager;
 
@@ -21,6 +22,7 @@ public class GameRenderer {
     private final ManualRenderer manualRenderer = new ManualRenderer();
     private final GameOverRenderer gameOverRenderer = new GameOverRenderer();
     private final PauseRenderer pauseRenderer = new PauseRenderer();
+    private final NotificationRenderer notificationRenderer = new NotificationRenderer();
 
     private final Rectangle manualButton = new Rectangle();
     private final Rectangle manualBackButton = new Rectangle();
@@ -57,6 +59,7 @@ public class GameRenderer {
 
         waveTextRenderer.draw(g2, context.getWaveManager(), width, height);
         hudRenderer.draw(g2, context);
+        notificationRenderer.draw(g2, width);
     }
 
     public Rectangle getManualButtonBounds() {
@@ -65,5 +68,9 @@ public class GameRenderer {
 
     public Rectangle getManualBackButtonBounds() {
         return manualBackButton;
+    }
+
+    public void showNotification(String message) {
+        notificationRenderer.showMessage(message);
     }
 }

@@ -16,11 +16,16 @@ public class ManualRenderer {
 
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         String[] lines = {
-                "- A / D: Rotate plane",
-                "- SPACE: Accelerate",
-                "- J: Rocket  |  K: Flame  |  L: Laser",
+                "- A / D: Rotate the plane",
+                "- SPACE: Accelerate forward",
+                "- J: Fire Rocket",
+                "- K: Fire Flame",
+                "- L: Fire Laser",
+                "- P: Pause / Unpause the game",
+                "- S: Save game to file",
+                "- X: Load game from file",
                 "- Destroy enemies to gain score",
-                "- Survive waves that increase in difficulty"
+                "- Survive increasingly difficult enemy waves"
         };
         int y = 160;
         for (String line : lines) {

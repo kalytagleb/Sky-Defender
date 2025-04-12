@@ -49,4 +49,8 @@ public class WaveManager {
     public int getWaveNumber() {
         return waveNumber;
     }
+
+    public void setWaveNumber(int waveNumber) {
+        this.waveNumber = waveNumber;
+    }
 }
