@@ -9,18 +9,34 @@ import service.WeaponControlService;
 import service.collision.CollisionService;
 import service.collision.PlayerCollisionService;
 import service.game_state.GameState;
+import service.waves.WaveManager;
 
 public class GameUpdater {
-
     private final CollisionService collisionService = new CollisionService();
     private final PlayerCollisionService playerCollisionService = new PlayerCollisionService();
     private final WeaponControlService weaponControlService = new WeaponControlService();
 
+    private long lastWaveCheckTime = System.currentTimeMillis();
+    private final long WAVE_INTERVAL = 5000; // каждые 5 секунд
+
     public void update(GameContext context, int width, int height) {
         updateObjects(context, width, height);
+        updateCollisions(context);
+        updateWaveLogic(context);
+        checkGameOver(context);
+    }
 
+    private void updateObjects(GameContext context, int width, int height) {
         weaponControlService.handleWeaponFire(context);
 
+        context.getPlayer().update();
+        context.getEnemies().forEach(AbstractEnemy::update);
+
+        context.getWeapons().removeIf(w -> !w.check(width, height));
+        context.getWeapons().forEach(AbstractWeapon::update);
+    }
+
+    private void updateCollisions(GameContext context) {
         collisionService.check(
                 context.getWeapons(),
                 context.getEnemies(),
@@ -28,20 +44,24 @@ public class GameUpdater {
                 weapon -> !(weapon instanceof Laser)
         );
 
-        context.getWaveManager().trySpawnWave(context.getScore());
-        context.getWaveManager().updateWaveTextState();
-
-        if (context.getPlayer().isDead()) {
-            context.getGameStateManager().setState(GameState.GAME_OVER);
-        }
-
         playerCollisionService.check(context.getPlayer(), context.getEnemies());
     }
 
-    private void updateObjects(GameContext context, int width, int height) {
-        context.getPlayer().update();
-        context.getEnemies().forEach(AbstractEnemy::update);
-        context.getWeapons().removeIf(w -> !w.check(width, height));
-        context.getWeapons().forEach(AbstractWeapon::update);
+    private void updateWaveLogic(GameContext context) {
+        WaveManager waveManager = context.getWaveManager();
+
+        long now = System.currentTimeMillis();
+        if (now - lastWaveCheckTime >= WAVE_INTERVAL) {
+            waveManager.startNextWave(context.getScore());
+            lastWaveCheckTime = now;
+        }
+
+        waveManager.updateWaveTextState();
+    }
+
+    private void checkGameOver(GameContext context) {
+        if (context.getPlayer().isDead()) {
+            context.getGameStateManager().setState(GameState.GAME_OVER);
+        }
     }
 }

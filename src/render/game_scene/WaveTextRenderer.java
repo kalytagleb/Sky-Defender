@@ -1,14 +1,16 @@
 package render.game_scene;
 
+import core.game_loop.GameContext;
 import service.waves.WaveManager;
 
 import java.awt.*;
 
 public class WaveTextRenderer {
+
     public void draw(Graphics2D g2, WaveManager waveManager, int width, int height) {
         if (!waveManager.shouldShowWaveText()) return;
 
-        String text = "WAVE " + (waveManager.getWaveNumber() - 1);
+        String text = "WAVE " + waveManager.getWaveNumber();
 
         g2.setFont(new Font("Arial", Font.BOLD, 36));
         g2.setColor(Color.YELLOW);

@@ -140,6 +140,13 @@ public class PanelGame extends JComponent {
                     case KeyEvent.VK_L -> {
                         context.setWeaponFactory(new LaserFactory());
                     }
+                    case KeyEvent.VK_P -> {
+                        if (gameStateManager.is(GameState.PLAYING)) {
+                            gameStateManager.setState(GameState.PAUSED);
+                        } else if (gameStateManager.is(GameState.PAUSED)) {
+                            gameStateManager.setState(GameState.PLAYING);
+                        }
+                    }
                 }
 
                 switch (e.getKeyCode()) {

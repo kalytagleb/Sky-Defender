@@ -2,6 +2,7 @@ package core.game_loop;
 
 import org.w3c.dom.css.Rect;
 import render.game_scene.HudRenderer;
+import render.game_scene.PauseRenderer;
 import render.game_scene.WaveTextRenderer;
 import render.screen.GameOverRenderer;
 import render.screen.MainMenuRenderer;
@@ -19,6 +20,7 @@ public class GameRenderer {
     private final MainMenuRenderer mainMenuRenderer = new MainMenuRenderer();
     private final ManualRenderer manualRenderer = new ManualRenderer();
     private final GameOverRenderer gameOverRenderer = new GameOverRenderer();
+    private final PauseRenderer pauseRenderer = new PauseRenderer();
 
     private final Rectangle manualButton = new Rectangle();
     private final Rectangle manualBackButton = new Rectangle();
@@ -41,6 +43,11 @@ public class GameRenderer {
 
         if (gsm.is(GameState.GAME_OVER)) {
             gameOverRenderer.draw(g2, width, height, context.getScore());
+            return;
+        }
+
+        if (gsm.is(GameState.PAUSED)) {
+            pauseRenderer.draw(g2, width, height);
             return;
         }
 

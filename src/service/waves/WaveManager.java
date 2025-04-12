@@ -4,48 +4,46 @@ import model.enemies.AbstractEnemy;
 import model.enemies.BasicEnemy;
 import model.enemies.TankEnemy;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import java.util.List;
 import java.util.Random;
 
 public class WaveManager {
     private final List<AbstractEnemy> enemies;
-    private final EnemySpawner spawnerService;
+    private final EnemySpawner spawner;
 
     private int waveNumber = 1;
     private long waveStartTime;
-    private boolean waveInProgress = false;
-    private boolean waveShowText = true;
+    private boolean waveShowText = false;
+
+    private static final long WAVE_INTERVAL = 10000;
+    private static final long WAVE_TEXT_DURATION = 2000;
 
     public WaveManager(List<AbstractEnemy> enemies, int screenWidth, int screenHeight) {
         this.enemies = enemies;
-        this.spawnerService = new EnemySpawner(screenWidth, screenHeight);
+        this.spawner = new EnemySpawner(screenWidth, screenHeight);
     }
 
-    public void trySpawnWave(int score) {
-        if (!waveInProgress && enemies.isEmpty()) {
-            spawnNewWave(score);
-        }
-    }
-
-    private void spawnNewWave(int score) {
-        waveInProgress = true;
+    public void startNextWave(int score) {
+        waveNumber = 1 + score / 10;
         waveShowText = true;
         waveStartTime = System.currentTimeMillis();
-        waveNumber = 1 + score / 10;
 
-        enemies.addAll(spawnerService.spawnWave(waveNumber));
-    }
-
-    public boolean shouldShowWaveText() {
-        return waveShowText;
+        List<AbstractEnemy> newWave = spawner.spawnWave(waveNumber);
+        enemies.addAll(newWave);
     }
 
     public void updateWaveTextState() {
         if (!waveShowText) return;
-        if ((System.currentTimeMillis() - waveStartTime) >= 2000) {
+
+        long time = System.currentTimeMillis() - waveStartTime;
+        if (time >= 2000) {
             waveShowText = false;
-            waveInProgress = false;
         }
+    }
+
+    public boolean shouldShowWaveText() {
+        return waveShowText;
     }
 
     public int getWaveNumber() {
