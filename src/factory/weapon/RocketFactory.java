@@ -1,4 +1,4 @@
-package factory;
+package factory.weapon;
 
 import model.weapon.Rocket;
 import model.weapon.Weapon;

@@ -1,4 +1,4 @@
-package factory;
+package factory.weapon;
 
 import model.weapon.Laser;
 import model.weapon.Weapon;

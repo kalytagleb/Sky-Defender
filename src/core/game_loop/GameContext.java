@@ -1,7 +1,7 @@
 package core.game_loop;
 
-import factory.RocketFactory;
-import factory.WeaponFactory;
+import factory.weapon.RocketFactory;
+import factory.weapon.WeaponFactory;
 import input.Key;
 import model.Player;
 import model.enemies.AbstractEnemy;

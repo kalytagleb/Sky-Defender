@@ -1,9 +1,7 @@
 package service.waves;
 
-import model.enemies.AbstractEnemy;
-import model.enemies.BasicEnemy;
-import model.enemies.FastEnemy;
-import model.enemies.TankEnemy;
+import factory.enemy.EnemyFactoryRegister;
+import model.enemies.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,8 @@ public class EnemySpawner {
     private final int screenHeight;
     private final Random random = new Random();
 
+    private final EnemyFactoryRegister factoryRegister = new EnemyFactoryRegister();
+
     public EnemySpawner(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -21,7 +21,7 @@ public class EnemySpawner {
 
     public List<AbstractEnemy> spawnWave(int waveNumber) {
         int count = 3 + waveNumber * 2;
-        float speed = 0.3f + waveNumber * 0.1f;
+        float speed = 0.5f + waveNumber * 0.1f;
         List<AbstractEnemy> result = new ArrayList<>();
 
         for (int i=0; i<count; i++) {
@@ -30,18 +30,17 @@ public class EnemySpawner {
             int x = fromLeft ? 0 : screenWidth;
             float angle = fromLeft ? 0f: 180f;
 
-            AbstractEnemy enemy = generateRandomEnemy(x, y);
-            enemy.setAngle(angle);
-            enemy.setSpeed(speed);
+            EnemyType type = generateRandomType();
+            AbstractEnemy enemy = factoryRegister.create(type, x, y, angle, speed);
             result.add(enemy);
         }
         return result;
     }
 
-    private AbstractEnemy generateRandomEnemy(int x, int y) {
-        int type = random.nextInt(100);
-        if (type < 60) return new BasicEnemy(x, y);
-        if (type < 85) return new FastEnemy(x, y);
-        return new TankEnemy(x, y);
+    private EnemyType generateRandomType() {
+        int r = random.nextInt(100);
+        if (r < 60) return EnemyType.BASIC;
+        if (r < 85) return EnemyType.FAST;
+        return EnemyType.TANK;
     }
 }
