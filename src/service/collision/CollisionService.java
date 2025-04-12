@@ -1,12 +1,10 @@
-package service;
+package service.collision;
 
 import logic_units.Collision;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
-import model.weapon.Laser;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 

@@ -32,7 +32,7 @@ public class Rocket extends AbstractWeapon {
      */
     public Rocket(double x, double y, float angle) {
         super(x, y, angle);
-        setSpeed(2.5f);
+        setSpeed(4f);
         setSize(20);
         setDamage(100);
         setColor(new Color(255, 100, 50));

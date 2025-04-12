@@ -25,9 +25,10 @@ public class Player extends GameObject implements Updatable, Drawable {
     private final Image image_move;
 
     private float speed = 0f;
-    private final float MAX_SPEED = 1f;
-    private final float ACCELERATION = 0.01f;
-    private final float DECELERATION = 0.03f;
+    private final float MAX_SPEED = 3.0f;
+    private final float ACCELERATION = 0.1f;
+    private final float DECELERATION = 0.08f;
+    private static final float ROTATE_SPEED = 2.5f;
     private boolean speedUp = false;
 
     private int hp = 100;
@@ -67,8 +68,8 @@ public class Player extends GameObject implements Updatable, Drawable {
     }
 
     private void handleInput() {
-        if (key.isKey_left()) setAngle(getAngle() - 0.5f);
-        if (key.isKey_right()) setAngle(getAngle() + 0.5f);
+        if (key.isKey_left()) setAngle(getAngle() - ROTATE_SPEED);
+        if (key.isKey_right()) setAngle(getAngle() + ROTATE_SPEED);
 
         if (key.isKey_space()) {
             speed += ACCELERATION;

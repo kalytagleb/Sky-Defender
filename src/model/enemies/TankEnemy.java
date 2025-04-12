@@ -26,7 +26,7 @@ public class TankEnemy extends BasicEnemy {
      */
     public TankEnemy(double x, double y) {
         super(x, y);
-        setSpeed(0.15f); // Slower than other enemies
+        setSpeed(0.8f); // Slower than other enemies
         setHp(300);      // Much higher health
         setImage(new ImageIcon(getClass().getResource("/images/TankEnemy.png")).getImage());
 

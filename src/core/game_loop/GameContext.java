@@ -1,5 +1,7 @@
 package core.game_loop;
 
+import factory.RocketFactory;
+import factory.WeaponFactory;
 import input.Key;
 import model.Player;
 import model.enemies.AbstractEnemy;
@@ -16,6 +18,7 @@ public class GameContext {
     private final Key key;
     private final WaveManager waveManager;
     private final GameStateManager gameStateManager;
+    private WeaponFactory weaponFactory = new RocketFactory();
 
     private int score = 0;
 
@@ -63,5 +66,13 @@ public class GameContext {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public WeaponFactory getWeaponFactory() {
+        return weaponFactory;
+    }
+
+    public void setWeaponFactory(WeaponFactory weaponFactory) {
+        this.weaponFactory = weaponFactory;
     }
 }

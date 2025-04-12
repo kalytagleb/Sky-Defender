@@ -134,6 +134,15 @@ public class PanelGame extends JComponent {
                         }
                     }
                     case KeyEvent.VK_M -> gameStateManager.setState(GameState.MANUAL);
+                    case KeyEvent.VK_J -> {
+                        context.setWeaponFactory(new RocketFactory());
+                    }
+                    case KeyEvent.VK_K -> {
+                        context.setWeaponFactory(new FlameFactory());
+                    }
+                    case KeyEvent.VK_L -> {
+                        context.setWeaponFactory(new LaserFactory());
+                    }
                 }
 
                 switch (e.getKeyCode()) {

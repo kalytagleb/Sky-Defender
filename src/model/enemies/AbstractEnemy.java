@@ -59,7 +59,7 @@ public abstract class AbstractEnemy extends GameObject {
      * @param speed new speed value
      */
     public void setSpeed(float speed) {
-        this.speed = speed;
+        this.speed = Math.max(0, speed);
     }
 
     /**

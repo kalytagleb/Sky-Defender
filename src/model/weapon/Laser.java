@@ -36,7 +36,7 @@ public class Laser extends AbstractWeapon implements Weapon {
      */
     public Laser(double x, double y, float angle) {
         super(x, y, angle);
-        setSpeed(0);
+        setSpeed(0.5f);
         setSize(4);
         setDamage(80);
         setColor(new Color(0, 255, 255));

@@ -27,7 +27,7 @@ public class FastEnemy extends BasicEnemy {
     public FastEnemy(double x, double y) {
         super(x, y);
         setHp(50); // Less HP than regular enemy
-        setSpeed(0.6f); // Faster than regular enemy
+        setSpeed(2.4f); // Faster than regular enemy
         setImage(new ImageIcon(getClass().getResource("/images/FastEnemy.png")).getImage());
 
         // Shape inherited from BasicEnemy

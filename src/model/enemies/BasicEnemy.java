@@ -29,7 +29,7 @@ public class BasicEnemy extends AbstractEnemy {
     public BasicEnemy(double x, double y) {
         super(x, y);
         setHp(100);
-        setSpeed(0.3f);
+        setSpeed(1.2f);
         setImage(new ImageIcon(getClass().getResource("/images/enemy_basic.png")).getImage());
 
         // Define the polygon shape used for collision
