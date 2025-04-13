@@ -4,6 +4,8 @@ import core.game_loop.GameContext;
 import core.game_loop.GameRenderer;
 import core.game_loop.GameRestarter;
 import data.SaveManager;
+import exceptions.GameLoadException;
+import exceptions.GameSaveException;
 import input.Key;
 import model.enemies.AbstractEnemy;
 import model.Player;
@@ -150,8 +152,22 @@ public class PanelGame extends JComponent {
                             gameStateManager.setState(GameState.PLAYING);
                         }
                     }
-                    case KeyEvent.VK_S -> saveManager.save(context, renderer, width);
-                    case KeyEvent.VK_X -> saveManager.load(context, renderer, width);
+                    case KeyEvent.VK_S -> {
+                        try {
+                            saveManager.save(context, renderer, width);
+                            renderer.showNotification("Game saved!");
+                        } catch (GameSaveException ex) {
+                            renderer.showNotification("Error: " + ex.getMessage());
+                        }
+                    }
+                    case KeyEvent.VK_X -> {
+                        try {
+                            saveManager.load(context, renderer, width);
+                            renderer.showNotification("Game loaded!");
+                        } catch (GameLoadException ex) {
+                            renderer.showNotification("Error: " + ex.getMessage());
+                        }
+                    }
                 }
 
                 switch (e.getKeyCode()) {

@@ -4,6 +4,8 @@ import core.game_loop.GameContext;
 import core.game_loop.GameRenderer;
 import data.enemy.EnemyData;
 import data.weapon.WeaponData;
+import exceptions.GameLoadException;
+import exceptions.GameSaveException;
 import factory.weapon.FlameFactory;
 import factory.weapon.LaserFactory;
 import factory.weapon.RocketFactory;
@@ -23,7 +25,7 @@ import java.util.List;
 public class SaveManager {
     private static final String SAVE_FILE = "save.txt";
 
-    public void save(GameContext context, GameRenderer renderer, int width) {
+    public void save(GameContext context, GameRenderer renderer, int width) throws GameSaveException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
             Player player = context.getPlayer();
 
@@ -54,13 +56,13 @@ public class SaveManager {
             );
 
             out.writeObject(data);
-            renderer.showNotification("Game saved!");
         } catch (IOException e) {
-            renderer.showNotification("We can't save the game!");
+            throw new GameSaveException("Failed to save game: " + e.getMessage(), e);
+            // renderer.showNotification("We can't save the game!");
         }
     }
 
-    public void load(GameContext context, GameRenderer renderer, int width) {
+    public void load(GameContext context, GameRenderer renderer, int width) throws GameLoadException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
             SaveData data = (SaveData) in.readObject();
 
@@ -109,10 +111,8 @@ public class SaveManager {
                     context.getWeapons().add(weapon);
                 }
             }
-
-            renderer.showNotification("Game Loaded!");
         } catch (IOException | ClassNotFoundException e) {
-            renderer.showNotification("Save file not found.");
+            throw new GameLoadException("Unable to load the game. " + e);
         }
     }
 }
