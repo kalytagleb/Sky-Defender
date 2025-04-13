@@ -70,12 +70,23 @@ public class Player extends GameObject implements Updatable, Drawable {
     private void handleInput() {
         if (key.isKey_left()) setAngle(getAngle() - ROTATE_SPEED);
         if (key.isKey_right()) setAngle(getAngle() + ROTATE_SPEED);
+        normalizeAngle();
 
         if (key.isKey_space()) {
             speed += ACCELERATION;
         } else {
             speed -= DECELERATION;
         }
+
+        speedUp = key.isKey_space();
+    }
+
+    private void normalizeAngle() {
+        float angle = getAngle() % 360;
+        if (angle < 0) {
+            angle += 360;
+        }
+        setAngle(angle);
     }
 
     private void applySpeedLimits() {
@@ -159,5 +170,9 @@ public class Player extends GameObject implements Updatable, Drawable {
      */
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }
