@@ -1,12 +1,14 @@
-package test;
+package test.model.weapon;
 
 import model.enemies.BasicEnemy;
 import model.weapon.Rocket;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RocketTest {
+class RocketTest {
 
     @Test
     void weaponsMovesInDirectionWhenUpdated() {
@@ -52,5 +54,24 @@ public class RocketTest {
 
         assertEquals(0, rocket.getSize(), "Size should be non-negative");
         assertEquals(0, rocket.getSpeed(), "Speed should be non-negative");
+    }
+
+    @Test
+    void getShapeShouldReturnValidShape() {
+        Rocket rocket = new Rocket(100, 100, 45f);
+        Shape shape = rocket.getShape();
+
+        assertNotNull(shape, "getShape() should not return null");
+        assertTrue(shape.getBounds().getWidth() > 0, "Shape should have width");
+        assertTrue(shape.getBounds().getHeight() > 0, "Shape should have height");
+    }
+
+    @Test
+    void weaponSetsAndGetsColorCorrectly() {
+        Rocket rocket = new Rocket(0, 0, 0f);
+        Color color = new Color(123, 45, 67);
+        rocket.setColor(color);
+
+        assertEquals(color, rocket.getColor());
     }
 }

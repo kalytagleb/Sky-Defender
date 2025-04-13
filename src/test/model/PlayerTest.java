@@ -1,4 +1,4 @@
-package test;
+package test.model;
 
 import input.Key;
 import model.Player;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerTest {
+class PlayerTest {
 
     private Player player;
     private Key key;

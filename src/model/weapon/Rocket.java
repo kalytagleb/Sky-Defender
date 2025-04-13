@@ -47,6 +47,7 @@ public class Rocket extends AbstractWeapon {
      */
     @Override
     public Shape getShape() {
+        System.out.println("Rocket.getShape() is called");
         Shape baseShape = new Ellipse2D.Double(0, 0, getSize(), getSize());
         AffineTransform af = new AffineTransform();
         af.translate(getX(), getY());

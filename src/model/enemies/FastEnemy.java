@@ -17,6 +17,6 @@ public class FastEnemy extends AbstractPolygonEnemy {
     public static final double SIZE = 50;
 
     public FastEnemy(double x, double y) {
-        super(x, y, SIZE, 60, 0.6f, "/images/FastEnemy.png", EnemyShapeUtil.createDefaultEnemyShape(SIZE));
+        super(x, y, SIZE, 60, 1.5f, "/images/FastEnemy.png", EnemyShapeUtil.createDefaultEnemyShape(SIZE));
     }
 }
