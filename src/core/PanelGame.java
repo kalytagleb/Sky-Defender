@@ -107,7 +107,7 @@ public class PanelGame extends JComponent {
         List<AbstractWeapon> weapons = new CopyOnWriteArrayList<>();
         WaveManager waveManager = new WaveManager(enemies, width, height);
 
-        context = new GameContext(player, enemies, weapons, key, waveManager, gameStateManager);
+        context = new GameContext(player, enemies, weapons, key, waveManager, gameStateManager, width, height);
         renderer = new GameRenderer();
         gameLoop = new GameLoop(this, context, renderer);
         gameLoop.start();

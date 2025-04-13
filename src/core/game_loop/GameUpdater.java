@@ -2,6 +2,7 @@ package core.game_loop;
 
 import input.Key;
 import logic_units.Collision;
+import model.Player;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
 import model.weapon.Laser;
@@ -60,8 +61,17 @@ public class GameUpdater {
     }
 
     private void checkGameOver(GameContext context) {
-        if (context.getPlayer().isDead()) {
+        Player player = context.getPlayer();
+
+        if (player.isDead() || isPlayerOutOfBounds(player, context.getWidth(), context.getHeight())) {
             context.getGameStateManager().setState(GameState.GAME_OVER);
         }
+    }
+
+    private boolean isPlayerOutOfBounds(Player player, int width, int height) {
+        return player.getX() < -Player.PLAYER_SIZE ||
+                player.getY() < -Player.PLAYER_SIZE ||
+                player.getX() > width ||
+                player.getY() > height;
     }
 }

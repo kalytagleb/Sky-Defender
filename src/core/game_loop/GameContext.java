@@ -20,6 +20,9 @@ public class GameContext {
     private final GameStateManager gameStateManager;
     private WeaponFactory weaponFactory = new RocketFactory();
 
+    private final int screenWidth;
+    private final int screenHeight;
+
     private int score = 0;
 
     public GameContext(Player player,
@@ -27,13 +30,17 @@ public class GameContext {
                        List<AbstractWeapon> weapons,
                        Key key,
                        WaveManager waveManager,
-                       GameStateManager gameStateManager) {
+                       GameStateManager gameStateManager,
+                       int screenWidth,
+                       int screenHeight) {
         this.player = player;
         this.enemies = enemies;
         this.weapons = weapons;
         this.key = key;
         this.waveManager = waveManager;
         this.gameStateManager = gameStateManager;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public Player getPlayer() {
@@ -74,5 +81,13 @@ public class GameContext {
 
     public void setWeaponFactory(WeaponFactory weaponFactory) {
         this.weaponFactory = weaponFactory;
+    }
+
+    public int getWidth() {
+        return screenWidth;
+    }
+
+    public int getHeight() {
+        return screenHeight;
     }
 }
