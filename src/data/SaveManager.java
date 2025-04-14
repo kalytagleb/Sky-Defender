@@ -21,8 +21,12 @@ import service.collision.PlayerCollisionService;
 
 import java.io.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SaveManager {
+
+    private static final Logger LOGGER = Logger.getLogger(SaveManager.class.getName());
     private static final String SAVE_FILE = "save.txt";
 
     public void save(GameContext context, GameRenderer renderer, int width) throws GameSaveException {
@@ -56,8 +60,10 @@ public class SaveManager {
             );
 
             out.writeObject(data);
+            LOGGER.info("Game saved successfully to " + SAVE_FILE);
         } catch (IOException e) {
-            throw new GameSaveException("Failed to save game: " + e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, "Failed to save the game", e);
+            throw new GameSaveException("We can't save the game: " + e.getMessage());
             // renderer.showNotification("We can't save the game!");
         }
     }
@@ -112,7 +118,8 @@ public class SaveManager {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new GameLoadException("Unable to load the game. " + e);
+            LOGGER.log(Level.SEVERE, "Failed to load the game", e);
+            throw new GameLoadException("Save file not found.");
         }
     }
 }

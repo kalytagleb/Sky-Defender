@@ -1,11 +1,8 @@
 package core.panel;
 
-import core.game_loop.GameContext;
-import core.game_loop.GameRenderer;
-import core.game_loop.GameRestarter;
+import core.game_loop.*;
 import data.SaveManager;
 import input.Key;
-import core.game_loop.GameLoop;
 import service.keyboard.KeyboardHandlerService;
 import service.game_state.GameStateManager;
 import service.keyboard.MouseHandlerService;
@@ -16,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * PanelGame is the core component responsible for running the game loop,
@@ -78,6 +77,12 @@ public class PanelGame extends JComponent {
      * Initializes the game, rendering engine, user input and starts the game loop.
      */
     public void start() {
+        Logger rootLogger = Logger.getLogger("");
+        rootLogger.setLevel(Level.ALL);
+        for (var handler : rootLogger.getHandlers()) {
+            handler.setLevel(Level.ALL);
+        }
+
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setFocusable(true);
         requestFocus();
