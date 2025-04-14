@@ -1,9 +1,8 @@
 package core.game_loop;
 
-import core.PanelGame;
+import core.panel.PanelGame;
 import service.game_state.GameState;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GameLoop {

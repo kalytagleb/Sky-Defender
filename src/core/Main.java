@@ -1,5 +1,7 @@
 package core;
 
+import core.panel.PanelGame;
+
 import javax.swing.*;
         import java.awt.*;
         import java.awt.event.WindowAdapter;
