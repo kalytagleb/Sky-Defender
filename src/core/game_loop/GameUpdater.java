@@ -1,7 +1,5 @@
 package core.game_loop;
 
-import input.Key;
-import logic_units.Collision;
 import model.Player;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
@@ -9,7 +7,7 @@ import model.weapon.Laser;
 import service.WeaponControlService;
 import service.collision.CollisionService;
 import service.collision.PlayerCollisionService;
-import service.game_state.GameState;
+import service.game_state.state_pattern.GameOverState;
 import service.waves.WaveManager;
 
 import java.util.logging.Logger;
@@ -85,10 +83,10 @@ public class GameUpdater {
 
         if (player.isDead()) {
             logger.warning("Game Over: Player is dead");
-            context.getGameStateManager().setState(GameState.GAME_OVER);
+            context.getGameStateManager().setCurrentState(new GameOverState());
         } else if (isPlayerOutOfBounds(player, context.getWidth(), context.getHeight())) {
             logger.warning("Game Over: Player went out of bounds");
-            context.getGameStateManager().setState(GameState.GAME_OVER);
+            context.getGameStateManager().setCurrentState(new GameOverState());
         }
     }
 

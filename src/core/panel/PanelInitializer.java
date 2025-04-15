@@ -8,6 +8,7 @@ import model.Player;
 import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.MainMenuState;
 import service.waves.WaveManager;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class PanelInitializer {
         List<AbstractEnemy> enemies = new CopyOnWriteArrayList<>();
         List<AbstractWeapon> weapons = new CopyOnWriteArrayList<>();
         WaveManager waveManager = new WaveManager(enemies, width, height);
+
+        gsm.setCurrentState(new MainMenuState());
 
         return new GameContext(player, enemies, weapons, key, waveManager, gsm, width, height);
     }

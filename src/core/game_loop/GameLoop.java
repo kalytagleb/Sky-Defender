@@ -1,7 +1,6 @@
 package core.game_loop;
 
 import core.panel.PanelGame;
-import service.game_state.GameState;
 
 import java.awt.*;
 
@@ -24,12 +23,10 @@ public class GameLoop {
 
     public void start() {
         thread = new Thread(() -> {
-            while (context.getGameStateManager().getState() != null) {
+            while (context.getGameStateManager().getCurrentState() != null) {
                 long startTime = System.nanoTime();
 
-                if (context.getGameStateManager().is(GameState.PLAYING)) {
-                    updater.update(context, panel.getWidthValue(), panel.getHeightValue());
-                }
+                context.getGameStateManager().getCurrentState().update(context);
 
                 draw();
                 render();
@@ -44,8 +41,16 @@ public class GameLoop {
     }
 
     private void draw() {
+//        Graphics2D g2 = panel.getG2();
+//        renderer.draw(g2, context, panel.getWidthValue(), panel.getHeightValue());
+
         Graphics2D g2 = panel.getG2();
         renderer.draw(g2, context, panel.getWidthValue(), panel.getHeightValue());
+
+//        g2.setColor(Color.RED);
+//        g2.fillRect(0, 0, panel.getWidthValue(), panel.getHeightValue());
+//
+//        System.out.println("Draw called");
     }
 
     /**

@@ -68,6 +68,17 @@ public class SaveManager {
         }
     }
 
+    public void asyncSave(GameContext context, GameRenderer renderer, int width) {
+        new Thread(() -> {
+            try {
+                save(context, renderer, width);
+            } catch (GameSaveException e) {
+                renderer.showNotification("Async Save Error " + e.getMessage());
+                LOGGER.warning("Async Error");
+            }
+        }, "SaveAsync").start();
+    }
+
     public void load(GameContext context, GameRenderer renderer, int width) throws GameLoadException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
             SaveData data = (SaveData) in.readObject();

@@ -8,8 +8,8 @@ import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.game_state.GameState;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.*;
 import service.waves.WaveManager;
 
 import java.awt.*;
@@ -48,31 +48,31 @@ class GameRendererTest {
 
     @Test
     void drawInMainMenuStateDoesNotThrow() {
-        gsm.setState(GameState.MAIN_MENU);
+        context.getGameStateManager().setCurrentState(new MainMenuState());
         assertDoesNotThrow(() -> renderer.draw(g2, context, 800, 600));
     }
 
     @Test
     void drawInManualStateDoesNotThrow() {
-        gsm.setState(GameState.MANUAL);
+        context.getGameStateManager().setCurrentState(new ManualState());
         assertDoesNotThrow(() -> renderer.draw(g2, context, 800, 600));
     }
 
     @Test
     void drawInGameOverStateDoesNotThrow() {
-        gsm.setState(GameState.GAME_OVER);
+        context.getGameStateManager().setCurrentState(new GameOverState());
         assertDoesNotThrow(() -> renderer.draw(g2, context, 800, 600));
     }
 
     @Test
     void drawInPausedStateDoesNotThrow() {
-        gsm.setState(GameState.PAUSED);
+        context.getGameStateManager().setCurrentState(new PausedState());
         assertDoesNotThrow(() -> renderer.draw(g2, context, 800, 600));
     }
 
     @Test
     void drawInPlayingStateStateDoesNotThrow() {
-        gsm.setState(GameState.PLAYING);
+        context.getGameStateManager().setCurrentState(new PlayingState());
         assertDoesNotThrow(() -> renderer.draw(g2, context, 800, 600));
     }
 

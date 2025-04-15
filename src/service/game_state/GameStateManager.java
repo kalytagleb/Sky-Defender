@@ -1,17 +1,27 @@
 package service.game_state;
 
-public class GameStateManager {
-    private GameState currentState = GameState.MAIN_MENU;
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
 
-    public GameState getState() {
+import java.awt.*;
+
+public class GameStateManager {
+
+    private IGameState currentState;
+
+    public void setCurrentState(IGameState state) {
+        this.currentState = state;
+    }
+
+    public IGameState getCurrentState() {
         return currentState;
     }
 
-    public void setState(GameState newState) {
-        this.currentState = newState;
+    public void update(GameContext context) {
+        currentState.update(context);
     }
 
-    public boolean is(GameState state) {
-        return currentState == state;
+    public void render(Graphics2D g2, GameRenderer renderer, GameContext context) {
+        currentState.render(g2, renderer, context);
     }
 }

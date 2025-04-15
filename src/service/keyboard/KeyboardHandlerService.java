@@ -5,13 +5,12 @@ import core.game_loop.GameRenderer;
 import core.game_loop.GameRestarter;
 import data.SaveManager;
 import exceptions.GameLoadException;
-import exceptions.GameSaveException;
 import factory.weapon.FlameFactory;
 import factory.weapon.LaserFactory;
 import factory.weapon.RocketFactory;
 import input.Key;
-import service.game_state.GameState;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.*;
 
 import java.awt.event.KeyEvent;
 
@@ -31,29 +30,28 @@ public class KeyboardHandlerService {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE -> System.exit(0);
             case KeyEvent.VK_ENTER -> {
-                if (gsm.is(GameState.MAIN_MENU)) {
-                    gsm.setState(GameState.PLAYING);
+                if (context.getGameStateManager().getCurrentState() instanceof MainMenuState) {
+                    context.getGameStateManager().setCurrentState(new PlayingState());
                     restarter.restart(context, width, context.getHeight());
                 }
             }
             case KeyEvent.VK_R -> {
-                if (gsm.is(GameState.GAME_OVER)) {
-                    gsm.setState(GameState.PLAYING);
+                if (context.getGameStateManager().getCurrentState() instanceof GameOverState) {
+                    context.getGameStateManager().setCurrentState(new PlayingState());
                     restarter.restart(context, width, context.getHeight());
                 }
             }
-            case KeyEvent.VK_M -> gsm.setState(GameState.MANUAL);
+            case KeyEvent.VK_M -> context.getGameStateManager().setCurrentState(new ManualState());
             case KeyEvent.VK_P -> {
-                if (gsm.is(GameState.PLAYING)) gsm.setState(GameState.PAUSED);
-                else if (gsm.is(GameState.PAUSED)) gsm.setState(GameState.PLAYING);
+                if (context.getGameStateManager().getCurrentState() instanceof PlayingState)
+                    context.getGameStateManager().setCurrentState(new PausedState());
+                else if (context.getGameStateManager().getCurrentState() instanceof PausedState) {
+                    context.getGameStateManager().setCurrentState(new PlayingState());
+                }
             }
             case KeyEvent.VK_S -> {
-                try {
-                    saveManager.save(context, renderer, width);
-                    renderer.showNotification("Game saved!");
-                } catch (GameSaveException ex) {
-                    renderer.showNotification("Error: " + ex.getMessage());
-                }
+                saveManager.asyncSave(context, renderer, width);
+                renderer.showNotification("Game saved!");
             }
             case KeyEvent.VK_X -> {
                 try {

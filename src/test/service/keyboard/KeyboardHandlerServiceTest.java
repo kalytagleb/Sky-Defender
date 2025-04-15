@@ -11,14 +11,15 @@ import model.enemies.AbstractEnemy;
 import model.weapon.AbstractWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.game_state.GameState;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.MainMenuState;
+import service.game_state.state_pattern.PausedState;
+import service.game_state.state_pattern.PlayingState;
 import service.keyboard.KeyboardHandlerService;
 import service.waves.WaveManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.nio.file.WatchEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,22 +54,22 @@ class KeyboardHandlerServiceTest {
 
     @Test
     void setsGameStateToPlayingOnEnterFromMainMenu() {
-        gsm.setState(GameState.MAIN_MENU);
+        gsm.setCurrentState(new MainMenuState());
         KeyEvent e = new KeyEvent(new Component() {}, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_ENTER, ' ');
 
         handler.handleKeyPressed(e, context, renderer, 800);
 
-        assertEquals(GameState.PLAYING, gsm.getState());
+        assertTrue(gsm.getCurrentState() instanceof PlayingState);
     }
 
     @Test
     void setsGameStateToPausedOnPWhenPlaying() {
-        gsm.setState(GameState.PLAYING);
+        gsm.setCurrentState(new PlayingState());
         KeyEvent e = new KeyEvent(new Component() {}, KeyEvent.KEY_PRESSED, 0, 0, KeyEvent.VK_P, 'P');
 
         handler.handleKeyPressed(e, context, renderer, 800);
 
-        assertEquals(GameState.PAUSED, gsm.getState());
+        assertTrue(gsm.getCurrentState() instanceof PausedState);
     }
 
     @Test

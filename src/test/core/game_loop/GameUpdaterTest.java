@@ -10,8 +10,8 @@ import model.weapon.AbstractWeapon;
 import model.weapon.Rocket;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.game_state.GameState;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.GameOverState;
 import service.waves.WaveManager;
 
 import java.util.List;
@@ -63,14 +63,14 @@ class GameUpdaterTest {
     void gameGoesToGameOverWhenPlayerDead() {
         player.setHp(0);
         updater.update(context, 800, 600);
-        assertEquals(GameState.GAME_OVER, context.getGameStateManager().getState());
+        assertTrue(context.getGameStateManager().getCurrentState() instanceof GameOverState);
     }
 
     @Test
     void gameGoesToGameOverWhenPlayerOutOfBounds() {
         player.changeLocation(10000, 10000);
         updater.update(context, 800, 600);
-        assertEquals(GameState.GAME_OVER, context.getGameStateManager().getState());
+        assertTrue(context.getGameStateManager().getCurrentState() instanceof GameOverState);
     }
 
     @Test

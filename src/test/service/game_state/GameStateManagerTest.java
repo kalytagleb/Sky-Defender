@@ -2,8 +2,11 @@ package test.service.game_state;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.game_state.GameState;
 import service.game_state.GameStateManager;
+import service.game_state.state_pattern.GameOverState;
+import service.game_state.state_pattern.MainMenuState;
+import service.game_state.state_pattern.ManualState;
+import service.game_state.state_pattern.PlayingState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,24 +21,25 @@ class GameStateManagerTest {
 
     @Test
     void initialStateShouldBeMainMenu() {
-        assertEquals(GameState.MAIN_MENU, gsm.getState());
+        gsm.setCurrentState(new MainMenuState());
+        assertTrue(gsm.getCurrentState() instanceof MainMenuState);
     }
 
     @Test
     void canChangeState() {
-        gsm.setState(GameState.PLAYING);
-        assertEquals(GameState.PLAYING, gsm.getState());
+        gsm.setCurrentState(new PlayingState());
+        assertTrue(gsm.getCurrentState() instanceof PlayingState);
     }
 
     @Test
     void isReturnsTrueForCurrentState() {
-        gsm.setState(GameState.MANUAL);
-        assertTrue(gsm.is(GameState.MANUAL));
+        gsm.setCurrentState(new ManualState());
+        assertTrue(gsm.getCurrentState() instanceof ManualState);
     }
 
     @Test
     void isReturnsFalseForDifferentState() {
-        gsm.setState(GameState.GAME_OVER);
-        assertFalse(gsm.is(GameState.PLAYING));
+        gsm.setCurrentState(new GameOverState());
+        assertFalse(gsm.getCurrentState() instanceof PlayingState);
     }
 }
