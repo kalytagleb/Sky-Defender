@@ -1,0 +1,13 @@
+Custom License — STU FIIT Submission
+
+Copyright (c) 2025 [Hlib Kalyta]
+
+All rights reserved.
+
+This project was created by a student of the Slovak University of Technology, Faculty of Informatics and Information Technologies (STU FIIT), for the purposes of fulfilling academic obligations.
+
+Permission is hereby granted to STU FIIT faculty and staff to access, review, and evaluate this code for educational and assessment purposes.
+
+However, any usage, distribution, reproduction, or partial copying of this code by other students of STU FIIT, or any third party, including for the purpose of assignment submissions, labs, or exams, is strictly prohibited.
+
+Unauthorized use may result in disciplinary or legal action.
