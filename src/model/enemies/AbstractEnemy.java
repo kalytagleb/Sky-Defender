@@ -6,13 +6,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 /**
- * AbstractEnemy is a base class for all enemy types in the game.
- * <p>
- * It extends {@link GameObject} and defines common properties and behavior
- * for enemies, such as health points, speed, collision shape, and image rendering.
- * <p>
- * Specific enemy types such as {@code BasicEnemy}, {@code FastEnemy}, and {@code TankEnemy}
- * inherit from this class and define their own unique attributes.
+ * Abstract base class for enemies in the game.
  */
 public abstract class AbstractEnemy extends GameObject {
 
@@ -32,7 +26,7 @@ public abstract class AbstractEnemy extends GameObject {
     }
 
     /**
-     * Updates enemy logic, such as movement.
+     * Updates the enemy's state, such as movement.
      */
     @Override
     public abstract void update();
@@ -47,6 +41,8 @@ public abstract class AbstractEnemy extends GameObject {
     public abstract boolean check(int width, int height);
 
     /**
+     * Gets the movement speed of the enemy.
+     *
      * @return current movement speed of the enemy
      */
     public float getSpeed() {
@@ -63,6 +59,8 @@ public abstract class AbstractEnemy extends GameObject {
     }
 
     /**
+     * Gets the enemy's sprite image.
+     *
      * @return image used to draw the enemy
      */
     public Image getImage() {

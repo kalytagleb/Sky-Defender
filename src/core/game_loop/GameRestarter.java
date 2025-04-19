@@ -2,7 +2,17 @@ package core.game_loop;
 
 import model.Player;
 
+/**
+ * Resets the game state to its initial conditions.
+ */
 public class GameRestarter {
+    /**
+     * Restarts the game by resetting player, enemies, weapons, and score.
+     *
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
     public void restart(GameContext context, int width, int height) {
         context.getEnemies().clear();
         context.getWeapons().clear();

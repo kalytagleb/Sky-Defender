@@ -4,8 +4,7 @@ import model.weapon.Rocket;
 import model.weapon.Weapon;
 
 /**
- * RocketFactory is a concrete implementation of {@link WeaponFactory}
- * responsible for creating {@link Rocket} instances.
+ * Factory for creating Rocket weapons.
  */
 public class RocketFactory implements WeaponFactory {
 

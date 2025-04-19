@@ -11,6 +11,10 @@ import service.waves.WaveManager;
 
 import java.util.List;
 
+/**
+ * Manages the game context, including player, enemies, weapons, and game state.
+ */
+
 public class GameContext {
     private final Player player;
     private final List<AbstractEnemy> enemies;
@@ -25,6 +29,18 @@ public class GameContext {
 
     private int score = 0;
 
+    /**
+     * Construct the game context with all necessary components.
+     *
+     * @param player the player object
+     * @param enemies list of enemies
+     * @param weapons list of weapons
+     * @param key the keyboard input handler
+     * @param waveManager the wave manager
+     * @param gameStateManager the game state manager
+     * @param screenWidth the screen width
+     * @param screenHeight the screen height
+     */
     public GameContext(Player player,
                        List<AbstractEnemy> enemies,
                        List<AbstractWeapon> weapons,
@@ -43,50 +59,110 @@ public class GameContext {
         this.screenHeight = screenHeight;
     }
 
+    /**
+     * Gets the player object.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gets the list of enemies.
+     *
+     * @return the list of enemies
+     */
     public List<AbstractEnemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Gets the list of weapons.
+     *
+     * @return the list of weapons
+     */
     public List<AbstractWeapon> getWeapons() {
         return weapons;
     }
 
+    /**
+     * Gets the keyboard input handler.
+     *
+     * @return the key handler
+     */
     public Key getKey() {
         return key;
     }
 
+    /**
+     * Gets the wave manager.
+     *
+     * @return the wave manager
+     */
     public WaveManager getWaveManager() {
         return waveManager;
     }
 
+    /**
+     * Gets the game state manager.
+     *
+     * @return the game state manager
+     */
     public GameStateManager getGameStateManager() {
         return gameStateManager;
     }
 
+    /**
+     * Gets the current score.
+     *
+     * @return the score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Sets the current score.
+     *
+     * @param score the new score value
+     */
     public void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     * Gets the current weapon factory.
+     *
+     * @return the weapon factory.
+     */
     public WeaponFactory getWeaponFactory() {
         return weaponFactory;
     }
 
+    /**
+     * Sets the weapon factory.
+     *
+     * @param weaponFactory the new weapon factory
+     */
     public void setWeaponFactory(WeaponFactory weaponFactory) {
         this.weaponFactory = weaponFactory;
     }
 
+    /**
+     * Gets the screen width.
+     *
+     * @return the screen width
+     */
     public int getWidth() {
         return screenWidth;
     }
 
+    /**
+     * Gets the screen height.
+     *
+     * @return the screen height
+     */
     public int getHeight() {
         return screenHeight;
     }

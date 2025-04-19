@@ -7,11 +7,22 @@ import javax.swing.*;
         import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Main class for our game, responsible for initializing the game window.
+ */
+
 public class Main extends JFrame {
+    /**
+     * Constructs the main game window and initializes its components
+     */
     public Main() {
         init();
     }
 
+    /**
+     * Initializes the game window with title, size and components.
+     * Sets up the game panel and window event listeners.
+     */
     public void init() {
         setTitle("Sky Defender");
         setSize(1366, 768);
@@ -32,6 +43,12 @@ public class Main extends JFrame {
         });
     }
 
+    /**
+     * Main entry point for our game
+     * Creates and displays the game window.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Main main = new Main();
         main.setVisible(true);

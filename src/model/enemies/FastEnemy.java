@@ -7,15 +7,18 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * FastEnemy is a subclass of {@link BasicEnemy} that moves faster but has lower health.
- * <p>
- * This type of enemy adds challenge by reaching the player more quickly than regular enemies.
- * It uses a distinct image and retains the same shape as {@link BasicEnemy} for collision.
+ * Represents a fast-moving enemy type.
  */
 public class FastEnemy extends AbstractPolygonEnemy {
 
     public static final double SIZE = 50;
 
+    /**
+     * Constructs a fast enemy at the specified position.
+     *
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     */
     public FastEnemy(double x, double y) {
         super(x, y, SIZE, 60, 1.5f, "/images/FastEnemy.png", EnemyShapeUtil.createDefaultEnemyShape(SIZE));
     }

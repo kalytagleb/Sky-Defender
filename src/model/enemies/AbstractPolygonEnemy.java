@@ -5,10 +5,24 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 
+/**
+ * Abstract base class for polygon-shaped enemies.
+ */
 public class AbstractPolygonEnemy extends AbstractEnemy {
 
     private final double size;
 
+    /**
+     * Constructs a polygon enemy with the specified attributes.
+     *
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param size the size of the enemy
+     * @param hp the health points
+     * @param speed the movement speed
+     * @param imagePath the path to the sprite image
+     * @param shape the collision shape
+     */
     public AbstractPolygonEnemy(double x, double y, double size, int hp, float speed, String imagePath, Area shape) {
         super(x, y);
         this.size = size;
@@ -49,6 +63,11 @@ public class AbstractPolygonEnemy extends AbstractEnemy {
         return getX() <= -size.getWidth() || getY() < -size.getHeight() || getX() > width || getY() > height;
     }
 
+    /**
+     * Gets the size of the enemy.
+     *
+     * @return the size
+     */
     public double getSize() {
         return size;
     }

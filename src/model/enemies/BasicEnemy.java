@@ -9,15 +9,17 @@ import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 
 /**
- * BasicEnemy is a standard type of enemy that appears in the game.
- * <p>
- * It extends {@link AbstractEnemy} and defines default attributes such as
- * health, speed, appearance, and shape used for collision detection.
- * This enemy serves as a baseline for other enemy types like {@link FastEnemy} and {@link TankEnemy}.
+ * Represents a basic enemy type.
  */
 public class BasicEnemy extends AbstractPolygonEnemy {
     public static final double SIZE = 50;
 
+    /**
+     * Constructs a basic enemy at the specified position.
+     *
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     */
     public BasicEnemy(double x, double y) {
         super(x, y, SIZE, 100, 0.4f, "/images/enemy_basic.png", EnemyShapeUtil.createDefaultEnemyShape(SIZE));
     }

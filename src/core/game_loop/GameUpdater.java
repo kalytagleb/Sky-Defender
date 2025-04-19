@@ -12,6 +12,10 @@ import service.waves.WaveManager;
 
 import java.util.logging.Logger;
 
+/**
+ * Updates the game state, including object positions, collisions, and waves.
+ */
+
 public class GameUpdater {
     private static final Logger logger = Logger.getLogger(GameUpdater.class.getName());
 
@@ -20,8 +24,15 @@ public class GameUpdater {
     private final WeaponControlService weaponControlService = new WeaponControlService();
 
     private long lastWaveCheckTime = System.currentTimeMillis();
-    private final long WAVE_INTERVAL = 5000; // каждые 5 секунд
+    private final long WAVE_INTERVAL = 5000; // Every 5 seconds
 
+    /**
+     * Updates the game state, including objects, collisions, waves, and game over conditions.
+     *
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
     public void update(GameContext context, int width, int height) {
         logger.fine("Updating game state...");
         updateObjects(context, width, height);
@@ -30,6 +41,13 @@ public class GameUpdater {
         checkGameOver(context);
     }
 
+    /**
+     * Updates the positions and states of game objects (player, enemies, weapons).
+     *
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
     private void updateObjects(GameContext context, int width, int height) {
         weaponControlService.handleWeaponFire(context);
 
@@ -49,6 +67,11 @@ public class GameUpdater {
         context.getWeapons().forEach(AbstractWeapon::update);
     }
 
+    /**
+     * Checks and handles collisions between weapons, enemies, and the player.
+     *
+     * @param context the game context
+     */
     private void updateCollisions(GameContext context) {
         logger.finer("Checking collisions...");
 
@@ -65,6 +88,11 @@ public class GameUpdater {
         playerCollisionService.check(context.getPlayer(), context.getEnemies());
     }
 
+    /**
+     * Updates the wave logic, starting new waves based on time and score.
+     *
+     * @param context the game context
+     */
     private void updateWaveLogic(GameContext context) {
         WaveManager waveManager = context.getWaveManager();
 
@@ -78,6 +106,12 @@ public class GameUpdater {
         waveManager.updateWaveTextState();
     }
 
+    /**
+     * Checks for game over conditions (player death or out of bounds).
+     *
+     * @param context the game context
+     */
+
     private void checkGameOver(GameContext context) {
         Player player = context.getPlayer();
 
@@ -90,6 +124,14 @@ public class GameUpdater {
         }
     }
 
+    /**
+     * Checks if the player is ouf of bounds.
+     *
+     * @param player the player object
+     * @param width the screen width
+     * @param height the screen height
+     * @return true if player is out of bounds, false otherwise
+     */
     private boolean isPlayerOutOfBounds(Player player, int width, int height) {
         return player.getX() < -Player.PLAYER_SIZE ||
                 player.getY() < -Player.PLAYER_SIZE ||

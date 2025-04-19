@@ -14,15 +14,34 @@ import service.game_state.state_pattern.*;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Handles keyboard input events and updates the game state accordingly.
+ */
 public class KeyboardHandlerService {
+    /** The save manager for saving and loading game state */
     private final SaveManager saveManager;
+    /** The game restarter for resetting the game */
     private final GameRestarter restarter;
 
+    /**
+     * Constructs a keyboard handler service with the specified save manager and game restarter.
+     *
+     * @param saveManager the save manager for handling game saves
+     * @param restarter the game restarter for resetting the game
+     */
     public KeyboardHandlerService(SaveManager saveManager, GameRestarter restarter) {
         this.saveManager = saveManager;
         this.restarter = restarter;
     }
 
+    /**
+     * Handles key press events, updating the game state and key states based on input.
+     *
+     * @param e the key event
+     * @param context the game context containing game data
+     * @param renderer the game renderer for displaying notifications
+     * @param width the screen width
+     */
     public void handleKeyPressed(KeyEvent e, GameContext context, GameRenderer renderer, int width) {
         GameStateManager gsm = context.getGameStateManager();
         Key key = context.getKey();
@@ -79,6 +98,12 @@ public class KeyboardHandlerService {
         }
     }
 
+    /**
+     * Handles key release events, updating key states.
+     *
+     * @param e the key event
+     * @param key the key state object
+     */
     public void handleKeyReleased(KeyEvent e, Key key) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A -> key.setKey_left(false);

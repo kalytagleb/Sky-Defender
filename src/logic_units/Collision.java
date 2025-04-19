@@ -4,8 +4,7 @@ import model.GameObject;
 
 import java.awt.geom.Area;
 /**
- * The {@code Collision} class provides a utility method to check for intersections
- * between two game objects based on their shapes.
+ * Utility class for checking collisions between game objects.
  */
 
 public final class Collision {

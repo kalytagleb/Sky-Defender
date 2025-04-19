@@ -9,10 +9,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * Represents the player-controlled aircraft in the game.
- * <p>
- * The player can rotate, accelerate forward, and use various weapons.
- * This class handles player movement, drawing, health management, and collision boundaries.
+ * Represents the player in the game.
  */
 
 public class Player extends GameObject implements Updatable, Drawable {
@@ -44,6 +41,11 @@ public class Player extends GameObject implements Updatable, Drawable {
         image_move = new ImageIcon(getClass().getResource("/images/plane_move.png")).getImage();
     }
 
+    /**
+     * Sets the keyboard input handler for the player.
+     *
+     * @param key the key handler
+     */
     public void setKey(Key key) {
         this.key = key;
     }
@@ -67,6 +69,9 @@ public class Player extends GameObject implements Updatable, Drawable {
         applySpeedLimits();
     }
 
+    /**
+     * Handles player input for movement and rotation.
+     */
     private void handleInput() {
         if (key.isKey_left()) setAngle(getAngle() - ROTATE_SPEED);
         if (key.isKey_right()) setAngle(getAngle() + ROTATE_SPEED);
@@ -81,6 +86,9 @@ public class Player extends GameObject implements Updatable, Drawable {
         speedUp = key.isKey_space();
     }
 
+    /**
+     * Normalizes the player's rotation angle to [0, 360).
+     */
     private void normalizeAngle() {
         float angle = getAngle() % 360;
         if (angle < 0) {
@@ -89,6 +97,9 @@ public class Player extends GameObject implements Updatable, Drawable {
         setAngle(angle);
     }
 
+    /**
+     * Applies speed limits to prevent exceeding maximum or negative speed.
+     */
     private void applySpeedLimits() {
         if (speed < 0) speed = 0;
         if (speed > MAX_SPEED) speed = MAX_SPEED;
@@ -172,6 +183,11 @@ public class Player extends GameObject implements Updatable, Drawable {
         this.hp = hp;
     }
 
+    /**
+     * Gets the player's current speed.
+     *
+     * @return the speed
+     */
     public float getSpeed() {
         return speed;
     }

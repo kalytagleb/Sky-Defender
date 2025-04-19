@@ -3,12 +3,7 @@ package model;
 import java.awt.*;
 
 /**
- * Base abstract class representing any object in the game that has a position, angle, and can be rendered.
- * <p>
- * This class provides basic transformation behavior shared by all game objects,
- * such as movement, rotation, and shape representation for collision.
- *
- * <p>Subclasses must implement rendering and collision shape logic.
+ * Abstract base class for all game objects.
  */
 
 public abstract class GameObject {
@@ -29,7 +24,6 @@ public abstract class GameObject {
 
     /**
      * Updates the state or position of the object.
-     * <p>Must be implemented by subclasses.
      */
     public abstract void update();
 

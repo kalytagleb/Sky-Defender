@@ -4,8 +4,7 @@ import model.weapon.Flame;
 import model.weapon.Weapon;
 
 /**
- * FlameFactory is a concrete implementation of {@link WeaponFactory}
- * responsible for creating {@link Flame} instances.
+ * Factory for creating Flame weapons
  */
 public class FlameFactory implements WeaponFactory {
 

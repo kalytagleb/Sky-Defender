@@ -2,7 +2,18 @@ package render.screen;
 
 import java.awt.*;
 
+/**
+ * Renders the manual (how to play) screen.
+ */
 public class ManualRenderer {
+    /**
+     * Draws the manual screen with game instructions and a back button.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param backButtonBounds the bounds of the back button
+     */
     public void draw(Graphics2D g2, int width, int height, Rectangle backButtonBounds) {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, width, height);

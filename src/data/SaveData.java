@@ -6,6 +6,11 @@ import data.weapon.WeaponData;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Represents the data structure for saving game state.
+ * Implements Serializable to enable saving to a file.
+ */
+
 public class SaveData implements Serializable {
     private static final long serial = 1L;
 
@@ -20,6 +25,19 @@ public class SaveData implements Serializable {
     private final List<EnemyData> enemies;
     private final List<WeaponData> weapons;
 
+    /**
+     * Constructs a SaveData object with the current game state.
+     *
+     * @param score the current score
+     * @param wave the current wave number
+     * @param playerHp the player's health points
+     * @param playerX the player's x-coordinate
+     * @param playerY the player's y-coordinate
+     * @param playerAngle the player's rotation angle
+     * @param weaponFactoryType the type of weapon factory
+     * @param enemies the list of enemy data
+     * @param weapons the list of weapon data
+     */
     public SaveData(int score, int wave, int playerHp, double playerX, double playerY,
                     float playerAngle, String weaponFactoryType,
                     List<EnemyData> enemies, List<WeaponData> weapons) {
@@ -34,38 +52,83 @@ public class SaveData implements Serializable {
         this.weapons = weapons;
     }
 
+    /**
+     * Gets the saved score.
+     *
+     * @return the score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Gets the saved wave number.
+     *
+     * @return the wave number
+     */
     public int getWave() {
         return wave;
     }
 
+    /**
+     * Gets the saved player health points.
+     *
+     * @return the player's health points
+     */
     public int getPlayerHp() {
         return playerHp;
     }
 
+    /**
+     * Gets the saved player x-coordinate
+     *
+     * @return the player's x-coordinate
+     */
     public double getPlayerX() {
         return playerX;
     }
 
+    /**
+     * Gets the saved player y-coordinate
+     *
+     * @return the player's y-coordinate
+     */
     public double getPlayerY() {
         return playerY;
     }
 
+    /**
+     * Gets the saved player rotation angle.
+     *
+     * @return the player's angle
+     */
     public float getPlayerAngle() {
         return playerAngle;
     }
 
+    /**
+     * Gets the saved weapon factory type.
+     *
+     * @return the weapon factory type
+     */
     public String getWeaponFactoryType() {
         return weaponFactoryType;
     }
 
+    /**
+     * Gets the saved list of enemy data.
+     *
+     * @return the list of enemy data.
+     */
     public List<EnemyData> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Gets the saved list of weapon data.
+     *
+     * @return the list of weapon data.
+     */
     public List<WeaponData> getWeapons() {
         return weapons;
     }

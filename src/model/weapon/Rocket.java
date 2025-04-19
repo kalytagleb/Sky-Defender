@@ -9,15 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 /**
- * Rocket represents a fast, single-target projectile that deals high damage on impact.
- * It uses a circular shape for collision and travels in a straight line.
- *
- * <p>This class is configured with:
- * <ul>
- *     <li>High speed movement</li>
- *     <li>Simple damage strategy (single hit, non-penetrating)</li>
- *     <li>Out-of-bounds check to remove it when off-screen</li>
- * </ul>
+ * Represents a rocket weapon with high damage.
  */
 public class Rocket extends AbstractWeapon {
 

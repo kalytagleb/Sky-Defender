@@ -4,6 +4,9 @@ import core.panel.PanelGame;
 
 import java.awt.*;
 
+/**
+ * Manages the game loop, updating and rendering the game state.
+ */
 public class GameLoop {
     private final PanelGame panel;
     private final GameContext context;
@@ -14,6 +17,13 @@ public class GameLoop {
     private final int TARGET_TIME = 1000000000 / FPS;
     private Thread thread;
 
+    /**
+     * Constructs the game loop with the specified panel, context, and renderer.
+     *
+     * @param panel the game panel
+     * @param context the game context
+     * @param renderer the game renderer
+     */
     public GameLoop(PanelGame panel, GameContext context, GameRenderer renderer) {
         this.panel = panel;
         this.context = context;
@@ -21,6 +31,9 @@ public class GameLoop {
         this.updater = new GameUpdater();
     }
 
+    /**
+     * Starts the game loop in a separate thread.
+     */
     public void start() {
         thread = new Thread(() -> {
             while (context.getGameStateManager().getCurrentState() != null) {
@@ -40,10 +53,10 @@ public class GameLoop {
         thread.start();
     }
 
+    /**
+     * Draws the game state to the off-screen buffer.
+     */
     private void draw() {
-//        Graphics2D g2 = panel.getG2();
-//        renderer.draw(g2, context, panel.getWidthValue(), panel.getHeightValue());
-
         Graphics2D g2 = panel.getG2();
         renderer.draw(g2, context, panel.getWidthValue(), panel.getHeightValue());
 
@@ -54,7 +67,7 @@ public class GameLoop {
     }
 
     /**
-     * Draws the off-screen image onto the screen.
+     * Renders the off-screen image to the screen.
      */
     private void render() {
         Graphics g = panel.getGraphics();

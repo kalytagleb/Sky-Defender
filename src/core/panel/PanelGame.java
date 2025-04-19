@@ -17,32 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * PanelGame is the core component responsible for running the game loop,
- * rendering graphics, handling user input, managing game state transitions,
- * and orchestrating game objects such as the player, enemies, and weapons.
- *
- * <p>This panel supports multiple game states:
- * <ul>
- *     <li>Main menu</li>
- *     <li>In-game play</li>
- *     <li>How-to-play manual</li>
- *     <li>Game over screen</li>
- * </ul>
- *
- * <p>Main responsibilities include:
- * <ul>
- *     <li>Initializing the game objects and UI</li>
- *     <li>Rendering all graphics to a buffered image</li>
- *     <li>Spawning enemy waves based on the player's score</li>
- *     <li>Detecting collisions and applying weapon effects</li>
- *     <li>Displaying health bar and score</li>
- *     <li>Listening to keyboard and mouse events</li>
- * </ul>
- *
- * <p>This class uses OOP principles like encapsulation, polymorphism,
- * and the strategy and factory patterns for flexibility and modularity.
- *
- * @author [Gleb Kalyta]
+ * Game panel responsible for rendering and handling game logic.
  */
 
 public class PanelGame extends JComponent {
@@ -127,6 +102,8 @@ public class PanelGame extends JComponent {
     /**
      * Handles mouse click detection for manual screen navigation.
      * Listens for clicks on "How to Play" and "Back" buttons.
+     *
+     * @param e the mouse event to process
      */
     @Override
     protected void processMouseEvent(MouseEvent e) {
@@ -134,22 +111,47 @@ public class PanelGame extends JComponent {
         super.processMouseEvent(e);
     }
 
+    /**
+     * Gets the Graphics2D context for rendering.
+     *
+     * @return the Graphics2D rendering context
+     */
     public Graphics2D getG2() {
         return g2;
     }
 
+    /**
+     * Gets the width of the game panel
+     *
+     * @return the width in pixels
+     */
     public int getWidthValue() {
         return width;
     }
 
+    /**
+     * Gets the height of the game panel.
+     *
+     * @return the height in pixels
+     */
     public int getHeightValue() {
         return height;
     }
 
+    /**
+     * Checks if the game loop is running
+     *
+     * @return true if the game is running, false otherwise
+     */
     public boolean isStart() {
         return start;
     }
 
+    /**
+     * Gets the buffered image used for off-screen rendering.
+     *
+     * @return the buffered image
+     */
     public BufferedImage getImage() {
         return image;
     }

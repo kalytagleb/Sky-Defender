@@ -2,7 +2,18 @@ package render.screen;
 
 import java.awt.*;
 
+/**
+ * Renders the game over screen.
+ */
 public class GameOverRenderer {
+    /**
+     * Draws the game over screen with the final score and restart/exit prompts.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param score the final score
+     */
     public void draw(Graphics2D g2, int width, int height, int score) {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, width, height);

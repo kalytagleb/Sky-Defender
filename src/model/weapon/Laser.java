@@ -10,16 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Laser represents a thin, long-range beam that deals instant damage across a line.
- * It is very short-lived and uses a custom visual and collision beam.
- *
- * <p>Laser is ideal for hitting multiple enemies at once.
- * Uses:
- * <ul>
- *     <li>SimpleDamage strategy</li>
- *     <li>Timed lifetime check</li>
- *     <li>Custom draw logic using a rectangle beam</li>
- * </ul>
+ * Represents a laser weapon with a long, narrow beam.
  */
 public class Laser extends AbstractWeapon implements Weapon {
 

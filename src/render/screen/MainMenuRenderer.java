@@ -2,7 +2,18 @@ package render.screen;
 
 import java.awt.*;
 
+/**
+ * Renders the main menu screen.
+ */
 public class MainMenuRenderer {
+    /**
+     * Draws the main menu with title, start prompt, and "How to Play" button.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param manualButtonBounds the bounds of the "How to Play" button
+     */
     public void draw(Graphics2D g2, int width, int height, Rectangle manualButtonBounds) {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, width, height);

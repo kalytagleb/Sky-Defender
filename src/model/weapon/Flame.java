@@ -9,15 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 /**
- * Flame is a short-lived, large-area weapon that deals damage in a wide circular range.
- * It does not move, but persists for a short time before disappearing.
- *
- * <p>It uses:
- * <ul>
- *     <li>Penetrating damage strategy</li>
- *     <li>Timed check to control lifetime</li>
- *     <li>Custom flame draw strategy for dynamic visuals</li>
- * </ul>
+ * Represents a flame weapon with a large area of effect.
  */
 public class Flame extends AbstractWeapon implements Weapon {
 

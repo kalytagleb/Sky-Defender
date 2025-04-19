@@ -4,8 +4,7 @@ import model.weapon.Laser;
 import model.weapon.Weapon;
 
 /**
- * LaserFactory is a concrete implementation of {@link WeaponFactory}
- * responsible for creating {@link Laser} instances.
+ * Factory for creating Laser weapons.
  */
 public class LaserFactory implements WeaponFactory {
 

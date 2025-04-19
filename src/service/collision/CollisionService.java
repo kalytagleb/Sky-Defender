@@ -8,11 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Manages collisions between weapons and enemies.
+ */
 public class CollisionService {
 
     /**
-     * Checks collisions between weapons and enemies.
-     * Applies damage and removes defeated enemies and used weapons.
+     * Checks collisions between weapons and enemies, applying damage and removing objects as needed.
+     *
+     * @param weapons the list of weapons
+     * @param enemies the list of enemies
+     * @param onScore the action to perform when an enemy is destroyed
+     * @param shouldRemoveWeapon the condition for removing a weapon
      */
     public void check(
             List<AbstractWeapon> weapons,

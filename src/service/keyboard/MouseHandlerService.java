@@ -9,7 +9,17 @@ import service.game_state.state_pattern.ManualState;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * Handles mouse click events for navigating between game states.
+ */
 public class MouseHandlerService {
+    /**
+     * Processes mouse click events to handle navigation between main menu and manual states.
+     *
+     * @param e the mouse event
+     * @param context the game context containing game data
+     * @param renderer the game renderer for accessing button bounds
+     */
     public void handleClick(MouseEvent e, GameContext context, GameRenderer renderer) {
         if (e.getID() != MouseEvent.MOUSE_CLICKED) return;
 

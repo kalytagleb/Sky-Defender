@@ -24,11 +24,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages saving and loading the game state to/from a file.
+ */
 public class SaveManager {
 
     private static final Logger LOGGER = Logger.getLogger(SaveManager.class.getName());
     private static final String SAVE_FILE = "save.txt";
 
+    /**
+     * Saves the current game state to a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     * @throws GameSaveException if saving files
+     */
     public void save(GameContext context, GameRenderer renderer, int width) throws GameSaveException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
             Player player = context.getPlayer();
@@ -68,6 +79,13 @@ public class SaveManager {
         }
     }
 
+    /**
+     * Asynchronously saves the game state to a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     */
     public void asyncSave(GameContext context, GameRenderer renderer, int width) {
         new Thread(() -> {
             try {
@@ -79,6 +97,14 @@ public class SaveManager {
         }, "SaveAsync").start();
     }
 
+    /**
+     * Loads the game state from a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     * @throws GameLoadException if loading files
+     */
     public void load(GameContext context, GameRenderer renderer, int width) throws GameLoadException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
             SaveData data = (SaveData) in.readObject();

@@ -4,7 +4,16 @@ import core.game_loop.GameContext;
 
 import java.awt.*;
 
+/**
+ * Renders the heads-up display (HUD) with score and health bar.
+ */
 public class HudRenderer {
+    /**
+     * Draws the HUD, including the score and player's health bar.
+     *
+     * @param g2 the graphics context
+     * @param context the game context
+     */
     public void draw(Graphics2D g2, GameContext context) {
         g2.setFont(new Font("Arial", Font.BOLD, 24));
         g2.setColor(Color.WHITE);

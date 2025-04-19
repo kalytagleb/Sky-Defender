@@ -3,14 +3,7 @@ package factory.weapon;
 import model.weapon.Weapon;
 
 /**
- * WeaponFactory is an interface representing the Factory Method design pattern
- * for creating different types of weapons.
- *
- * <p>Each implementation of this interface is responsible for instantiating
- * a specific subclass of {@link Weapon}.
- *
- * <p>This allows switching weapon types dynamically at runtime, depending on the
- * selected factory (e.g., rocket, flame, laser).
+ * Interface for creating weapon instances.
  */
 public interface WeaponFactory {
     /**

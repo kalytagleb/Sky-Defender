@@ -2,7 +2,17 @@ package render.game_scene;
 
 import java.awt.*;
 
+/**
+ * Renders the paused game screen.
+ */
 public class PauseRenderer {
+    /**
+     * Draws the paused screen with a semi-transparent overlay and "PAUSED" text.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     */
     public void draw(Graphics2D g2, int width, int height) {
         Composite original = g2.getComposite();
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));

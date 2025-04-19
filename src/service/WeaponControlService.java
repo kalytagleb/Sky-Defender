@@ -4,10 +4,18 @@ import core.game_loop.GameContext;
 import input.Key;
 import model.weapon.AbstractWeapon;
 
+/**
+ * Manages weapon firing logic, including cooldowns.
+ */
 public class WeaponControlService {
     private int shotCooldown = 0;
     private static final int MAX_COOLDOWN = 15;
 
+    /**
+     * Handles weapon firing based on keyboard input.
+     *
+     * @param context the game context
+     */
     public void handleWeaponFire(GameContext context) {
         Key key = context.getKey();
 

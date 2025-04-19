@@ -4,6 +4,9 @@ import jdk.jfr.Percentage;
 import model.enemies.AbstractEnemy;
 import model.enemies.TankEnemy;
 
+/**
+ * Factory for creating TankEnemy instances.
+ */
 public class TankEnemyFactory implements EnemyFactory {
     @Override
     public AbstractEnemy create(int x, int y, float angle, float speed) {
