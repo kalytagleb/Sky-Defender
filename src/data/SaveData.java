@@ -21,6 +21,7 @@ public class SaveData implements Serializable {
     private final double playerY;
     private final float playerAngle;
     private final String weaponFactoryType;
+    private final int highScore;
 
     private final List<EnemyData> enemies;
     private final List<WeaponData> weapons;
@@ -39,7 +40,7 @@ public class SaveData implements Serializable {
      * @param weapons the list of weapon data
      */
     public SaveData(int score, int wave, int playerHp, double playerX, double playerY,
-                    float playerAngle, String weaponFactoryType,
+                    float playerAngle, String weaponFactoryType, int highScore,
                     List<EnemyData> enemies, List<WeaponData> weapons) {
         this.score = score;
         this.wave = wave;
@@ -48,6 +49,7 @@ public class SaveData implements Serializable {
         this.playerY = playerY;
         this.playerAngle = playerAngle;
         this.weaponFactoryType = weaponFactoryType;
+        this.highScore = highScore;
         this.enemies = enemies;
         this.weapons = weapons;
     }
@@ -113,6 +115,15 @@ public class SaveData implements Serializable {
      */
     public String getWeaponFactoryType() {
         return weaponFactoryType;
+    }
+
+    /**
+     * Gets the highest score saved in the save file.
+     *
+     * @return the high score
+     */
+    public int getHighScore() {
+        return highScore;
     }
 
     /**

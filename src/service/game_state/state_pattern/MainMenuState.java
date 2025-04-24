@@ -27,6 +27,7 @@ public class MainMenuState implements IGameState {
      */
     @Override
     public void render(Graphics2D g2, GameRenderer renderer, GameContext context) {
-        renderer.drawMainMenu(g2, context.getWidth(), context.getHeight());
+        System.out.println("MainMenuStare");
+        renderer.drawMainMenu(g2, context.getWidth(), context.getHeight(), context);
     }
 }

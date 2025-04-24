@@ -36,7 +36,11 @@ public class GameLoop {
      */
     public void start() {
         thread = new Thread(() -> {
+            System.out.println("GameLoop thread started");
+
             while (context.getGameStateManager().getCurrentState() != null) {
+                System.out.println("Inside loop");
+
                 long startTime = System.nanoTime();
 
                 context.getGameStateManager().getCurrentState().update(context);
@@ -49,6 +53,8 @@ public class GameLoop {
                     sleep((TARGET_TIME - time) / 1000000);
                 }
             }
+
+            System.out.println("GameLoop ended");
         });
         thread.start();
     }
@@ -57,6 +63,8 @@ public class GameLoop {
      * Draws the game state to the off-screen buffer.
      */
     private void draw() {
+        System.out.println("Draw called");
+
         Graphics2D g2 = panel.getG2();
         renderer.draw(g2, context, panel.getWidthValue(), panel.getHeightValue());
 

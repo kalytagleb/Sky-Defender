@@ -66,6 +66,7 @@ public class SaveManager {
                     player.getY(),
                     player.getAngle(),
                     weaponFactoryType,
+                    context.getHighScore(),
                     enemyDataList,
                     weaponDataList
             );
@@ -108,6 +109,8 @@ public class SaveManager {
     public void load(GameContext context, GameRenderer renderer, int width) throws GameLoadException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
             SaveData data = (SaveData) in.readObject();
+
+            context.setHighScore(data.getHighScore());
 
             context.setScore(data.getScore());
             context.getWaveManager().setWaveNumber(data.getWave());

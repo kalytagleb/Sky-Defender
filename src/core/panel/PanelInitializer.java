@@ -3,6 +3,7 @@ package core.panel;
 import core.game_loop.GameContext;
 import core.game_loop.GameLoop;
 import core.game_loop.GameRenderer;
+import data.score.HighScoreManager;
 import input.Key;
 import model.Player;
 import model.enemies.AbstractEnemy;
@@ -42,9 +43,15 @@ public class PanelInitializer {
         List<AbstractWeapon> weapons = new CopyOnWriteArrayList<>();
         WaveManager waveManager = new WaveManager(enemies, width, height);
 
+        System.out.println("Setting initial state: ");
         gsm.setCurrentState(new MainMenuState());
 
-        return new GameContext(player, enemies, weapons, key, waveManager, gsm, width, height);
+        GameContext context = new GameContext(player, enemies, weapons, key, waveManager, gsm, width, height);
+
+        int loadedHighScore = HighScoreManager.load();
+        context.setHighScore(loadedHighScore);
+
+        return context;
     }
 
     /**

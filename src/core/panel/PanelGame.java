@@ -52,31 +52,33 @@ public class PanelGame extends JComponent {
      * Initializes the game, rendering engine, user input and starts the game loop.
      */
     public void start() {
-        Logger rootLogger = Logger.getLogger("");
-        rootLogger.setLevel(Level.ALL);
-        for (var handler : rootLogger.getHandlers()) {
-            handler.setLevel(Level.ALL);
-        }
+        SwingUtilities.invokeLater(() -> {
+            Logger rootLogger = Logger.getLogger("");
+            rootLogger.setLevel(Level.ALL);
+            for (var handler : rootLogger.getHandlers()) {
+                handler.setLevel(Level.ALL);
+            }
 
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
-        setFocusable(true);
-        requestFocus();
-        addKeyboardControl();
+            enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+            setFocusable(true);
+            requestFocus();
+            addKeyboardControl();
 
-        width = getWidth();
-        height = getHeight();
+            width = getWidth() > 0 ? getWidth() : 1366;
+            height = getHeight() > 0 ? getHeight() : 768;
 
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            g2 = image.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-        PanelInitializer initializer = new PanelInitializer();
+            PanelInitializer initializer = new PanelInitializer();
 
-        context = initializer.createContext(key, gameStateManager, width, height);
-        renderer = initializer.createRenderer();
-        gameLoop = initializer.createGameLoop(this, context, renderer);
-        gameLoop.start();
+            context = initializer.createContext(key, gameStateManager, width, height);
+            renderer = initializer.createRenderer();
+            gameLoop = initializer.createGameLoop(this, context, renderer);
+            gameLoop.start();
+        });
     }
 
     /**
@@ -154,5 +156,14 @@ public class PanelGame extends JComponent {
      */
     public BufferedImage getImage() {
         return image;
+    }
+
+    /**
+     * Gets the game context for high score saving.
+     *
+     * @return the current GameContext
+     */
+    public GameContext getContext() {
+        return context;
     }
 }

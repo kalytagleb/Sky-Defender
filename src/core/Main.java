@@ -1,6 +1,8 @@
 package core;
 
+import core.game_loop.GameContext;
 import core.panel.PanelGame;
+import data.score.HighScoreManager;
 
 import javax.swing.*;
         import java.awt.*;
@@ -12,6 +14,8 @@ import java.awt.event.WindowEvent;
  */
 
 public class Main extends JFrame {
+    private PanelGame panelGame;
+
     /**
      * Constructs the main game window and initializes its components
      */
@@ -30,15 +34,29 @@ public class Main extends JFrame {
         setResizable(false); // User can't resize game screen while playing
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout()); // JFrame calls it by default, it's just for readability
-        PanelGame panelGame = new PanelGame();
+        panelGame = new PanelGame();
         add(panelGame);
+        revalidate();
+        repaint();
         // method, which allows to intercept window events
         addWindowListener(new WindowAdapter() {
-            // it calls, when window is opened first time
-            // it helps to
             @Override
             public void windowOpened(WindowEvent e) {
+                System.out.println("Calling");
                 panelGame.start();
+            }
+            /**
+             * Called when the window is closing.
+             * Used to save the best score.
+             *
+             * @param e the event triggered when the window is closing
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                GameContext context = panelGame.getContext();
+                if (context != null) {
+                    HighScoreManager.save(context.getHighScore());
+                }
             }
         });
     }
@@ -50,7 +68,9 @@ public class Main extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
-        Main main = new Main();
-        main.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            Main main = new Main();
+            main.setVisible(true);
+        });
     }
 }

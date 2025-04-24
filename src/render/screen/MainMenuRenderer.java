@@ -1,5 +1,7 @@
 package render.screen;
 
+import core.game_loop.GameContext;
+
 import java.awt.*;
 
 /**
@@ -14,7 +16,9 @@ public class MainMenuRenderer {
      * @param height the screen height
      * @param manualButtonBounds the bounds of the "How to Play" button
      */
-    public void draw(Graphics2D g2, int width, int height, Rectangle manualButtonBounds) {
+    public void draw(Graphics2D g2, int width, int height, Rectangle manualButtonBounds, GameContext context) {
+        System.out.println("MainMenuRenderer");
+
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, width, height);
 
@@ -56,5 +60,15 @@ public class MainMenuRenderer {
         g2.setColor(Color.WHITE);
         g2.drawRoundRect(btnX, btnY, btnWidth, btnHeight, 15, 15);
         g2.drawString(buttonText, btnX + 20, btnY + 28);
+
+        // High score rendering
+        g2.setFont(new Font("Arial", Font.BOLD, 24));
+        g2.setColor(new Color(255, 215, 0));
+
+        String bestScore = "Best Score: " + context.getHighScore();
+        FontMetrics bestFM = g2.getFontMetrics();
+        int bestX = (width - bestFM.stringWidth(bestScore)) / 2;
+        int bestY = btnY + btnHeight + 40;
+        g2.drawString(bestScore, bestX, bestY);
     }
 }

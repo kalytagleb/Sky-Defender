@@ -1,12 +1,22 @@
 package test.render.screen;
 
 import core.Main;
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import input.Key;
+import model.Player;
+import model.enemies.AbstractEnemy;
+import model.weapon.AbstractWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import render.screen.MainMenuRenderer;
+import service.game_state.GameStateManager;
+import service.waves.WaveManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,6 +26,7 @@ class MainMenuRendererTest {
     private BufferedImage image;
     private Graphics2D g2;
     private Rectangle manualButtonBounds;
+    private GameContext context;
 
     @BeforeEach
     void setUp() {
@@ -28,7 +39,9 @@ class MainMenuRendererTest {
 
     @Test
     void drawRendersMainMenuComponents() {
-        renderer.draw(g2, 800, 600, manualButtonBounds);
+        context = createTestContextWithHighScore(130);
+
+        renderer.draw(g2, 800, 600, manualButtonBounds, context);
 
         int btnCenterX = manualButtonBounds.x + manualButtonBounds.width / 2;
         int btnCenterY = manualButtonBounds.y + manualButtonBounds.height / 2;
@@ -40,10 +53,29 @@ class MainMenuRendererTest {
 
     @Test
     void drawSetsManualButtonBoundsCorrectly() {
-        renderer.draw(g2, 800, 600, manualButtonBounds);
+        context = createTestContextWithHighScore(130);
+
+        renderer.draw(g2, 800, 600, manualButtonBounds, context);
 
         assertTrue(manualButtonBounds.width > 0, "Manual button should have width");
         assertTrue(manualButtonBounds.height > 0, "Manual button should have height");
-        assertTrue(manualButtonBounds.y > 0, "Manual button Y should be set");
+    }
+
+    private GameContext createTestContextWithHighScore(int highScore) {
+        Player player = new Player();
+        player.setHp(100);
+
+        List<AbstractEnemy> enemies = new ArrayList<>();
+        List<AbstractWeapon> weapons = new ArrayList<>();
+
+        Key key = new Key();
+        GameStateManager gsm = new GameStateManager();
+        WaveManager waveManager = new WaveManager(enemies, 800, 600);
+
+        GameContext context = new GameContext(
+                player, enemies, weapons, key, waveManager, gsm, 800, 600
+        );
+        context.setHighScore(highScore);
+        return context;
     }
 }

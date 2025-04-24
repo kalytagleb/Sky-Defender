@@ -78,9 +78,11 @@ public class GameRenderer {
      * @param g2 the graphics context
      * @param width the screen width
      * @param height the screen height
+     * @param context the game context
      */
-    public void drawMainMenu(Graphics2D g2, int width, int height) {
-        mainMenuRenderer.draw(g2, width, height, manualButton);
+    public void drawMainMenu(Graphics2D g2, int width, int height, GameContext context) {
+        System.out.println("GameRenderer");
+        mainMenuRenderer.draw(g2, width, height, manualButton, context);
     }
 
     /**

@@ -28,6 +28,7 @@ public class GameContext {
     private final int screenHeight;
 
     private int score = 0;
+    private int highScore = 0;
 
     /**
      * Construct the game context with all necessary components.
@@ -165,5 +166,23 @@ public class GameContext {
      */
     public int getHeight() {
         return screenHeight;
+    }
+
+    /**
+     * Gets the highest score ever.
+     *
+     * @return the high score
+     */
+    public int getHighScore() {
+        return highScore;
+    }
+
+    /**
+     * Sets the highest score ever.
+     *
+     * @param highScore the new high score value
+     */
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }

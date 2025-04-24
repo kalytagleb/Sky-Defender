@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public class HudRenderer {
     /**
-     * Draws the HUD, including the score and player's health bar.
+     * Draws the HUD, including the score, high score and player's health bar.
      *
      * @param g2 the graphics context
      * @param context the game context
@@ -18,6 +18,7 @@ public class HudRenderer {
         g2.setFont(new Font("Arial", Font.BOLD, 24));
         g2.setColor(Color.WHITE);
         g2.drawString("Score: " + context.getScore(), 20, 30);
+        g2.drawString("Best: " + context.getHighScore(), 20, 60);
 
         int maxHP = 100;
         int hp = context.getPlayer().getHp();
