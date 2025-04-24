@@ -14,13 +14,17 @@ import java.awt.event.WindowEvent;
  */
 
 public class Main extends JFrame {
-    private PanelGame panelGame;
+    private PanelGame panelGame = new PanelGame();
 
     /**
      * Constructs the main game window and initializes its components
      */
     public Main() {
         init();
+    }
+
+    public PanelGame getPanelGame() {
+        return panelGame;
     }
 
     /**
@@ -40,11 +44,6 @@ public class Main extends JFrame {
         repaint();
         // method, which allows to intercept window events
         addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                System.out.println("Calling");
-                panelGame.start();
-            }
             /**
              * Called when the window is closing.
              * Used to save the best score.
@@ -71,6 +70,7 @@ public class Main extends JFrame {
         SwingUtilities.invokeLater(() -> {
             Main main = new Main();
             main.setVisible(true);
+            main.getPanelGame().start();
         });
     }
 }

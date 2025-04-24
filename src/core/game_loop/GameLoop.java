@@ -1,7 +1,9 @@
 package core.game_loop;
 
 import core.panel.PanelGame;
+import service.game_state.IGameState;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -38,12 +40,14 @@ public class GameLoop {
         thread = new Thread(() -> {
             System.out.println("GameLoop thread started");
 
-            while (context.getGameStateManager().getCurrentState() != null) {
+            while (true) {
+                IGameState state = context.getGameStateManager().getCurrentState();
+                System.out.println("state: " + state);
                 System.out.println("Inside loop");
 
                 long startTime = System.nanoTime();
 
-                context.getGameStateManager().getCurrentState().update(context);
+                state.update(context);
 
                 draw();
                 render();
@@ -53,9 +57,7 @@ public class GameLoop {
                     sleep((TARGET_TIME - time) / 1000000);
                 }
             }
-
-            System.out.println("GameLoop ended");
-        });
+        }, "GameLoop");
         thread.start();
     }
 
@@ -78,9 +80,10 @@ public class GameLoop {
      * Renders the off-screen image to the screen.
      */
     private void render() {
-        Graphics g = panel.getGraphics();
-        g.drawImage(panel.getImage(), 0, 0, null);
-        g.dispose();
+//        Graphics g = panel.getGraphics();
+//        g.drawImage(panel.getImage(), 0, 0, null);
+//        g.dispose();
+        SwingUtilities.invokeLater(panel::repaint);
     }
 
     /**

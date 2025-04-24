@@ -15,7 +15,11 @@ public class HighScoreManager {
      */
     public static int load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
-            return Integer.parseInt(reader.readLine().trim());
+            String line = reader.readLine();
+            if (line == null || line.isBlank()) {
+                return 0;
+            }
+            return Integer.parseInt(line.trim());
         } catch (IOException | NumberFormatException e) {
             LOGGER.warning("No high score found");
             return 0;

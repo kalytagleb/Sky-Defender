@@ -43,8 +43,8 @@ public class PanelInitializer {
         List<AbstractWeapon> weapons = new CopyOnWriteArrayList<>();
         WaveManager waveManager = new WaveManager(enemies, width, height);
 
-        System.out.println("Setting initial state: ");
         gsm.setCurrentState(new MainMenuState());
+        System.out.println("State set to " + gsm.getCurrentState());
 
         GameContext context = new GameContext(player, enemies, weapons, key, waveManager, gsm, width, height);
 
