@@ -9,16 +9,14 @@ import java.util.Map;
 /**
  * Registers and manages enemy factories for different enemy types.
  */
-public class EnemyFactoryRegister {
-    private final Map<EnemyType, EnemyFactory> factories = new HashMap<>();
+public class EnemyFactoryRegister<T extends AbstractEnemy> {
+    private final Map<EnemyType, EnemyFactory<T>> factories = new HashMap<>();
 
     /**
      * Constructs the enemy factory register and initializes factory.
      */
-    public EnemyFactoryRegister() {
-        factories.put(EnemyType.BASIC, new BasicEnemyFactory());
-        factories.put(EnemyType.FAST, new FastEnemyFactory());
-        factories.put(EnemyType.TANK, new TankEnemyFactory());
+    public void register(EnemyType type, EnemyFactory<T> factory) {
+        factories.put(type, factory);
     }
 
     /**
@@ -31,7 +29,7 @@ public class EnemyFactoryRegister {
      * @param speed the movement speed
      * @return the created enemy
      */
-    public AbstractEnemy create(EnemyType type, int x, int y, float angle, float speed) {
+    public T create(EnemyType type, int x, int y, float angle, float speed) {
         return factories.get(type).create(x, y, angle, speed);
     }
 }

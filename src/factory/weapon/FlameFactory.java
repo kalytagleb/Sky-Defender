@@ -6,7 +6,7 @@ import model.weapon.Weapon;
 /**
  * Factory for creating Flame weapons
  */
-public class FlameFactory implements WeaponFactory {
+public class FlameFactory implements WeaponFactory<Flame> {
 
     /**
      * Creates a new Flame weapon.
@@ -17,7 +17,7 @@ public class FlameFactory implements WeaponFactory {
      * @return new {@link Flame} instance
      */
     @Override
-    public Weapon create(double x, double y, float angle) {
+    public Flame create(double x, double y, float angle) {
         return new Flame(x, y, angle);
     }
 }

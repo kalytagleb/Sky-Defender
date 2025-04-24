@@ -6,7 +6,7 @@ import model.weapon.Weapon;
 /**
  * Factory for creating Laser weapons.
  */
-public class LaserFactory implements WeaponFactory {
+public class LaserFactory implements WeaponFactory<Laser> {
 
     /**
      * Creates a new Laser weapon.
@@ -17,7 +17,7 @@ public class LaserFactory implements WeaponFactory {
      * @return new {@link Laser} instance
      */
     @Override
-    public Weapon create(double x, double y, float angle) {
+    public Laser create(double x, double y, float angle) {
         return new Laser(x, y, angle);
     }
 }

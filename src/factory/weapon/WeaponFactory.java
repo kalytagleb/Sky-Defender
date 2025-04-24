@@ -1,11 +1,12 @@
 package factory.weapon;
 
+import model.weapon.AbstractWeapon;
 import model.weapon.Weapon;
 
 /**
  * Interface for creating weapon instances.
  */
-public interface WeaponFactory {
+public interface WeaponFactory<T extends AbstractWeapon> {
     /**
      * Creates a new instance of a weapon at the specified coordinates and direction.
      *
@@ -14,5 +15,5 @@ public interface WeaponFactory {
      * @param angle direction angle in degrees
      * @return the created {@link Weapon} instance
      */
-    Weapon create(double x, double y, float angle);
+    T create(double x, double y, float angle);
 }

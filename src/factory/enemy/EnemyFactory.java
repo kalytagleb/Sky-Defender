@@ -5,7 +5,7 @@ import model.enemies.AbstractEnemy;
 /**
  * Interface for creating enemy instances.
  */
-public interface EnemyFactory {
+public interface EnemyFactory<T extends AbstractEnemy> {
     /**
      * Creates an enemy at the specified position with given angle and speed.
      *
@@ -15,5 +15,5 @@ public interface EnemyFactory {
      * @param speed the movement speed
      * @return the created enemy
      */
-    AbstractEnemy create(int x, int y, float angle, float speed);
+    T create(int x, int y, float angle, float speed);
 }

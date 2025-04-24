@@ -22,7 +22,7 @@ public class GameContext {
     private final Key key;
     private final WaveManager waveManager;
     private final GameStateManager gameStateManager;
-    private WeaponFactory weaponFactory = new RocketFactory();
+    private WeaponFactory<? extends AbstractWeapon> weaponFactory = new RocketFactory();
 
     private final int screenWidth;
     private final int screenHeight;
@@ -136,7 +136,7 @@ public class GameContext {
      *
      * @return the weapon factory.
      */
-    public WeaponFactory getWeaponFactory() {
+    public WeaponFactory<? extends AbstractWeapon> getWeaponFactory() {
         return weaponFactory;
     }
 
@@ -145,7 +145,7 @@ public class GameContext {
      *
      * @param weaponFactory the new weapon factory
      */
-    public void setWeaponFactory(WeaponFactory weaponFactory) {
+    public void setWeaponFactory(WeaponFactory<? extends AbstractWeapon> weaponFactory) {
         this.weaponFactory = weaponFactory;
     }
 

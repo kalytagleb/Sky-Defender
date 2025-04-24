@@ -21,7 +21,7 @@ public class WeaponControlService {
 
         if (key.isKey_j() || key.isKey_k() || key.isKey_l()) {
             if (shotCooldown == 0) {
-                AbstractWeapon weapon = (AbstractWeapon) context.getWeaponFactory().create(
+                AbstractWeapon weapon = context.getWeaponFactory().create(
                         context.getPlayer().getCenterX(),
                         context.getPlayer().getCenterY(),
                         context.getPlayer().getAngle()

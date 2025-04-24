@@ -21,17 +21,17 @@ public class CollisionService {
      * @param onScore the action to perform when an enemy is destroyed
      * @param shouldRemoveWeapon the condition for removing a weapon
      */
-    public void check(
-            List<AbstractWeapon> weapons,
-            List<AbstractEnemy> enemies,
+    public <W extends AbstractWeapon, E extends AbstractEnemy> void check(
+            List<W> weapons,
+            List<E> enemies,
             Runnable onScore,
-            Predicate<AbstractWeapon> shouldRemoveWeapon
+            Predicate<W> shouldRemoveWeapon
     ) {
-        List<AbstractWeapon> toRemoveWeapons = new ArrayList<>();
-        List<AbstractEnemy> toRemoveEnemies = new ArrayList<>();
+        List<W> toRemoveWeapons = new ArrayList<>();
+        List<E> toRemoveEnemies = new ArrayList<>();
 
-        for (AbstractWeapon weapon : weapons) {
-            for (AbstractEnemy enemy : enemies) {
+        for (W weapon : weapons) {
+            for (E enemy : enemies) {
                 if (Collision.intersects(weapon, enemy)) {
                     weapon.hit(enemy);
                     if (enemy.isDead()) {

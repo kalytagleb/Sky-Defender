@@ -1,6 +1,9 @@
 package service.waves;
 
+import factory.enemy.BasicEnemyFactory;
 import factory.enemy.EnemyFactoryRegister;
+import factory.enemy.FastEnemyFactory;
+import factory.enemy.TankEnemyFactory;
 import model.enemies.*;
 
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ public class EnemySpawner {
     private final Random random = new Random();
 
     /** Registry for enemy factories */
-    private final EnemyFactoryRegister factoryRegister = new EnemyFactoryRegister();
+    private final EnemyFactoryRegister<AbstractEnemy> factoryRegister = new EnemyFactoryRegister<>();
 
     /**
      * Constructs an enemy spawner with the specified screen dimensions.
@@ -30,6 +33,10 @@ public class EnemySpawner {
     public EnemySpawner(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+
+        factoryRegister.register(EnemyType.BASIC, new BasicEnemyFactory());
+        factoryRegister.register(EnemyType.FAST, new FastEnemyFactory());
+        factoryRegister.register(EnemyType.TANK, new TankEnemyFactory());
     }
 
     /**
@@ -47,7 +54,7 @@ public class EnemySpawner {
             int y = random.nextInt(screenHeight - 50) + 25;
             boolean fromLeft = i % 2 == 0;
             int x = fromLeft ? 0 : screenWidth;
-            float angle = fromLeft ? 0f: 180f;
+            float angle = fromLeft ? 0f : 180f;
 
             EnemyType type = generateRandomType();
             AbstractEnemy enemy = factoryRegister.create(type, x, y, angle, speed);

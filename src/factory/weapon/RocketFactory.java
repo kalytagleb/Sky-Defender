@@ -1,12 +1,13 @@
 package factory.weapon;
 
+import model.weapon.Laser;
 import model.weapon.Rocket;
 import model.weapon.Weapon;
 
 /**
  * Factory for creating Rocket weapons.
  */
-public class RocketFactory implements WeaponFactory {
+public class RocketFactory implements WeaponFactory<Rocket> {
 
     /**
      * Creates a new Rocket weapon.
@@ -17,7 +18,7 @@ public class RocketFactory implements WeaponFactory {
      * @return new {@link Rocket} instance
      */
     @Override
-    public Weapon create(double x, double y, float angle) {
+    public Rocket create(double x, double y, float angle) {
         return new Rocket(x, y, angle);
     }
 }
