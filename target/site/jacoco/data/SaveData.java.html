@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">SaveData.java</span></div><h1>SaveData.java</h1><pre class="source lang-java linenums">package data;
+
+import data.enemy.EnemyData;
+import data.weapon.WeaponData;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Represents the main.core.data structure for saving game state.
+ * Implements Serializable to enable saving to a file.
+ */
+
+public class SaveData implements Serializable {
+    private static final long serial = 1L;
+
+    private final int score;
+    private final int wave;
+    private final int playerHp;
+    private final double playerX;
+    private final double playerY;
+    private final float playerAngle;
+    private final String weaponFactoryType;
+    private final int highScore;
+
+    private final List&lt;EnemyData&gt; enemies;
+    private final List&lt;WeaponData&gt; weapons;
+
+    /**
+     * Constructs a SaveData object with the current game state.
+     *
+     * @param score the current score
+     * @param wave the current wave number
+     * @param playerHp the player's health points
+     * @param playerX the player's x-coordinate
+     * @param playerY the player's y-coordinate
+     * @param playerAngle the player's rotation angle
+     * @param weaponFactoryType the type of weapon main.factory
+     * @param enemies the list of enemy main.core.data
+     * @param weapons the list of weapon main.core.data
+     */
+    public SaveData(int score, int wave, int playerHp, double playerX, double playerY,
+                    float playerAngle, String weaponFactoryType, int highScore,
+<span class="fc" id="L44">                    List&lt;EnemyData&gt; enemies, List&lt;WeaponData&gt; weapons) {</span>
+<span class="fc" id="L45">        this.score = score;</span>
+<span class="fc" id="L46">        this.wave = wave;</span>
+<span class="fc" id="L47">        this.playerHp = playerHp;</span>
+<span class="fc" id="L48">        this.playerX = playerX;</span>
+<span class="fc" id="L49">        this.playerY = playerY;</span>
+<span class="fc" id="L50">        this.playerAngle = playerAngle;</span>
+<span class="fc" id="L51">        this.weaponFactoryType = weaponFactoryType;</span>
+<span class="fc" id="L52">        this.highScore = highScore;</span>
+<span class="fc" id="L53">        this.enemies = enemies;</span>
+<span class="fc" id="L54">        this.weapons = weapons;</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Gets the saved score.
+     *
+     * @return the score
+     */
+    public int getScore() {
+<span class="fc" id="L63">        return score;</span>
+    }
+
+    /**
+     * Gets the saved wave number.
+     *
+     * @return the wave number
+     */
+    public int getWave() {
+<span class="fc" id="L72">        return wave;</span>
+    }
+
+    /**
+     * Gets the saved player health points.
+     *
+     * @return the player's health points
+     */
+    public int getPlayerHp() {
+<span class="fc" id="L81">        return playerHp;</span>
+    }
+
+    /**
+     * Gets the saved player x-coordinate
+     *
+     * @return the player's x-coordinate
+     */
+    public double getPlayerX() {
+<span class="fc" id="L90">        return playerX;</span>
+    }
+
+    /**
+     * Gets the saved player y-coordinate
+     *
+     * @return the player's y-coordinate
+     */
+    public double getPlayerY() {
+<span class="fc" id="L99">        return playerY;</span>
+    }
+
+    /**
+     * Gets the saved player rotation angle.
+     *
+     * @return the player's angle
+     */
+    public float getPlayerAngle() {
+<span class="fc" id="L108">        return playerAngle;</span>
+    }
+
+    /**
+     * Gets the saved weapon main.factory type.
+     *
+     * @return the weapon main.factory type
+     */
+    public String getWeaponFactoryType() {
+<span class="fc" id="L117">        return weaponFactoryType;</span>
+    }
+
+    /**
+     * Gets the highest score saved in the save file.
+     *
+     * @return the high score
+     */
+    public int getHighScore() {
+<span class="fc" id="L126">        return highScore;</span>
+    }
+
+    /**
+     * Gets the saved list of enemy main.core.data.
+     *
+     * @return the list of enemy main.core.data.
+     */
+    public List&lt;EnemyData&gt; getEnemies() {
+<span class="fc" id="L135">        return enemies;</span>
+    }
+
+    /**
+     * Gets the saved list of weapon main.core.data.
+     *
+     * @return the list of weapon main.core.data.
+     */
+    public List&lt;WeaponData&gt; getWeapons() {
+<span class="fc" id="L144">        return weapons;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CircleDrawStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">strategy.draw</a> &gt; <span class="el_source">CircleDrawStrategy.java</span></div><h1>CircleDrawStrategy.java</h1><pre class="source lang-java linenums">package strategy.draw;
+
+import model.weapon.AbstractWeapon;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+
+/**
+ * CircleDrawStrategy is a simple implementation of {@link DrawStrategy}
+ * that draws a weapon as a filled circle.
+ */
+<span class="fc" id="L13">public class CircleDrawStrategy implements DrawStrategy {</span>
+
+    /**
+     * Draws a circle using the weapon's color and size at its current position.
+     *
+     * @param g2  the graphics context
+     * @param weapon the weapon to draw
+     */
+    @Override
+    public void draw(Graphics2D g2, AbstractWeapon weapon) {
+<span class="nc" id="L23">        AffineTransform old = g2.getTransform();</span>
+<span class="nc" id="L24">        g2.setColor(weapon.getColor());</span>
+<span class="nc" id="L25">        g2.translate(weapon.getX(), weapon.getY());</span>
+
+<span class="nc" id="L27">        Shape shape = new Ellipse2D.Double(0, 0, weapon.getSize(), weapon.getSize());</span>
+<span class="nc" id="L28">        g2.fill(shape);</span>
+
+<span class="nc" id="L30">        g2.setTransform(old);</span>
+<span class="nc" id="L31">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManualRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.screen</a> &gt; <span class="el_source">ManualRenderer.java</span></div><h1>ManualRenderer.java</h1><pre class="source lang-java linenums">package render.screen;
+
+import java.awt.*;
+
+/**
+ * Renders the manual (how to play) screen.
+ */
+<span class="fc" id="L8">public class ManualRenderer {</span>
+    /**
+     * Draws the manual screen with game instructions and a back button.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param backButtonBounds the bounds of the back button
+     */
+    public void draw(Graphics2D g2, int width, int height, Rectangle backButtonBounds) {
+<span class="fc" id="L18">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L19">        g2.fillRect(0, 0, width, height);</span>
+
+<span class="fc" id="L21">        g2.setColor(Color.WHITE);</span>
+<span class="fc" id="L22">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 48));</span>
+<span class="fc" id="L23">        String title = &quot;HOW TO PLAY&quot;;</span>
+<span class="fc" id="L24">        FontMetrics titleFM = g2.getFontMetrics();</span>
+<span class="fc" id="L25">        int titleX = (width - titleFM.stringWidth(title)) / 2;</span>
+<span class="fc" id="L26">        g2.drawString(title, titleX, 100);</span>
+
+<span class="fc" id="L28">        g2.setFont(new Font(&quot;Arial&quot;, Font.PLAIN, 20));</span>
+<span class="fc" id="L29">        String[] lines = {</span>
+                &quot;- A / D: Rotate the plane&quot;,
+                &quot;- SPACE: Accelerate forward&quot;,
+                &quot;- J: Fire Rocket&quot;,
+                &quot;- K: Fire Flame&quot;,
+                &quot;- L: Fire Laser&quot;,
+                &quot;- P: Pause / Unpause the game&quot;,
+                &quot;- S: Save game to file&quot;,
+                &quot;- X: Load game from file&quot;,
+                &quot;- Destroy enemies to gain score&quot;,
+                &quot;- Survive increasingly difficult enemy waves&quot;
+        };
+<span class="fc" id="L41">        int y = 160;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (String line : lines) {</span>
+<span class="fc" id="L43">            g2.drawString(line, 60, y);</span>
+<span class="fc" id="L44">            y += 30;</span>
+        }
+
+<span class="fc" id="L47">        String backText = &quot;BACK&quot;;</span>
+<span class="fc" id="L48">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 24));</span>
+<span class="fc" id="L49">        FontMetrics fmBack = g2.getFontMetrics();</span>
+<span class="fc" id="L50">        int backWidth = fmBack.stringWidth(backText) + 40;</span>
+<span class="fc" id="L51">        int backHeight = 40;</span>
+<span class="fc" id="L52">        int backX = (width - backWidth) / 2;</span>
+<span class="fc" id="L53">        int backY = height - 80;</span>
+
+<span class="fc" id="L55">        backButtonBounds.setBounds(backX, backY, backWidth, backHeight);</span>
+
+<span class="fc" id="L57">        g2.setColor(new Color(60, 60, 60));</span>
+<span class="fc" id="L58">        g2.fillRoundRect(backX, backY, backWidth, backHeight, 10, 10);</span>
+
+<span class="fc" id="L60">        g2.setColor(Color.WHITE);</span>
+<span class="fc" id="L61">        g2.drawRoundRect(backX, backY, backWidth, backHeight, 10, 10);</span>
+<span class="fc" id="L62">        g2.drawString(backText, backX + 20, backY + 28);</span>
+<span class="fc" id="L63">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

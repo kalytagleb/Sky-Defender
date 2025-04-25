@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package model;
+
+import input.Key;
+import model.weapon.Drawable;
+import model.weapon.Updatable;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+
+/**
+ * Represents the player in the game.
+ */
+
+public class Player extends GameObject implements Updatable, Drawable {
+    /**
+     * Constant size of the player's plane sprite.
+     */
+    public static final double PLAYER_SIZE = 64;
+
+    private final Image image;
+    private final Image image_move;
+
+<span class="fc" id="L24">    private float speed = 0f;</span>
+<span class="fc" id="L25">    private final float MAX_SPEED = 3.0f;</span>
+<span class="fc" id="L26">    private final float ACCELERATION = 0.1f;</span>
+<span class="fc" id="L27">    private final float DECELERATION = 0.08f;</span>
+    private static final float ROTATE_SPEED = 2.5f;
+<span class="fc" id="L29">    private boolean speedUp = false;</span>
+
+<span class="fc" id="L31">    private int hp = 100;</span>
+    private Key key;
+
+    /**
+     * Constructs a new Player object at default coordinates (0, 0).
+     * Loads idle and moving sprites.
+     */
+    public Player() {
+<span class="fc" id="L39">        super(0, 0);</span>
+<span class="fc" id="L40">        image = new ImageIcon(getClass().getResource(&quot;/plane.png&quot;)).getImage();</span>
+<span class="fc" id="L41">        image_move = new ImageIcon(getClass().getResource(&quot;/plane_move.png&quot;)).getImage();</span>
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * Sets the keyboard main.input handler for the player.
+     *
+     * @param key the key handler
+     */
+    public void setKey(Key key) {
+<span class="fc" id="L50">        this.key = key;</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Updates the player's position based on its current speed and angle.
+     * Called on each frame in the game loop.
+     */
+    @Override
+    public void update() {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (key != null) {</span>
+<span class="fc" id="L60">            handleInput();</span>
+        }
+
+<span class="fc" id="L63">        double dx = Math.cos(Math.toRadians(getAngle())) * speed;</span>
+<span class="fc" id="L64">        double dy = Math.sin(Math.toRadians(getAngle())) * speed;</span>
+
+<span class="fc" id="L66">        setX(getX() + dx);</span>
+<span class="fc" id="L67">        setY(getY() + dy);</span>
+
+<span class="fc" id="L69">        applySpeedLimits();</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * Handles player main.input for movement and rotation.
+     */
+    private void handleInput() {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (key.isKey_left()) setAngle(getAngle() - ROTATE_SPEED);</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (key.isKey_right()) setAngle(getAngle() + ROTATE_SPEED);</span>
+<span class="fc" id="L78">        normalizeAngle();</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (key.isKey_space()) {</span>
+<span class="fc" id="L81">            speed += ACCELERATION;</span>
+        } else {
+<span class="fc" id="L83">            speed -= DECELERATION;</span>
+        }
+
+<span class="fc" id="L86">        speedUp = key.isKey_space();</span>
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * Normalizes the player's rotation angle to [0, 360).
+     */
+    private void normalizeAngle() {
+<span class="fc" id="L93">        float angle = getAngle() % 360;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (angle &lt; 0) {</span>
+<span class="nc" id="L95">            angle += 360;</span>
+        }
+<span class="fc" id="L97">        setAngle(angle);</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Applies speed limits to prevent exceeding maximum or negative speed.
+     */
+    private void applySpeedLimits() {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (speed &lt; 0) speed = 0;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (speed &gt; MAX_SPEED) speed = MAX_SPEED;</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * Draws the player aircraft on the screen.
+     * Displays different sprite when accelerating.
+     *
+     * @param g2 the Graphics2D object used for rendering
+     */
+    @Override
+    public void draw(Graphics2D g2) {
+<span class="fc" id="L116">        AffineTransform oldTransform = g2.getTransform();</span>
+<span class="fc" id="L117">        g2.translate(getX(), getY());</span>
+
+<span class="fc" id="L119">        AffineTransform tran = new AffineTransform();</span>
+<span class="fc" id="L120">        tran.rotate(Math.toRadians(getAngle() + 45), PLAYER_SIZE / 2, PLAYER_SIZE / 2);</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        g2.drawImage(speedUp ? image_move : image, tran, null);</span>
+
+<span class="fc" id="L123">        g2.setTransform(oldTransform);</span>
+<span class="fc" id="L124">    }</span>
+
+    /**
+     * Returns the shape of the player for collision detection.
+     *
+     * @return a rectangular shape representing the player’s hitbox
+     */
+    @Override
+    public Shape getShape() {
+<span class="fc" id="L133">        return new Rectangle((int) getX(), (int) getY(), (int) PLAYER_SIZE, (int) PLAYER_SIZE);</span>
+    }
+
+    /**
+     * @return the horizontal center coordinate of the player
+     */
+    public double getCenterX() {
+<span class="fc" id="L140">        return getX() + PLAYER_SIZE / 2;</span>
+    }
+
+    /**
+     * @return the vertical center coordinate of the player
+     */
+    public double getCenterY() {
+<span class="fc" id="L147">        return getY() + PLAYER_SIZE / 2;</span>
+    }
+
+    /**
+     * Gets the current health points (HP) of the player.
+     *
+     * @return the current HP
+     */
+    public int getHp() {
+<span class="fc" id="L156">        return hp;</span>
+    }
+
+    /**
+     * Reduces the player's HP by the given amount of damage.
+     *
+     * @param dmg the amount of damage to apply
+     */
+    public void takeDamage(int dmg) {
+<span class="fc" id="L165">        hp -= dmg;</span>
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * Checks if the player is dead (HP &lt;= 0).
+     *
+     * @return true if the player is dead
+     */
+    public boolean isDead() {
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        return hp &lt;= 0;</span>
+    }
+
+    /**
+     * Sets the player's HP to the specified value.
+     *
+     * @param hp new health value
+     */
+    public void setHp(int hp) {
+<span class="fc" id="L183">        this.hp = hp;</span>
+<span class="fc" id="L184">    }</span>
+
+    /**
+     * Gets the player's current speed.
+     *
+     * @return the speed
+     */
+    public float getSpeed() {
+<span class="fc" id="L192">        return speed;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

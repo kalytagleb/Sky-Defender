@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnemyData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">data.enemy</a> &gt; <span class="el_source">EnemyData.java</span></div><h1>EnemyData.java</h1><pre class="source lang-java linenums">package data.enemy;
+
+import java.io.Serializable;
+
+/**
+ * Represents the main.core.data for an enemy in the saved game state.
+ * Implements Serializable to enable saving to a file.
+ */
+public class EnemyData implements Serializable {
+    private final String type;
+    private final double x, y;
+    private final float angle;
+    private final int hp;
+
+    /**
+     * Constructs an EnemyData object with the specified attributes.
+     *
+     * @param type the type of enemy
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param angle the rotation angle
+     * @param hp the health points
+     */
+<span class="fc" id="L24">    public EnemyData(String type, double x, double y, float angle, int hp) {</span>
+<span class="fc" id="L25">        this.type = type;</span>
+<span class="fc" id="L26">        this.x = x;</span>
+<span class="fc" id="L27">        this.y = y;</span>
+<span class="fc" id="L28">        this.angle = angle;</span>
+<span class="fc" id="L29">        this.hp = hp;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Gets the enemy type.
+     *
+     * @return the enemy type
+     */
+    public String getType() {
+<span class="fc" id="L38">        return type;</span>
+    }
+
+    /**
+     * Gets the x-coordinate.
+     *
+     * @return the x-coordinate
+     */
+    public double getX() {
+<span class="fc" id="L47">        return x;</span>
+    }
+
+    /**
+     * Gets the y-coordinate
+     *
+     * @return the y-coordinate
+     */
+    public double getY() {
+<span class="fc" id="L56">        return y;</span>
+    }
+
+    /**
+     * Gets the rotation angle.
+     *
+     * @return the angle
+     */
+    public float getAngle() {
+<span class="fc" id="L65">        return angle;</span>
+    }
+
+    /**
+     * Gets the health points.
+     *
+     * @return the health points
+     */
+    public int getHp() {
+<span class="fc" id="L74">        return hp;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

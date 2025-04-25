@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOverRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.screen</a> &gt; <span class="el_source">GameOverRenderer.java</span></div><h1>GameOverRenderer.java</h1><pre class="source lang-java linenums">package render.screen;
+
+import java.awt.*;
+
+/**
+ * Renders the game over screen.
+ */
+<span class="fc" id="L8">public class GameOverRenderer {</span>
+    /**
+     * Draws the game over screen with the final score and restart/exit prompts.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param score the final score
+     */
+    public void draw(Graphics2D g2, int width, int height, int score) {
+<span class="fc" id="L18">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L19">        g2.fillRect(0, 0, width, height);</span>
+
+<span class="fc" id="L21">        g2.setColor(Color.RED);</span>
+<span class="fc" id="L22">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 80));</span>
+<span class="fc" id="L23">        String message = &quot;Game Over&quot;;</span>
+<span class="fc" id="L24">        FontMetrics fm = g2.getFontMetrics();</span>
+<span class="fc" id="L25">        int x = (width - fm.stringWidth(message)) / 2;</span>
+<span class="fc" id="L26">        int y = (height - fm.getHeight()) / 2 + fm.getAscent();</span>
+<span class="fc" id="L27">        g2.drawString(message, x, y);</span>
+
+<span class="fc" id="L29">        String scoreMsg = &quot;Score: &quot; + score;</span>
+<span class="fc" id="L30">        g2.setColor(new Color(255, 215, 0));</span>
+<span class="fc" id="L31">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 36));</span>
+<span class="fc" id="L32">        FontMetrics scoreFM = g2.getFontMetrics();</span>
+<span class="fc" id="L33">        int scoreX = (width - scoreFM.stringWidth(scoreMsg)) / 2;</span>
+<span class="fc" id="L34">        int scoreY = y + 100;</span>
+<span class="fc" id="L35">        g2.drawString(scoreMsg, scoreX, scoreY);</span>
+
+<span class="fc" id="L37">        g2.setColor(Color.LIGHT_GRAY);</span>
+<span class="fc" id="L38">        g2.setFont(new Font(&quot;Arial&quot;, Font.PLAIN, 20));</span>
+<span class="fc" id="L39">        String hint = &quot;Please ESC to exit&quot; + &quot; | Press R to restart&quot;;</span>
+<span class="fc" id="L40">        int hintX = (width - g2.getFontMetrics().stringWidth(hint)) / 2;</span>
+<span class="fc" id="L41">        int hintY = height - 50;</span>
+<span class="fc" id="L42">        g2.drawString(hint, hintX, hintY);</span>
+<span class="fc" id="L43">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

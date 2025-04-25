@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainMenuRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.screen</a> &gt; <span class="el_source">MainMenuRenderer.java</span></div><h1>MainMenuRenderer.java</h1><pre class="source lang-java linenums">package render.screen;
+
+import core.game_loop.GameContext;
+
+import java.awt.*;
+
+/**
+ * Renders the main menu screen.
+ */
+<span class="fc" id="L10">public class MainMenuRenderer {</span>
+    /**
+     * Draws the main menu with title, start prompt, and &quot;How to Play&quot; button.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param manualButtonBounds the bounds of the &quot;How to Play&quot; button
+     */
+    public void draw(Graphics2D g2, int width, int height, Rectangle manualButtonBounds, GameContext context) {
+<span class="fc" id="L20">        System.out.println(&quot;MainMenuRenderer&quot;);</span>
+
+<span class="fc" id="L22">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L23">        g2.fillRect(0, 0, width, height);</span>
+
+<span class="fc" id="L25">        g2.setColor(Color.CYAN);</span>
+<span class="fc" id="L26">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 64));</span>
+<span class="fc" id="L27">        String title = &quot;Sky Defender&quot;;</span>
+<span class="fc" id="L28">        FontMetrics titleFM = g2.getFontMetrics();</span>
+<span class="fc" id="L29">        int titleX = (width - titleFM.stringWidth(title)) / 2;</span>
+<span class="fc" id="L30">        int titleY = height / 2 - 100;</span>
+<span class="fc" id="L31">        g2.drawString(title, titleX, titleY);</span>
+
+<span class="fc" id="L33">        g2.setColor(new Color(255, 215, 0));</span>
+<span class="fc" id="L34">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 32));</span>
+<span class="fc" id="L35">        String startMsg = &quot;Press ENTER to start&quot;;</span>
+<span class="fc" id="L36">        FontMetrics msgFM = g2.getFontMetrics();</span>
+<span class="fc" id="L37">        int msgX = (width - msgFM.stringWidth(startMsg)) / 2;</span>
+<span class="fc" id="L38">        int msgY = titleY + 100;</span>
+<span class="fc" id="L39">        g2.drawString(startMsg, msgX, msgY);</span>
+
+<span class="fc" id="L41">        g2.setFont(new Font(&quot;Arial&quot;, Font.PLAIN, 20));</span>
+<span class="fc" id="L42">        String escHint = &quot;Press ESC to quit&quot;;</span>
+<span class="fc" id="L43">        int escX = (width - g2.getFontMetrics().stringWidth(escHint)) / 2;</span>
+<span class="fc" id="L44">        int escY = height - 50;</span>
+<span class="fc" id="L45">        g2.drawString(escHint, escX, escY);</span>
+
+<span class="fc" id="L47">        String buttonText = &quot;HOW TO PLAY&quot;;</span>
+<span class="fc" id="L48">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 28));</span>
+<span class="fc" id="L49">        FontMetrics fmBtn = g2.getFontMetrics();</span>
+<span class="fc" id="L50">        int btnWidth = fmBtn.stringWidth(buttonText) + 40;</span>
+<span class="fc" id="L51">        int btnHeight = 40;</span>
+<span class="fc" id="L52">        int btnX = (width - btnWidth) / 2;</span>
+<span class="fc" id="L53">        int btnY = height / 2 + 50;</span>
+
+<span class="fc" id="L55">        manualButtonBounds.setBounds(btnX, btnY, btnWidth, btnHeight);</span>
+
+<span class="fc" id="L57">        g2.setColor(new Color(70, 70, 70));</span>
+<span class="fc" id="L58">        g2.fillRoundRect(btnX, btnY, btnWidth, btnHeight, 15, 15);</span>
+
+<span class="fc" id="L60">        g2.setColor(Color.WHITE);</span>
+<span class="fc" id="L61">        g2.drawRoundRect(btnX, btnY, btnWidth, btnHeight, 15, 15);</span>
+<span class="fc" id="L62">        g2.drawString(buttonText, btnX + 20, btnY + 28);</span>
+
+        // High score rendering
+<span class="fc" id="L65">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 24));</span>
+<span class="fc" id="L66">        g2.setColor(new Color(255, 215, 0));</span>
+
+<span class="fc" id="L68">        String bestScore = &quot;Best Score: &quot; + context.getHighScore();</span>
+<span class="fc" id="L69">        FontMetrics bestFM = g2.getFontMetrics();</span>
+<span class="fc" id="L70">        int bestX = (width - bestFM.stringWidth(bestScore)) / 2;</span>
+<span class="fc" id="L71">        int bestY = btnY + btnHeight + 40;</span>
+<span class="fc" id="L72">        g2.drawString(bestScore, bestX, bestY);</span>
+<span class="fc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameObject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">GameObject.java</span></div><h1>GameObject.java</h1><pre class="source lang-java linenums">package model;
+
+import java.awt.*;
+
+/**
+ * Abstract base class for all game objects.
+ */
+
+public abstract class GameObject {
+    private double x;
+    private double y;
+    private float angle;
+
+    /**
+     * Constructs a game object at the specified coordinates.
+     *
+     * @param x initial X position
+     * @param y initial Y position
+     */
+<span class="fc" id="L20">    public GameObject(double x, double y) {</span>
+<span class="fc" id="L21">        this.x = x;</span>
+<span class="fc" id="L22">        this.y = y;</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Updates the state or position of the object.
+     */
+    public abstract void update();
+
+    /**
+     * Renders the object using the given graphics context.
+     *
+     * @param g2 the graphics context for drawing
+     */
+    public abstract void draw(Graphics2D g2);
+
+    /**
+     * Returns the object's shape used for collision detection.
+     *
+     * @return the geometric shape representing this object
+     */
+    public abstract Shape getShape();
+
+    /**
+     * @return current X coordinate
+     */
+    public double getX() {
+<span class="fc" id="L48">        return x;</span>
+    }
+
+    /**
+     * @return current Y coordinate
+     */
+    public double getY() {
+<span class="fc" id="L55">        return y;</span>
+    }
+
+    /**
+     * @return current angle of rotation in degrees
+     */
+    public float getAngle() {
+<span class="fc" id="L62">        return angle;</span>
+    }
+
+    /**
+     * Sets a new X coordinate.
+     *
+     * @param x new X position
+     */
+    public void setX(double x) {
+<span class="fc" id="L71">        this.x = x;</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Sets a new Y coordinate.
+     *
+     * @param y new Y position
+     */
+    public void setY(double y) {
+<span class="fc" id="L80">        this.y = y;</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * Sets a new angle in degrees. Automatically wraps around if out of [0–359].
+     *
+     * @param angle the angle to set
+     */
+    public void setAngle(float angle) {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (angle &lt; 0) angle = 359;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        else if (angle &gt; 359) angle = 0;</span>
+<span class="fc" id="L91">        this.angle = angle;</span>
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * Changes the object's position.
+     *
+     * @param x new X position
+     * @param y new Y position
+     */
+    public void changeLocation(double x, double y) {
+<span class="fc" id="L101">        setX(x);</span>
+<span class="fc" id="L102">        setY(y);</span>
+<span class="fc" id="L103">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

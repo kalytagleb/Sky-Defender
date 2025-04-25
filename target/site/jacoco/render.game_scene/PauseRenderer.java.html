@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PauseRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.game_scene</a> &gt; <span class="el_source">PauseRenderer.java</span></div><h1>PauseRenderer.java</h1><pre class="source lang-java linenums">package render.game_scene;
+
+import java.awt.*;
+
+/**
+ * Renders the paused game screen.
+ */
+<span class="fc" id="L8">public class PauseRenderer {</span>
+    /**
+     * Draws the paused screen with a semi-transparent overlay and &quot;PAUSED&quot; text.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void draw(Graphics2D g2, int width, int height) {
+<span class="fc" id="L17">        Composite original = g2.getComposite();</span>
+<span class="fc" id="L18">        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));</span>
+<span class="fc" id="L19">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L20">        g2.fillRect(0, 0, width, height);</span>
+<span class="fc" id="L21">        g2.setComposite(original);</span>
+
+<span class="fc" id="L23">        g2.setColor(Color.WHITE);</span>
+<span class="fc" id="L24">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 64));</span>
+<span class="fc" id="L25">        String paused = &quot;PAUSED&quot;;</span>
+<span class="fc" id="L26">        FontMetrics fm = g2.getFontMetrics();</span>
+<span class="fc" id="L27">        int x = (width - fm.stringWidth(paused)) / 2;</span>
+<span class="fc" id="L28">        int y = height / 2;</span>
+<span class="fc" id="L29">        g2.drawString(paused, x, y);</span>
+<span class="fc" id="L30">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

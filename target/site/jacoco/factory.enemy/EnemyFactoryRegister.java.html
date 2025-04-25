@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnemyFactoryRegister.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">factory.enemy</a> &gt; <span class="el_source">EnemyFactoryRegister.java</span></div><h1>EnemyFactoryRegister.java</h1><pre class="source lang-java linenums">package factory.enemy;
+
+import model.enemies.AbstractEnemy;
+import model.enemies.EnemyType;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Registers and manages enemy factories for different enemy types.
+ */
+<span class="fc" id="L12">public class EnemyFactoryRegister&lt;T extends AbstractEnemy&gt; {</span>
+<span class="fc" id="L13">    private final Map&lt;EnemyType, EnemyFactory&lt;T&gt;&gt; factories = new HashMap&lt;&gt;();</span>
+
+    /**
+     * Constructs the enemy main.factory register and initializes main.factory.
+     */
+    public void register(EnemyType type, EnemyFactory&lt;T&gt; factory) {
+<span class="fc" id="L19">        factories.put(type, factory);</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * Creates an enemy of the specified type at the given position.
+     *
+     * @param type the enemy type
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param angle the rotation angle
+     * @param speed the movement speed
+     * @return the created enemy
+     */
+    public T create(EnemyType type, int x, int y, float angle, float speed) {
+<span class="fc" id="L33">        return factories.get(type).create(x, y, angle, speed);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

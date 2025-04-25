@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WaveTextRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.game_scene</a> &gt; <span class="el_source">WaveTextRenderer.java</span></div><h1>WaveTextRenderer.java</h1><pre class="source lang-java linenums">package render.game_scene;
+
+import service.waves.WaveManager;
+
+import java.awt.*;
+
+/**
+ * Renders wave number text during wave transitions.
+ */
+<span class="fc" id="L10">public class WaveTextRenderer {</span>
+    /**
+     * Draws the wave number text if it should be displayed.
+     *
+     * @param g2 the graphics context
+     * @param waveManager the wave manager
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void draw(Graphics2D g2, WaveManager waveManager, int width, int height) {
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (!waveManager.shouldShowWaveText()) return;</span>
+
+<span class="fc" id="L22">        String text = &quot;WAVE &quot; + waveManager.getWaveNumber();</span>
+
+<span class="fc" id="L24">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 36));</span>
+<span class="fc" id="L25">        g2.setColor(Color.YELLOW);</span>
+
+<span class="fc" id="L27">        FontMetrics fm = g2.getFontMetrics();</span>
+<span class="fc" id="L28">        int x = (width - fm.stringWidth(text)) / 2;</span>
+<span class="fc" id="L29">        int y = height / 2;</span>
+
+<span class="fc" id="L31">        g2.drawString(text, x, y);</span>
+<span class="fc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

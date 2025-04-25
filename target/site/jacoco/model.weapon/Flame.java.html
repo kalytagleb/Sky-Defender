@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Flame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">model.weapon</a> &gt; <span class="el_source">Flame.java</span></div><h1>Flame.java</h1><pre class="source lang-java linenums">package model.weapon;
+
+import strategy.check.TimedAttempt;
+import strategy.damage.PenetratingDamage;
+import strategy.draw.FlameDrawStrategy;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+
+/**
+ * Represents a flame weapon with a large area of effect.
+ */
+public class Flame extends AbstractWeapon implements Weapon {
+
+    private final Shape shape;
+<span class="fc" id="L17">    private int lifeTime = 60;</span>
+
+    /**
+     * Constructs a Flame at the given position and direction.
+     *
+     * @param x     the x-coordinate of the flame
+     * @param y     the y-coordinate of the flame
+     * @param angle the direction the flame is facing
+     */
+    public Flame(double x, double y, float angle) {
+<span class="fc" id="L27">        super(x, y, angle);</span>
+<span class="fc" id="L28">        setSpeed(0);</span>
+<span class="fc" id="L29">        setSize(300);</span>
+<span class="fc" id="L30">        setDamage(50);</span>
+<span class="fc" id="L31">        setColor(new Color(255, 80, 0));</span>
+<span class="fc" id="L32">        setCheck(new TimedAttempt(60));</span>
+<span class="fc" id="L33">        setDamageStrategy(new PenetratingDamage());</span>
+<span class="fc" id="L34">        setDrawStrategy(new FlameDrawStrategy());</span>
+<span class="fc" id="L35">        this.shape = new Ellipse2D.Double(0, 0, getSize(), getSize());</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Updates the flame's internal life counter.
+     */
+    @Override
+    public void update() {
+<span class="fc" id="L43">        lifeTime--;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Returns the transformed shape of the flame for rendering and collision.
+     */
+    @Override
+    public Shape getShape() {
+<span class="fc" id="L51">        AffineTransform af = new AffineTransform();</span>
+<span class="fc" id="L52">        af.translate(getX(), getY());</span>
+<span class="fc" id="L53">        af.rotate(Math.toRadians(getAngle()), getSize() / 2, getSize() / 2);</span>
+<span class="fc" id="L54">        return af.createTransformedShape(shape);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

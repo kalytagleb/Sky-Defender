@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Key.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">input</a> &gt; <span class="el_source">Key.java</span></div><h1>Key.java</h1><pre class="source lang-java linenums">package input;
+
+/**
+ * Manages keyboard main.input states for the game.
+ */
+<span class="fc" id="L6">public class Key {</span>
+    private boolean key_right;
+    private boolean key_left;
+    private boolean key_space;
+    private boolean key_j;
+    private boolean key_k;
+    private boolean key_l;
+
+    /**
+     * Checks if the right key is pressed.
+     *
+     * @return true if the right key is pressed.
+     */
+    public boolean isKey_right() {
+<span class="fc" id="L20">        return key_right;</span>
+    }
+
+    /**
+     * Sets the state of the right key.
+     *
+     * @param key_right the new state
+     */
+    public void setKey_right(boolean key_right) {
+<span class="fc" id="L29">        this.key_right = key_right;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Checks if the left key is pressed.
+     *
+     * @return true if the left key is pressed.
+     */
+    public boolean isKey_left() {
+<span class="fc" id="L38">        return key_left;</span>
+    }
+
+    /**
+     * Sets the state of the left key.
+     *
+     * @param key_left the new state
+     */
+    public void setKey_left(boolean key_left) {
+<span class="fc" id="L47">        this.key_left = key_left;</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Checks if the space key is pressed.
+     *
+     * @return true if the space key is pressed.
+     */
+    public boolean isKey_space() {
+<span class="fc" id="L56">        return key_space;</span>
+    }
+
+    /**
+     * Sets the state of the left key.
+     *
+     * @param key_space the new state
+     */
+    public void setKey_space(boolean key_space) {
+<span class="fc" id="L65">        this.key_space = key_space;</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Checks if the J key is pressed.
+     *
+     * @return true if the J key is pressed.
+     */
+    public boolean isKey_j() {
+<span class="fc" id="L74">        return key_j;</span>
+    }
+
+    /**
+     * Sets the state of the left key.
+     *
+     * @param key_j the new state
+     */
+    public void setKey_j(boolean key_j) {
+<span class="fc" id="L83">        this.key_j = key_j;</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     * Checks if the K key is pressed.
+     *
+     * @return true if the K key is pressed.
+     */
+    public boolean isKey_k() {
+<span class="fc" id="L92">        return key_k;</span>
+    }
+
+    /**
+     * Sets the state of the left key.
+     *
+     * @param key_k the new state
+     */
+    public void setKey_k(boolean key_k) {
+<span class="nc" id="L101">        this.key_k = key_k;</span>
+<span class="nc" id="L102">    }</span>
+
+    /**
+     * Checks if the L key is pressed.
+     *
+     * @return true if the L key is pressed.
+     */
+<span class="fc" id="L109">    public boolean isKey_l() {return key_l;}</span>
+
+    /**
+     * Sets the state of the left key.
+     *
+     * @param key_l the new state
+     */
+    public void setKey_l(boolean key_l) {
+<span class="nc" id="L117">        this.key_l = key_l;</span>
+<span class="nc" id="L118">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

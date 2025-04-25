@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PausedState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">service.game_state.state_pattern</a> &gt; <span class="el_source">PausedState.java</span></div><h1>PausedState.java</h1><pre class="source lang-java linenums">package service.game_state.state_pattern;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import service.game_state.IGameState;
+
+import java.awt.*;
+
+/**
+ * Represents the paused state, displaying a pause screen.
+ */
+<span class="fc" id="L12">public class PausedState implements IGameState {</span>
+    /**
+     * Updates the paused state. Currently, no updates are performed.
+     *
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+<span class="nc" id="L19">    public void update(GameContext context) {}</span>
+
+    /**
+     * Renders the paused screen.
+     *
+     * @param g2 the graphics context for rendering
+     * @param renderer the game renderer for drawing the pause screen
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+    public void render(Graphics2D g2, GameRenderer renderer, GameContext context) {
+<span class="fc" id="L30">        renderer.drawPaused(g2, context.getWidth(), context.getHeight());</span>
+<span class="fc" id="L31">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

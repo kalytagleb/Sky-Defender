@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">core.game_loop</a> &gt; <span class="el_source">GameContext.java</span></div><h1>GameContext.java</h1><pre class="source lang-java linenums">package core.game_loop;
+
+import factory.weapon.RocketFactory;
+import factory.weapon.WeaponFactory;
+import input.Key;
+import model.Player;
+import model.enemies.AbstractEnemy;
+import model.weapon.AbstractWeapon;
+import service.game_state.GameStateManager;
+import service.waves.WaveManager;
+
+import java.util.List;
+
+/**
+ * Manages the game context, including player, enemies, weapons, and game state.
+ */
+
+public class GameContext {
+    private final Player player;
+    private final List&lt;AbstractEnemy&gt; enemies;
+    private final List&lt;AbstractWeapon&gt; weapons;
+    private final Key key;
+    private final WaveManager waveManager;
+    private final GameStateManager gameStateManager;
+<span class="fc" id="L25">    private WeaponFactory&lt;? extends AbstractWeapon&gt; weaponFactory = new RocketFactory();</span>
+
+    private final int screenWidth;
+    private final int screenHeight;
+
+<span class="fc" id="L30">    private int score = 0;</span>
+<span class="fc" id="L31">    private int highScore = 0;</span>
+
+    /**
+     * Construct the game context with all necessary components.
+     *
+     * @param player the player object
+     * @param enemies list of enemies
+     * @param weapons list of weapons
+     * @param key the keyboard main.input handler
+     * @param waveManager the wave manager
+     * @param gameStateManager the game state manager
+     * @param screenWidth the screen width
+     * @param screenHeight the screen height
+     */
+    public GameContext(Player player,
+                       List&lt;AbstractEnemy&gt; enemies,
+                       List&lt;AbstractWeapon&gt; weapons,
+                       Key key,
+                       WaveManager waveManager,
+                       GameStateManager gameStateManager,
+                       int screenWidth,
+<span class="fc" id="L52">                       int screenHeight) {</span>
+<span class="fc" id="L53">        this.player = player;</span>
+<span class="fc" id="L54">        this.enemies = enemies;</span>
+<span class="fc" id="L55">        this.weapons = weapons;</span>
+<span class="fc" id="L56">        this.key = key;</span>
+<span class="fc" id="L57">        this.waveManager = waveManager;</span>
+<span class="fc" id="L58">        this.gameStateManager = gameStateManager;</span>
+<span class="fc" id="L59">        this.screenWidth = screenWidth;</span>
+<span class="fc" id="L60">        this.screenHeight = screenHeight;</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * Gets the player object.
+     *
+     * @return the player
+     */
+    public Player getPlayer() {
+<span class="fc" id="L69">        return player;</span>
+    }
+
+    /**
+     * Gets the list of enemies.
+     *
+     * @return the list of enemies
+     */
+    public List&lt;AbstractEnemy&gt; getEnemies() {
+<span class="fc" id="L78">        return enemies;</span>
+    }
+
+    /**
+     * Gets the list of weapons.
+     *
+     * @return the list of weapons
+     */
+    public List&lt;AbstractWeapon&gt; getWeapons() {
+<span class="fc" id="L87">        return weapons;</span>
+    }
+
+    /**
+     * Gets the keyboard main.input handler.
+     *
+     * @return the key handler
+     */
+    public Key getKey() {
+<span class="fc" id="L96">        return key;</span>
+    }
+
+    /**
+     * Gets the wave manager.
+     *
+     * @return the wave manager
+     */
+    public WaveManager getWaveManager() {
+<span class="fc" id="L105">        return waveManager;</span>
+    }
+
+    /**
+     * Gets the game state manager.
+     *
+     * @return the game state manager
+     */
+    public GameStateManager getGameStateManager() {
+<span class="fc" id="L114">        return gameStateManager;</span>
+    }
+
+    /**
+     * Gets the current score.
+     *
+     * @return the score
+     */
+    public int getScore() {
+<span class="fc" id="L123">        return score;</span>
+    }
+
+    /**
+     * Sets the current score.
+     *
+     * @param score the new score value
+     */
+    public void setScore(int score) {
+<span class="fc" id="L132">        this.score = score;</span>
+<span class="fc" id="L133">    }</span>
+
+    /**
+     * Gets the current weapon main.factory.
+     *
+     * @return the weapon main.factory.
+     */
+    public WeaponFactory&lt;? extends AbstractWeapon&gt; getWeaponFactory() {
+<span class="fc" id="L141">        return weaponFactory;</span>
+    }
+
+    /**
+     * Sets the weapon main.factory.
+     *
+     * @param weaponFactory the new weapon main.factory
+     */
+    public void setWeaponFactory(WeaponFactory&lt;? extends AbstractWeapon&gt; weaponFactory) {
+<span class="fc" id="L150">        this.weaponFactory = weaponFactory;</span>
+<span class="fc" id="L151">    }</span>
+
+    /**
+     * Gets the screen width.
+     *
+     * @return the screen width
+     */
+    public int getWidth() {
+<span class="fc" id="L159">        return screenWidth;</span>
+    }
+
+    /**
+     * Gets the screen height.
+     *
+     * @return the screen height
+     */
+    public int getHeight() {
+<span class="fc" id="L168">        return screenHeight;</span>
+    }
+
+    /**
+     * Gets the highest score ever.
+     *
+     * @return the high score
+     */
+    public int getHighScore() {
+<span class="fc" id="L177">        return highScore;</span>
+    }
+
+    /**
+     * Sets the highest score ever.
+     *
+     * @param highScore the new high score value
+     */
+    public void setHighScore(int highScore) {
+<span class="fc" id="L186">        this.highScore = highScore;</span>
+<span class="fc" id="L187">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

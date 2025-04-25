@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">render.screen</a> &gt; <span class="el_source">NotificationRenderer.java</span></div><h1>NotificationRenderer.java</h1><pre class="source lang-java linenums">package render.screen;
+
+import java.awt.*;
+
+/**
+ * Renders notification messages on the screen.
+ */
+<span class="fc" id="L8">public class NotificationRenderer {</span>
+
+<span class="fc" id="L10">    private String message = &quot;&quot;;</span>
+<span class="fc" id="L11">    private long messageStartTime = 0;</span>
+<span class="fc" id="L12">    private final int DURATION = 2000;</span>
+
+    /**
+     * Displays a notification message for a limited duration.
+     *
+     * @param message the message to display
+     */
+    public void showMessage(String message) {
+<span class="fc" id="L20">        this.message = message;</span>
+<span class="fc" id="L21">        this.messageStartTime = System.currentTimeMillis();</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Draws the notification message if it is still active.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     */
+    public void draw(Graphics2D g2, int width) {
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (System.currentTimeMillis() - messageStartTime &gt; DURATION) return;</span>
+
+<span class="nc" id="L33">        g2.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 20));</span>
+<span class="nc" id="L34">        g2.setColor(Color.WHITE);</span>
+
+<span class="nc" id="L36">        FontMetrics fm = g2.getFontMetrics();</span>
+<span class="nc" id="L37">        int textWidth = fm.stringWidth(message);</span>
+<span class="nc" id="L38">        int x = (width - textWidth) / 2;</span>
+<span class="nc" id="L39">        int y = 60;</span>
+
+<span class="nc" id="L41">        g2.drawString(message, x, y);</span>
+<span class="nc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

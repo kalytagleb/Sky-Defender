@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameUpdater.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">core.game_loop</a> &gt; <span class="el_source">GameUpdater.java</span></div><h1>GameUpdater.java</h1><pre class="source lang-java linenums">package core.game_loop;
+
+import model.Player;
+import model.enemies.AbstractEnemy;
+import model.weapon.AbstractWeapon;
+import model.weapon.Laser;
+import service.WeaponControlService;
+import service.collision.CollisionService;
+import service.collision.PlayerCollisionService;
+import service.game_state.state_pattern.GameOverState;
+import service.waves.WaveManager;
+
+import java.util.logging.Logger;
+
+/**
+ * Updates the game state, including object positions, collisions, and waves.
+ */
+
+<span class="fc" id="L19">public class GameUpdater {</span>
+<span class="fc" id="L20">    private static final Logger logger = Logger.getLogger(GameUpdater.class.getName());</span>
+
+<span class="fc" id="L22">    private final CollisionService collisionService = new CollisionService();</span>
+<span class="fc" id="L23">    private final PlayerCollisionService playerCollisionService = new PlayerCollisionService();</span>
+<span class="fc" id="L24">    private final WeaponControlService weaponControlService = new WeaponControlService();</span>
+
+<span class="fc" id="L26">    private long lastWaveCheckTime = System.currentTimeMillis();</span>
+<span class="fc" id="L27">    private final long WAVE_INTERVAL = 5000; // Every 5 seconds</span>
+
+    /**
+     * Updates the game state, including objects, collisions, waves, and game over conditions.
+     *
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void update(GameContext context, int width, int height) {
+<span class="fc" id="L37">        logger.fine(&quot;Updating game state...&quot;);</span>
+<span class="fc" id="L38">        updateObjects(context, width, height);</span>
+<span class="fc" id="L39">        updateCollisions(context);</span>
+<span class="fc" id="L40">        updateWaveLogic(context);</span>
+<span class="fc" id="L41">        checkGameOver(context);</span>
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * Updates the positions and states of game objects (player, enemies, weapons).
+     *
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    private void updateObjects(GameContext context, int width, int height) {
+<span class="fc" id="L52">        weaponControlService.handleWeaponFire(context);</span>
+
+<span class="fc" id="L54">        context.getPlayer().update();</span>
+<span class="fc" id="L55">        context.getEnemies().forEach(AbstractEnemy::update);</span>
+
+<span class="fc" id="L57">        context.getWeapons().removeIf(w -&gt; {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">            boolean outOfBounds = !w.check(width, height);</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            if (outOfBounds) {</span>
+<span class="fc" id="L61">                logger.fine(&quot;Weapon removed due to out of bounds: &quot; + w.getClass().getSimpleName());</span>
+            }
+
+<span class="fc" id="L64">            return outOfBounds;</span>
+        });
+
+<span class="fc" id="L67">        context.getWeapons().forEach(AbstractWeapon::update);</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * Checks and handles collisions between weapons, enemies, and the player.
+     *
+     * @param context the game context
+     */
+    private void updateCollisions(GameContext context) {
+<span class="fc" id="L76">        logger.finer(&quot;Checking collisions...&quot;);</span>
+
+<span class="fc" id="L78">        collisionService.check(</span>
+<span class="fc" id="L79">                context.getWeapons(),</span>
+<span class="fc" id="L80">                context.getEnemies(),</span>
+                () -&gt; {
+<span class="nc" id="L82">                    context.setScore(context.getScore() + 1);</span>
+<span class="nc" id="L83">                    logger.fine(&quot;Enemy destroyed! Score increased to &quot; + context.getScore());</span>
+<span class="nc" id="L84">                },</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                weapon -&gt; !(weapon instanceof Laser)</span>
+        );
+
+<span class="fc" id="L88">        playerCollisionService.check(context.getPlayer(), context.getEnemies());</span>
+<span class="fc" id="L89">    }</span>
+
+    /**
+     * Updates the wave logic, starting new waves based on time and score.
+     *
+     * @param context the game context
+     */
+    private void updateWaveLogic(GameContext context) {
+<span class="fc" id="L97">        WaveManager waveManager = context.getWaveManager();</span>
+
+<span class="fc" id="L99">        long now = System.currentTimeMillis();</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (now - lastWaveCheckTime &gt;= WAVE_INTERVAL) {</span>
+<span class="nc" id="L101">            waveManager.startNextWave(context.getScore());</span>
+<span class="nc" id="L102">            logger.info(&quot;Starting new wave: &quot; + waveManager.getWaveNumber());</span>
+<span class="nc" id="L103">            lastWaveCheckTime = now;</span>
+        }
+
+<span class="fc" id="L106">        waveManager.updateWaveTextState();</span>
+<span class="fc" id="L107">    }</span>
+
+    /**
+     * Checks for game over conditions (player death or out of bounds).
+     *
+     * @param context the game context
+     */
+
+    private void checkGameOver(GameContext context) {
+<span class="fc" id="L116">        Player player = context.getPlayer();</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (player.isDead()) {</span>
+<span class="fc" id="L119">            logger.warning(&quot;Game Over: Player is dead&quot;);</span>
+<span class="fc" id="L120">            context.getGameStateManager().setCurrentState(new GameOverState());</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        } else if (isPlayerOutOfBounds(player, context.getWidth(), context.getHeight())) {</span>
+<span class="fc" id="L122">            logger.warning(&quot;Game Over: Player went out of bounds&quot;);</span>
+<span class="fc" id="L123">            context.getGameStateManager().setCurrentState(new GameOverState());</span>
+        }
+<span class="fc" id="L125">    }</span>
+
+    /**
+     * Checks if the player is ouf of bounds.
+     *
+     * @param player the player object
+     * @param width the screen width
+     * @param height the screen height
+     * @return true if player is out of bounds, false otherwise
+     */
+    private boolean isPlayerOutOfBounds(Player player, int width, int height) {
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">        return player.getX() &lt; -Player.PLAYER_SIZE ||</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">                player.getY() &lt; -Player.PLAYER_SIZE ||</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">                player.getX() &gt; width ||</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                player.getY() &gt; height;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

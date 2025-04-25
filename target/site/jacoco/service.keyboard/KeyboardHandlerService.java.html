@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KeyboardHandlerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">service.keyboard</a> &gt; <span class="el_source">KeyboardHandlerService.java</span></div><h1>KeyboardHandlerService.java</h1><pre class="source lang-java linenums">package service.keyboard;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import core.game_loop.GameRestarter;
+import data.SaveManager;
+import exceptions.GameLoadException;
+import factory.weapon.FlameFactory;
+import factory.weapon.LaserFactory;
+import factory.weapon.RocketFactory;
+import input.Key;
+import service.game_state.GameStateManager;
+import service.game_state.state_pattern.*;
+import service.game_state.state_pattern.*;
+
+import java.awt.event.KeyEvent;
+
+/**
+ * Handles keyboard main.input events and updates the game state accordingly.
+ */
+public class KeyboardHandlerService {
+    /** The save manager for saving and loading game state */
+    private final SaveManager saveManager;
+    /** The game restarter for resetting the game */
+    private final GameRestarter restarter;
+
+    /**
+     * Constructs a keyboard handler main.service with the specified save manager and game restarter.
+     *
+     * @param saveManager the save manager for handling game saves
+     * @param restarter the game restarter for resetting the game
+     */
+<span class="fc" id="L33">    public KeyboardHandlerService(SaveManager saveManager, GameRestarter restarter) {</span>
+<span class="fc" id="L34">        this.saveManager = saveManager;</span>
+<span class="fc" id="L35">        this.restarter = restarter;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Handles key press events, updating the game state and key states based on main.input.
+     *
+     * @param e the key event
+     * @param context the game context containing game main.core.data
+     * @param renderer the game renderer for displaying notifications
+     * @param width the screen width
+     */
+    public void handleKeyPressed(KeyEvent e, GameContext context, GameRenderer renderer, int width) {
+<span class="fc" id="L47">        GameStateManager gsm = context.getGameStateManager();</span>
+<span class="fc" id="L48">        Key key = context.getKey();</span>
+
+<span class="pc bpc" id="L50" title="10 of 14 branches missed.">        switch (e.getKeyCode()) {</span>
+<span class="nc" id="L51">            case KeyEvent.VK_ESCAPE -&gt; System.exit(0);</span>
+            case KeyEvent.VK_ENTER -&gt; {
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                if (context.getGameStateManager().getCurrentState() instanceof MainMenuState) {</span>
+<span class="fc" id="L54">                    context.getGameStateManager().setCurrentState(new PlayingState());</span>
+<span class="fc" id="L55">                    restarter.restart(context, width, context.getHeight());</span>
+                }
+            }
+            case KeyEvent.VK_R -&gt; {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (context.getGameStateManager().getCurrentState() instanceof GameOverState) {</span>
+<span class="nc" id="L60">                    context.getGameStateManager().setCurrentState(new PlayingState());</span>
+<span class="nc" id="L61">                    restarter.restart(context, width, context.getHeight());</span>
+                }
+            }
+<span class="nc" id="L64">            case KeyEvent.VK_M -&gt; context.getGameStateManager().setCurrentState(new ManualState());</span>
+            case KeyEvent.VK_P -&gt; {
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                if (context.getGameStateManager().getCurrentState() instanceof PlayingState)</span>
+<span class="fc" id="L67">                    context.getGameStateManager().setCurrentState(new PausedState());</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                else if (context.getGameStateManager().getCurrentState() instanceof PausedState) {</span>
+<span class="nc" id="L69">                    context.getGameStateManager().setCurrentState(new PlayingState());</span>
+                }
+            }
+            case KeyEvent.VK_S -&gt; {
+<span class="nc" id="L73">                saveManager.asyncSave(context, renderer, width);</span>
+<span class="nc" id="L74">                renderer.showNotification(&quot;Game saved!&quot;);</span>
+<span class="nc" id="L75">            }</span>
+            case KeyEvent.VK_X -&gt; {
+                try {
+<span class="nc" id="L78">                    saveManager.load(context, renderer, width);</span>
+<span class="nc" id="L79">                    renderer.showNotification(&quot;Game loaded!&quot;);</span>
+<span class="nc" id="L80">                } catch (GameLoadException ex) {</span>
+<span class="nc" id="L81">                    renderer.showNotification(&quot;Error: &quot; + ex.getMessage());</span>
+<span class="nc" id="L82">                }</span>
+<span class="nc" id="L83">            }</span>
+            case KeyEvent.VK_J -&gt; {
+<span class="fc" id="L85">                context.setWeaponFactory(new RocketFactory());</span>
+<span class="fc" id="L86">                key.setKey_j(true);</span>
+<span class="fc" id="L87">            }</span>
+            case KeyEvent.VK_K -&gt; {
+<span class="nc" id="L89">                context.setWeaponFactory(new FlameFactory());</span>
+<span class="nc" id="L90">                key.setKey_k(true);</span>
+<span class="nc" id="L91">            }</span>
+            case KeyEvent.VK_L -&gt; {
+<span class="nc" id="L93">                context.setWeaponFactory(new LaserFactory());</span>
+<span class="nc" id="L94">                key.setKey_l(true);</span>
+<span class="nc" id="L95">            }</span>
+<span class="fc" id="L96">            case KeyEvent.VK_A -&gt; key.setKey_left(true);</span>
+<span class="nc" id="L97">            case KeyEvent.VK_D -&gt; key.setKey_right(true);</span>
+<span class="nc" id="L98">            case KeyEvent.VK_SPACE -&gt; key.setKey_space(true);</span>
+        }
+<span class="fc" id="L100">    }</span>
+
+    /**
+     * Handles key release events, updating key states.
+     *
+     * @param e the key event
+     * @param key the key state object
+     */
+    public void handleKeyReleased(KeyEvent e, Key key) {
+<span class="pc bpc" id="L109" title="6 of 7 branches missed.">        switch (e.getKeyCode()) {</span>
+<span class="nc" id="L110">            case KeyEvent.VK_A -&gt; key.setKey_left(false);</span>
+<span class="nc" id="L111">            case KeyEvent.VK_D -&gt; key.setKey_right(false);</span>
+<span class="nc" id="L112">            case KeyEvent.VK_SPACE -&gt; key.setKey_space(false);</span>
+<span class="fc" id="L113">            case KeyEvent.VK_J -&gt; key.setKey_j(false);</span>
+<span class="nc" id="L114">            case KeyEvent.VK_K -&gt; key.setKey_k(false);</span>
+<span class="nc" id="L115">            case KeyEvent.VK_L -&gt; key.setKey_l(false);</span>
+        }
+<span class="fc" id="L117">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

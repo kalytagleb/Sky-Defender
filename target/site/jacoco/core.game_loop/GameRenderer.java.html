@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">core.game_loop</a> &gt; <span class="el_source">GameRenderer.java</span></div><h1>GameRenderer.java</h1><pre class="source lang-java linenums">package core.game_loop;
+
+import model.enemies.AbstractEnemy;
+import model.weapon.AbstractWeapon;
+import render.game_scene.HudRenderer;
+import render.game_scene.PauseRenderer;
+import render.game_scene.WaveTextRenderer;
+import render.screen.GameOverRenderer;
+import render.screen.MainMenuRenderer;
+import render.screen.ManualRenderer;
+import render.screen.NotificationRenderer;
+
+import java.awt.*;
+
+/**
+ * Renders the game state, including the main menu, game, pause screen, and game over screen.
+ */
+<span class="fc" id="L18">public class GameRenderer {</span>
+
+<span class="fc" id="L20">    private final WaveTextRenderer waveTextRenderer = new WaveTextRenderer();</span>
+<span class="fc" id="L21">    private final HudRenderer hudRenderer = new HudRenderer();</span>
+
+<span class="fc" id="L23">    private final MainMenuRenderer mainMenuRenderer = new MainMenuRenderer();</span>
+<span class="fc" id="L24">    private final ManualRenderer manualRenderer = new ManualRenderer();</span>
+<span class="fc" id="L25">    private final GameOverRenderer gameOverRenderer = new GameOverRenderer();</span>
+<span class="fc" id="L26">    private final PauseRenderer pauseRenderer = new PauseRenderer();</span>
+<span class="fc" id="L27">    private final NotificationRenderer notificationRenderer = new NotificationRenderer();</span>
+
+<span class="fc" id="L29">    private final Rectangle manualButton = new Rectangle();</span>
+<span class="fc" id="L30">    private final Rectangle manualBackButton = new Rectangle();</span>
+
+    /**
+     * Draws the current game state to the graphics context.
+     *
+     * @param g2 the graphics context.
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void draw(Graphics2D g2, GameContext context, int width, int height) {
+<span class="fc" id="L41">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L42">        g2.fillRect(0, 0, width, height);</span>
+
+<span class="fc" id="L44">        context.getGameStateManager().render(g2, this, context);</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * Gets the bounds of the &quot;How to Play&quot; button.
+     *
+     * @return the rectangle representing the button bounds
+     */
+    public Rectangle getManualButtonBounds() {
+<span class="fc" id="L53">        return manualButton;</span>
+    }
+
+    /**
+     * Gets the bounds of the &quot;Back&quot; button in the manual screen.
+     *
+     * @return the rectangle representing the button bounds.
+     */
+    public Rectangle getManualBackButtonBounds() {
+<span class="fc" id="L62">        return manualBackButton;</span>
+    }
+
+    /**
+     * Displays a notification message on the screen.
+     *
+     * @param message the message to display
+     */
+    public void showNotification(String message) {
+<span class="fc" id="L71">        notificationRenderer.showMessage(message);</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Draws the main menu screen.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param context the game context
+     */
+    public void drawMainMenu(Graphics2D g2, int width, int height, GameContext context) {
+<span class="fc" id="L83">        System.out.println(&quot;GameRenderer&quot;);</span>
+<span class="fc" id="L84">        mainMenuRenderer.draw(g2, width, height, manualButton, context);</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Draws the game state, including player, enemies, and weapons.
+     *
+     * @param g2 the graphics context
+     * @param context the game context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void drawGame(Graphics2D g2, GameContext context, int width, int height) {
+<span class="fc" id="L96">        g2.setColor(Color.BLACK);</span>
+<span class="fc" id="L97">        g2.fillRect(0, 0, width, height);</span>
+
+<span class="fc" id="L99">        context.getPlayer().draw(g2);</span>
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        for (AbstractWeapon weapon : context.getWeapons()) {</span>
+<span class="nc" id="L102">            weapon.draw(g2);</span>
+<span class="nc" id="L103">        }</span>
+
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        for (AbstractEnemy enemy : context.getEnemies()) {</span>
+<span class="nc" id="L106">            enemy.draw(g2);</span>
+<span class="nc" id="L107">        }</span>
+
+<span class="fc" id="L109">        waveTextRenderer.draw(g2, context.getWaveManager(), width, height);</span>
+<span class="fc" id="L110">        hudRenderer.draw(g2, context);</span>
+<span class="fc" id="L111">        notificationRenderer.draw(g2, width);</span>
+<span class="fc" id="L112">    }</span>
+
+    /**
+     * Draws the paused game screen.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     */
+    public void drawPaused(Graphics2D g2, int width, int height) {
+<span class="fc" id="L122">        pauseRenderer.draw(g2, width, height);</span>
+<span class="fc" id="L123">    }</span>
+
+    /**
+     * Draws the manual (how to play) screen.
+     *
+     * @param g2 the graphics context
+     * @param width the screen width
+     * @param height the screen height
+     * @param manualBackButton the bounds of the back button
+     */
+    public void drawManual(Graphics2D g2, int width, int height, Rectangle manualBackButton) {
+<span class="fc" id="L134">        manualRenderer.draw(g2, width, height, manualBackButton);</span>
+<span class="fc" id="L135">    }</span>
+
+    /**
+     * Draws the game over screen with the final score.
+     *
+     * @param g2 the graphics context.
+     * @param width the screen width
+     * @param height the screen height
+     * @param score the final score
+     */
+    public void drawGameOver(Graphics2D g2, int width, int height, int score) {
+<span class="fc" id="L146">        gameOverRenderer.draw(g2, width, height, score);</span>
+<span class="fc" id="L147">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

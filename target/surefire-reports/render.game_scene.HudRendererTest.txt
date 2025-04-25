@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: render.game_scene.HudRendererTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in render.game_scene.HudRendererTest

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">core.game_loop</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package core.game_loop;
+
+import core.game_loop.panel.PanelGame;
+import data.score.HighScoreManager;
+
+import javax.swing.*;
+        import java.awt.*;
+        import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+/**
+ * Main class for our game, responsible for initializing the game window.
+ */
+
+public class Main extends JFrame {
+<span class="nc" id="L16">    private PanelGame panelGame = new PanelGame();</span>
+
+    /**
+     * Constructs the main game window and initializes its components
+     */
+<span class="nc" id="L21">    public Main() {</span>
+<span class="nc" id="L22">        init();</span>
+<span class="nc" id="L23">    }</span>
+
+    public PanelGame getPanelGame() {
+<span class="nc" id="L26">        return panelGame;</span>
+    }
+
+    /**
+     * Initializes the game window with title, size and components.
+     * Sets up the game panel and window event listeners.
+     */
+    public void init() {
+<span class="nc" id="L34">        setTitle(&quot;Sky Defender&quot;);</span>
+<span class="nc" id="L35">        setSize(1366, 768);</span>
+<span class="nc" id="L36">        setLocationRelativeTo(null); // In order to our main screen was on the center</span>
+<span class="nc" id="L37">        setResizable(false); // User can't resize game screen while playing</span>
+<span class="nc" id="L38">        setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L39">        setLayout(new BorderLayout()); // JFrame calls it by default, it's just for readability</span>
+<span class="nc" id="L40">        panelGame = new PanelGame();</span>
+<span class="nc" id="L41">        add(panelGame);</span>
+<span class="nc" id="L42">        revalidate();</span>
+<span class="nc" id="L43">        repaint();</span>
+        // method, which allows to intercept window events
+<span class="nc" id="L45">        addWindowListener(new WindowAdapter() {</span>
+            /**
+             * Called when the window is closing.
+             * Used to save the best score.
+             *
+             * @param e the event triggered when the window is closing
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+<span class="nc" id="L54">                GameContext context = panelGame.getContext();</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (context != null) {</span>
+<span class="nc" id="L56">                    HighScoreManager.save(context.getHighScore());</span>
+                }
+<span class="nc" id="L58">            }</span>
+        });
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * Main entry point for our game
+     * Creates and displays the game window.
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L69">        SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L70">            Main main = new Main();</span>
+<span class="nc" id="L71">            main.setVisible(true);</span>
+<span class="nc" id="L72">            main.getPanelGame().start();</span>
+<span class="nc" id="L73">        });</span>
+<span class="nc" id="L74">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

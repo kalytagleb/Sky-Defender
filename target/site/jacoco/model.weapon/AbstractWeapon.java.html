@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractWeapon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">model.weapon</a> &gt; <span class="el_source">AbstractWeapon.java</span></div><h1>AbstractWeapon.java</h1><pre class="source lang-java linenums">package model.weapon;
+
+import model.GameObject;
+import model.enemies.AbstractEnemy;
+import strategy.check.CheckStrategy;
+import strategy.damage.DamageStrategy;
+import strategy.draw.DrawStrategy;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * AbstractWeapon is an abstract base class for all weapons in the game.
+ * It extends {@link GameObject} and provides common fields and logic
+ * for projectiles such as speed, damage, color, and collision strategies.
+ *
+ * &lt;p&gt;This class also supports Strategy design pattern via:
+ * &lt;ul&gt;
+ *     &lt;li&gt;{@link DrawStrategy} - custom rendering logic&lt;/li&gt;
+ *     &lt;li&gt;{@link CheckStrategy} - lifespan or boundary logic&lt;/li&gt;
+ *     &lt;li&gt;{@link DamageStrategy} - damage application behavior&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;Subclasses of this weapon must implement {@link #getShape()} and can optionally
+ * override {@link #update()} or {@link #draw(Graphics2D)} for specific behavior.
+ */
+public abstract class AbstractWeapon extends GameObject implements Weapon, Updatable, Drawable {
+
+    private float speed;
+    private double size;
+    private int damage;
+    private Color color;
+
+    private CheckStrategy checkStrategy;
+    private DrawStrategy drawStrategy;
+    private DamageStrategy damageStrategy;
+
+    /**
+     * Constructs a new AbstractWeapon at a given position and facing angle.
+     *
+     * @param x     initial x-coordinate
+     * @param y     initial y-coordinate
+     * @param angle direction angle in degrees
+     */
+    public AbstractWeapon(double x, double y, float angle) {
+<span class="fc" id="L46">        super(x, y);</span>
+<span class="fc" id="L47">        setAngle(angle);</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Updates weapon movement based on its speed and direction.
+     * Subclasses can override this method if needed.
+     */
+    @Override
+    public void update() {
+<span class="fc" id="L56">        double dx = Math.cos(Math.toRadians(getAngle())) * speed;</span>
+<span class="fc" id="L57">        double dy = Math.sin(Math.toRadians(getAngle())) * speed;</span>
+<span class="fc" id="L58">        setX(getX() + dx);</span>
+<span class="fc" id="L59">        setY(getY() + dy);</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * Sets the main.strategy that determines whether the weapon should still exist.
+     *
+     * @param strategy check logic (e.g., lifetime, bounds)
+     */
+    public void setCheck(CheckStrategy strategy) {
+<span class="fc" id="L68">        this.checkStrategy = strategy;</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Sets the visual rendering main.strategy for this weapon.
+     *
+     * @param strategy drawing logic (e.g., beam, circle)
+     */
+    public void setDrawStrategy(DrawStrategy strategy) {
+<span class="fc" id="L77">        this.drawStrategy = strategy;</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * Sets the main.strategy that applies damage to enemies.
+     *
+     * @param strategy damage logic
+     */
+    public void setDamageStrategy(DamageStrategy strategy) {
+<span class="fc" id="L86">        this.damageStrategy = strategy;</span>
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * Whether the weapon should still be kept on screen.
+     *
+     * @param width  screen width
+     * @param height screen height
+     * @return false if the weapon should be removed
+     */
+    public boolean check(int width, int height) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        return !checkStrategy.shouldAttempt(this, width, height);</span>
+    }
+
+    /**
+     * Delegates drawing to the configured DrawStrategy.
+     *
+     * @param g2 graphics context
+     */
+    @Override
+    public void draw(Graphics2D g2) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (drawStrategy != null) {</span>
+<span class="nc" id="L108">            drawStrategy.draw(g2, this);</span>
+        }
+<span class="nc" id="L110">    }</span>
+
+    @Override
+    public Shape getShape() {
+<span class="nc" id="L114">        return new Rectangle2D.Double(getX(), getY(), size, size);</span>
+    }
+
+    /**
+     * Applies damage to a basic enemy using the defined main.strategy.
+     *
+     * @param enemy the enemy being hit
+     */
+    public void hit(AbstractEnemy enemy) {
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (damageStrategy != null) {</span>
+<span class="fc" id="L124">            damageStrategy.applyDamage(enemy, this);</span>
+        }
+<span class="fc" id="L126">    }</span>
+
+    // Getters and Setters
+
+    public float getSpeed() {
+<span class="fc" id="L131">        return speed;</span>
+    }
+
+    public double getSize() {
+<span class="fc" id="L135">        return size;</span>
+    }
+
+    public int getDamage() {
+<span class="fc" id="L139">        return damage;</span>
+    }
+
+    public Color getColor() {
+<span class="fc" id="L143">        return color;</span>
+    }
+
+    public void setSpeed(float speed) {
+<span class="fc" id="L147">        this.speed = Math.max(0, speed);</span>
+<span class="fc" id="L148">    }</span>
+
+    public void setSize(double size) {
+<span class="fc" id="L151">        this.size = Math.max(0, size);</span>
+<span class="fc" id="L152">    }</span>
+
+    public void setDamage(int damage) {
+<span class="fc" id="L155">        this.damage = Math.max(0, damage);</span>
+<span class="fc" id="L156">    }</span>
+
+    public void setColor(Color color) {
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (color != null) {</span>
+<span class="fc" id="L160">            this.color = color;</span>
+        }
+<span class="fc" id="L162">    }</span>
+
+    public CheckStrategy getCheckStrategy() {
+<span class="fc" id="L165">        return checkStrategy;</span>
+    }
+
+    public DrawStrategy getDrawStrategy() {
+<span class="fc" id="L169">        return drawStrategy;</span>
+    }
+
+    public DamageStrategy getDamageStrategy() {
+<span class="fc" id="L173">        return damageStrategy;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WeaponControlService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">WeaponControlService.java</span></div><h1>WeaponControlService.java</h1><pre class="source lang-java linenums">package service;
+
+import core.game_loop.GameContext;
+import input.Key;
+import model.weapon.AbstractWeapon;
+
+/**
+ * Manages weapon firing logic, including cooldowns.
+ */
+<span class="fc" id="L10">public class WeaponControlService {</span>
+<span class="fc" id="L11">    private int shotCooldown = 0;</span>
+    private static final int MAX_COOLDOWN = 15;
+
+    /**
+     * Handles weapon firing based on keyboard main.input.
+     *
+     * @param context the game context
+     */
+    public void handleWeaponFire(GameContext context) {
+<span class="fc" id="L20">        Key key = context.getKey();</span>
+
+<span class="pc bpc" id="L22" title="2 of 6 branches missed.">        if (key.isKey_j() || key.isKey_k() || key.isKey_l()) {</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">            if (shotCooldown == 0) {</span>
+<span class="fc" id="L24">                AbstractWeapon weapon = context.getWeaponFactory().create(</span>
+<span class="fc" id="L25">                        context.getPlayer().getCenterX(),</span>
+<span class="fc" id="L26">                        context.getPlayer().getCenterY(),</span>
+<span class="fc" id="L27">                        context.getPlayer().getAngle()</span>
+                );
+<span class="fc" id="L29">                context.getWeapons().add(weapon);</span>
+            }
+
+<span class="fc" id="L32">            shotCooldown++;</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if (shotCooldown &gt;= MAX_COOLDOWN) {</span>
+<span class="nc" id="L34">                shotCooldown = 0;</span>
+            }
+        } else {
+<span class="fc" id="L37">            shotCooldown = 0;</span>
+        }
+<span class="fc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

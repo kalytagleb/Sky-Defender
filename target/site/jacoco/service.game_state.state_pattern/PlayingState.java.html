@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayingState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">service.game_state.state_pattern</a> &gt; <span class="el_source">PlayingState.java</span></div><h1>PlayingState.java</h1><pre class="source lang-java linenums">package service.game_state.state_pattern;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import core.game_loop.GameUpdater;
+import service.game_state.IGameState;
+
+import java.awt.*;
+
+/**
+ * Represents the playing state, handling game updates and rendering during active gameplay.
+ */
+<span class="fc" id="L13">public class PlayingState implements IGameState {</span>
+    /** The game updater responsible for updating game logic */
+<span class="fc" id="L15">    private final GameUpdater updater = new GameUpdater();</span>
+
+    /**
+     * Updates the game state, including player, enemies, and weapons.
+     *
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+    public void update(GameContext context) {
+<span class="nc" id="L24">        updater.update(context, context.getWidth(), context.getHeight());</span>
+<span class="nc" id="L25">    }</span>
+
+    /**
+     * Renders the active game state, including player, enemies, and HUD.
+     *
+     * @param g2 the graphics context for rendering
+     * @param renderer the game renderer for drawing game elements
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+    public void render(Graphics2D g2, GameRenderer renderer, GameContext context) {
+<span class="fc" id="L36">        renderer.drawGame(g2, context, context.getWidth(), context.getHeight());</span>
+<span class="fc" id="L37">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

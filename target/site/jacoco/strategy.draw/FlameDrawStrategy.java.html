@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FlameDrawStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">strategy.draw</a> &gt; <span class="el_source">FlameDrawStrategy.java</span></div><h1>FlameDrawStrategy.java</h1><pre class="source lang-java linenums">package strategy.draw;
+
+import model.weapon.AbstractWeapon;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.util.Random;
+
+/**
+ * FlameDrawStrategy is a custom {@link DrawStrategy} for drawing
+ * a flame effect with dynamic flickering and transparency.
+ */
+<span class="fc" id="L14">public class FlameDrawStrategy implements DrawStrategy {</span>
+
+<span class="fc" id="L16">    private final Random random = new Random();</span>
+
+    /**
+     * Draws a flickering flame shape with alpha blending to simulate fire.
+     *
+     * @param g2  the graphics context
+     * @param weapon the flame weapon to draw
+     */
+    @Override
+    public void draw(Graphics2D g2, AbstractWeapon weapon) {
+<span class="nc" id="L26">        double baseSize = weapon.getSize();</span>
+<span class="nc" id="L27">        double deviation = random.nextDouble() * 10 - 5;</span>
+<span class="nc" id="L28">        double size = Math.max(0, baseSize + deviation);</span>
+
+<span class="nc" id="L30">        AffineTransform old = g2.getTransform();</span>
+<span class="nc" id="L31">        g2.translate(weapon.getX(), weapon.getY());</span>
+
+<span class="nc" id="L33">        Composite originalComposite = g2.getComposite();</span>
+<span class="nc" id="L34">        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));</span>
+
+<span class="nc" id="L36">        g2.setColor(weapon.getColor());</span>
+<span class="nc" id="L37">        Shape fire = new Ellipse2D.Double(0, 0, size, size);</span>
+<span class="nc" id="L38">        g2.fill(fire);</span>
+
+<span class="nc" id="L40">        g2.setComposite(originalComposite);</span>
+<span class="nc" id="L41">        g2.setTransform(old);</span>
+<span class="nc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">data</a> &gt; <span class="el_source">SaveManager.java</span></div><h1>SaveManager.java</h1><pre class="source lang-java linenums">package data;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import data.enemy.EnemyData;
+import data.weapon.WeaponData;
+import exceptions.GameLoadException;
+import exceptions.GameSaveException;
+import factory.weapon.FlameFactory;
+import factory.weapon.LaserFactory;
+import factory.weapon.RocketFactory;
+import model.Player;
+import model.enemies.AbstractEnemy;
+import model.enemies.BasicEnemy;
+import model.enemies.FastEnemy;
+import model.enemies.TankEnemy;
+import model.weapon.AbstractWeapon;
+import model.weapon.Flame;
+import model.weapon.Rocket;
+
+import java.io.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Manages saving and loading the game state to/from a file.
+ */
+<span class="fc" id="L29">public class SaveManager {</span>
+
+<span class="fc" id="L31">    private static final Logger LOGGER = Logger.getLogger(SaveManager.class.getName());</span>
+    private static final String SAVE_FILE = &quot;save.txt&quot;;
+
+    /**
+     * Saves the current game state to a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     * @throws GameSaveException if saving files
+     */
+    public void save(GameContext context, GameRenderer renderer, int width) throws GameSaveException {
+<span class="fc" id="L43">        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {</span>
+<span class="fc" id="L44">            Player player = context.getPlayer();</span>
+
+<span class="fc" id="L46">            List&lt;EnemyData&gt; enemyDataList = context.getEnemies().stream()</span>
+<span class="fc" id="L47">                            .map(e -&gt; new EnemyData(</span>
+<span class="fc" id="L48">                                    e.getClass().getSimpleName(),</span>
+<span class="fc" id="L49">                                    e.getX(), e.getY(), e.getAngle(), e.getHp()))</span>
+<span class="fc" id="L50">                            .toList();</span>
+
+<span class="fc" id="L52">            List&lt;WeaponData&gt; weaponDataList = context.getWeapons().stream()</span>
+<span class="fc" id="L53">                            .map(w -&gt; new WeaponData(</span>
+<span class="fc" id="L54">                                    w.getClass().getSimpleName(),</span>
+<span class="fc" id="L55">                                    w.getX(), w.getY(), w.getAngle(), w.getDamage()))</span>
+<span class="fc" id="L56">                            .toList();</span>
+
+<span class="fc" id="L58">            String weaponFactoryType = context.getWeaponFactory().getClass().getSimpleName();</span>
+
+<span class="fc" id="L60">            SaveData data = new SaveData(</span>
+<span class="fc" id="L61">                    context.getScore(),</span>
+<span class="fc" id="L62">                    context.getWaveManager().getWaveNumber(),</span>
+<span class="fc" id="L63">                    player.getHp(),</span>
+<span class="fc" id="L64">                    player.getX(),</span>
+<span class="fc" id="L65">                    player.getY(),</span>
+<span class="fc" id="L66">                    player.getAngle(),</span>
+                    weaponFactoryType,
+<span class="fc" id="L68">                    context.getHighScore(),</span>
+                    enemyDataList,
+                    weaponDataList
+            );
+
+<span class="fc" id="L73">            out.writeObject(data);</span>
+<span class="fc" id="L74">            LOGGER.info(&quot;Game saved successfully to &quot; + SAVE_FILE);</span>
+<span class="nc" id="L75">        } catch (IOException e) {</span>
+<span class="nc" id="L76">            LOGGER.log(Level.SEVERE, &quot;Failed to save the game&quot;, e);</span>
+<span class="nc" id="L77">            throw new GameSaveException(&quot;We can't save the game: &quot; + e.getMessage());</span>
+            // renderer.showNotification(&quot;We can't save the game!&quot;);
+<span class="fc" id="L79">        }</span>
+<span class="fc" id="L80">    }</span>
+
+    /**
+     * Asynchronously saves the game state to a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     */
+    public void asyncSave(GameContext context, GameRenderer renderer, int width) {
+<span class="nc" id="L90">        new Thread(() -&gt; {</span>
+            try {
+<span class="nc" id="L92">                save(context, renderer, width);</span>
+<span class="nc" id="L93">            } catch (GameSaveException e) {</span>
+<span class="nc" id="L94">                renderer.showNotification(&quot;Async Save Error &quot; + e.getMessage());</span>
+<span class="nc" id="L95">                LOGGER.warning(&quot;Async Error&quot;);</span>
+<span class="nc" id="L96">            }</span>
+<span class="nc" id="L97">        }, &quot;SaveAsync&quot;).start();</span>
+<span class="nc" id="L98">    }</span>
+
+    /**
+     * Loads the game state from a file.
+     *
+     * @param context the game context
+     * @param renderer the game renderer
+     * @param width the screen width
+     * @throws GameLoadException if loading files
+     */
+    public void load(GameContext context, GameRenderer renderer, int width) throws GameLoadException {
+<span class="fc" id="L109">        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {</span>
+<span class="fc" id="L110">            SaveData data = (SaveData) in.readObject();</span>
+
+<span class="fc" id="L112">            context.setHighScore(data.getHighScore());</span>
+
+<span class="fc" id="L114">            context.setScore(data.getScore());</span>
+<span class="fc" id="L115">            context.getWaveManager().setWaveNumber(data.getWave());</span>
+
+<span class="fc" id="L117">            Player player = context.getPlayer();</span>
+<span class="fc" id="L118">            player.setHp(data.getPlayerHp());</span>
+<span class="fc" id="L119">            player.changeLocation(data.getPlayerX(), data.getPlayerY());</span>
+<span class="fc" id="L120">            player.setAngle(data.getPlayerAngle());</span>
+
+<span class="pc bpc" id="L122" title="3 of 4 branches missed.">            context.setWeaponFactory(switch (data.getWeaponFactoryType()) {</span>
+<span class="fc" id="L123">                case &quot;RocketFactory&quot; -&gt; new RocketFactory();</span>
+<span class="nc" id="L124">                case &quot;FlameFactory&quot; -&gt; new FlameFactory();</span>
+<span class="nc" id="L125">                case &quot;LaserFactory&quot; -&gt; new LaserFactory();</span>
+<span class="nc" id="L126">                default -&gt; new RocketFactory();</span>
+            });
+
+            // Restore enemies
+<span class="fc" id="L130">            context.getEnemies().clear();</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            for (EnemyData ed : data.getEnemies()) {</span>
+<span class="pc bpc" id="L132" title="3 of 4 branches missed.">                AbstractEnemy enemy = switch (ed.getType()) {</span>
+<span class="fc" id="L133">                    case &quot;BasicEnemy&quot; -&gt; new BasicEnemy(ed.getX(), ed.getY());</span>
+<span class="nc" id="L134">                    case &quot;FastEnemy&quot; -&gt; new FastEnemy(ed.getX(), ed.getY());</span>
+<span class="nc" id="L135">                    case &quot;TankEnemy&quot; -&gt; new TankEnemy(ed.getX(), ed.getY());</span>
+<span class="nc" id="L136">                    default -&gt; null;</span>
+                };
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                if (enemy != null) {</span>
+<span class="fc" id="L139">                    enemy.setHp(ed.getHp());</span>
+<span class="fc" id="L140">                    enemy.setAngle(ed.getAngle());</span>
+<span class="fc" id="L141">                    context.getEnemies().add(enemy);</span>
+                }
+<span class="fc" id="L143">            }</span>
+
+            // Restore weapons
+<span class="fc" id="L146">            context.getWeapons().clear();</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            for (WeaponData wd : data.getWeapons()) {</span>
+<span class="pc bpc" id="L148" title="3 of 4 branches missed.">                AbstractWeapon weapon = switch (wd.getType()) {</span>
+<span class="fc" id="L149">                    case &quot;Rocket&quot; -&gt; new Rocket(wd.getX(), wd.getY(), wd.getAngle());</span>
+<span class="nc" id="L150">                    case &quot;Flame&quot; -&gt; new Flame(wd.getX(), wd.getY(), wd.getAngle());</span>
+<span class="nc" id="L151">                    case &quot;Laser&quot; -&gt; new Flame(wd.getX(), wd.getY(), wd.getAngle());</span>
+<span class="nc" id="L152">                    default -&gt; null;</span>
+                };
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">                if (weapon != null) {</span>
+<span class="fc" id="L155">                    weapon.setDamage(wd.getDamage());</span>
+<span class="fc" id="L156">                    context.getWeapons().add(weapon);</span>
+                }
+<span class="fc" id="L158">            }</span>
+<span class="nc" id="L159">        } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L160">            LOGGER.log(Level.SEVERE, &quot;Failed to load the game&quot;, e);</span>
+<span class="nc" id="L161">            throw new GameLoadException(&quot;Save file not found.&quot;);</span>
+<span class="fc" id="L162">        }</span>
+<span class="fc" id="L163">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

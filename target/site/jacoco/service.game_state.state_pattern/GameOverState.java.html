@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOverState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">service.game_state.state_pattern</a> &gt; <span class="el_source">GameOverState.java</span></div><h1>GameOverState.java</h1><pre class="source lang-java linenums">package service.game_state.state_pattern;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameRenderer;
+import data.score.HighScoreManager;
+import service.game_state.IGameState;
+
+import java.awt.*;
+
+/**
+ * Represents the game over state, displaying the final score.
+ */
+<span class="fc" id="L13">public class GameOverState implements IGameState {</span>
+    /**
+     * Updates the game over state. Currently, no updates are performed.
+     *
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+    public void update(GameContext context) {
+        // Update high score if needed
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (context.getScore() &gt; context.getHighScore()) {</span>
+<span class="nc" id="L23">            context.setHighScore(context.getScore());</span>
+<span class="nc" id="L24">            HighScoreManager.save(context.getScore());</span>
+        }
+<span class="nc" id="L26">    }</span>
+
+    /**
+     * Renders the game over screen with the final score.
+     *
+     * @param g2 the graphics context for rendering
+     * @param renderer the game renderer for drawing the game over screen
+     * @param context the game context containing game main.core.data
+     */
+    @Override
+    public void render(Graphics2D g2, GameRenderer renderer, GameContext context) {
+<span class="fc" id="L37">        int score = context.getScore();</span>
+<span class="fc" id="L38">        renderer.drawGameOver(g2, context.getWidth(), context.getHeight(), score);</span>
+<span class="fc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

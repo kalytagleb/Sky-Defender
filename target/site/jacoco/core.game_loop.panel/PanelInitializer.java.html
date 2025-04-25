@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PanelInitializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sky-defender</a> &gt; <a href="index.source.html" class="el_package">core.game_loop.panel</a> &gt; <span class="el_source">PanelInitializer.java</span></div><h1>PanelInitializer.java</h1><pre class="source lang-java linenums">package core.game_loop.panel;
+
+import core.game_loop.GameContext;
+import core.game_loop.GameLoop;
+import core.game_loop.GameRenderer;
+import data.score.HighScoreManager;
+import input.Key;
+import model.Player;
+import model.enemies.AbstractEnemy;
+import model.weapon.AbstractWeapon;
+import service.game_state.GameStateManager;
+import service.game_state.state_pattern.MainMenuState;
+import service.waves.WaveManager;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+/**
+ * Initializes game components such as context, renderer and game loop
+ */
+
+<span class="fc" id="L22">public class PanelInitializer {</span>
+    /** Default width of the game screen */
+    public static final int WIDTH = 800;
+    /** Default height of the game screen */
+    public static final int HEIGHT = 600;
+
+    /**
+     * Creates the game context with initial player, enemies, and game state.
+     *
+     * @param key the keyboard main.input handler
+     * @param gsm the game state manager
+     * @param width the screen width
+     * @param height the screen height
+     * @return the initialized game context
+     */
+    public GameContext createContext(Key key, GameStateManager gsm, int width, int height) {
+<span class="fc" id="L38">        Player player = new Player();</span>
+<span class="fc" id="L39">        player.changeLocation(width / 2.0, height / 2.0);</span>
+<span class="fc" id="L40">        player.setKey(key);</span>
+
+<span class="fc" id="L42">        List&lt;AbstractEnemy&gt; enemies = new CopyOnWriteArrayList&lt;&gt;();</span>
+<span class="fc" id="L43">        List&lt;AbstractWeapon&gt; weapons = new CopyOnWriteArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">        WaveManager waveManager = new WaveManager(enemies, width, height);</span>
+
+<span class="fc" id="L46">        gsm.setCurrentState(new MainMenuState());</span>
+<span class="fc" id="L47">        System.out.println(&quot;State set to &quot; + gsm.getCurrentState());</span>
+
+<span class="fc" id="L49">        GameContext context = new GameContext(player, enemies, weapons, key, waveManager, gsm, width, height);</span>
+
+<span class="fc" id="L51">        int loadedHighScore = HighScoreManager.load();</span>
+<span class="fc" id="L52">        context.setHighScore(loadedHighScore);</span>
+
+<span class="fc" id="L54">        return context;</span>
+    }
+
+    /**
+     * Creates the game renderer.
+     *
+     * @return the initialized game renderer
+     */
+    public GameRenderer createRenderer() {
+<span class="fc" id="L63">        return new GameRenderer();</span>
+    }
+
+    /**
+     * Create the game loop with the specified panel, context, and renderer.
+     *
+     * @param panel the game panel
+     * @param context the game context
+     * @param renderer the game renderer
+     * @return the initialized game loop
+     */
+    public GameLoop createGameLoop(PanelGame panel, GameContext context, GameRenderer renderer) {
+<span class="fc" id="L75">        return new GameLoop(panel, context, renderer);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
